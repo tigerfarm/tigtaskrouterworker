@@ -1,0 +1,157 @@
+/*  HTML Links -----------------------------------------------------------------
+*/
+a {
+    text-decoration:none;
+    color: white;
+}
+a:hover {
+    text-decoration:underline;
+    color: white;
+}
+a:visited {
+    text-decoration:none;
+    color: white;
+}
+
+h1 {
+    margin: 0;
+    color: #954C08;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-family: Times, "Times New Roman", serif;
+    font-weight: bold;
+    font-size: 2.3em;
+}
+
+/* -------------------------------------------------------------------------- */
+#topBar {
+    width: 780px;
+    margin: 6px 0px 0px 18px;
+    padding: 0px 0px 0px 0px;
+}
+#companyLogo {
+    width:70px; padding-right: 30px;
+}
+#bottomBar {
+    width: 639px;
+    margin: 6px 0px 0px 15px;
+    padding: 15px 0px 15px 0px;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 14px; 
+    text-align: center;
+    color: white; 
+    background-color: #954C08;
+}
+
+/* -------------------------------------------------------------------------- */
+.panelTitle
+{
+    color: white;
+    background: black;
+    padding: 9px;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 14px; 
+}
+.panelArea
+{
+    margin-top: 6px;
+}
+/* -------------------------------------------------------------------------- */
+#chatBox
+{
+    margin-top: 6px;
+    height: 290px;
+    width: 624px;
+    border: solid #954C08;
+    margin-left: 15px;
+    padding: 6px;
+    border-width: 1px;
+    border-radius: 6px;
+}
+
+#chatMessages
+{
+    height: 206px; 
+    width: 630px;
+    margin: 3px;
+    padding: 3px;
+}
+
+input {
+    line-height: 1.4em;
+    font-size: 14px;
+    width: 180px;
+}
+
+#callType {
+    width: 180px;
+    font-size: 0.8em;
+    padding: 3px;
+    background-color: white;
+    border-width: 1px;
+    border-radius: 6px;
+    background: white;
+}
+select option {
+    color: white;
+    background: #954C08;
+}
+
+/* -------------------------------------------------------------------------- */
+#logBox
+{
+    height: 296px;
+    width: 624px; 
+    border: solid #954C08;
+    margin-top: 6px;
+    margin-left: 15px;
+    padding: 6px;
+    border-width: 1px;
+    border-radius: 6px;
+}
+#log
+{
+    height: 196px; 
+    width: 616px;
+    margin: 3px 3px 3px 0px;
+    padding: 3px;
+}
+
+.abutton {
+    width: 90px;
+    height: 40px;
+    border-radius: 9px;
+    color: white;
+    background-color: #954C08;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 0.7em; 
+}
+.abutton:hover,
+.abutton:focus {
+    background-color: #B76418;  /* hover background color */
+    color: #fff;                /* hover text */
+    border-color: #954C08;      /* top hover border */
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+}
+.abutton.active {
+    background-color: gray;
+    border-color: #2a65a0;
+    border-bottom-color: #3884CF;
+}
+.abutton:disabled {
+    width: 80px;
+    height: 40px;
+    border-radius: 9px;
+    color: white;
+    background-color: #cccccc;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 0.7em; 
+}
+
+/* overrides extra padding on button elements in Firefox */
+button#clearLog::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+/* -------------------------------------------------------------------------- */

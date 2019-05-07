@@ -1,0 +1,7 @@
+{
+  "name": "Owl Client Application",
+  "description": "A web client application to make and receive voice calls using Twilio Programable Voice and Client.",
+  "repository": "https://github.com/tigerfarm/OwlClient",
+  "logo": "http://tigerfarmpress.com/images/topImgLeft.jpg",
+  "keywords": ["php", "Twilio", "Client", "Voice"]
+}

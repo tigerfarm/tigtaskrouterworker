@@ -1,0 +1,121 @@
+/* -------------------------------------------------------------------------- */
+#topBar {
+    width: 780px;
+    margin: 6px 0px 0px 18px;
+    padding: 0px 0px 0px 0px;
+}
+#bottomBar {
+    width: 639px;
+    margin: 6px 0px 0px 15px;
+    padding: 6px 0px 20px 0px;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 14px; 
+    text-align: center;
+    color: rgba(255,255,255,.65); 
+    background-color: #080A30;
+}
+h1 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-family: Times, "Times New Roman", serif;
+    font-weight: bold;
+    font-size: 2.3em;
+}
+/* -------------------------------------------------------------------------- */
+.panelTitle
+{
+    color: white;
+    background: #F73550;
+    padding: 9px;
+}
+.panelArea
+{
+    margin-top: 6px;
+}
+/* -------------------------------------------------------------------------- */
+#chatBox
+{
+    margin-top: 6px;
+    height: 190px;
+    width: 624px;
+    border: solid tomato;
+    margin-left: 15px;
+    padding: 6px;
+    border-width: 1px;
+    border-radius: 6px;
+}
+
+input {
+    line-height: 1.4em;
+    font-size: 14px;
+    width: 180px;
+}
+
+/* -------------------------------------------------------------------------- */
+#logBox
+{
+    height: 176px;
+    width: 624px; 
+    border: solid tomato;
+    margin-top: 6px;
+    margin-left: 15px;
+    padding: 6px;
+    border-width: 1px;
+    border-radius: 6px;
+}
+#log
+{
+    height: 90px; 
+    width: 615px;
+    padding: 3px 3px 0px 3px;
+}
+
+/* Default */
+button#btn-call,
+button#btn-hangup,
+button#btn-refresh,
+button#btn-delete,
+button#btn-chat,
+button#clearLog {
+    width: 120px;
+    height: 30px;
+    border-radius: 9px;
+    color: white;
+    background-color: #F73550;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 14px; 
+}
+button#btn-refresh { width: 150px; }
+
+button#btn-call:hover,
+button#btn-call:focus,
+button#btn-hangup:hover,
+button#btn-hangup:focus,
+button#btn-refresh:hover,
+button#btn-refresh:focus,
+button#clearLog:hover,
+button#clearLog:focus
+{
+    background-color: red;  /* hover background color */
+    color: #fff;                /* hover text */
+    border-color: #954C08;      /* top hover border */
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+}
+/* When click, or click and hold */
+button#btn-call:active,
+button#btn-hangup:active,
+button#btn-refresh:active,
+button#clearLog.active {
+    background-color: gray;
+    border-color: #2a65a0;
+    border-bottom-color: #3884CF;
+}
+
+/* overrides extra padding on button elements in Firefox */
+button#clearLog::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+/* -------------------------------------------------------------------------- */
