@@ -1,4 +1,4 @@
-# TaskRouter Worker Status Application Version 3.1
+# TaskRouter Worker Status Application Version 3.2
 
 This application is used by TaskRouter Workers to make their TaskRouter status and accept reservations.
 
