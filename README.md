@@ -47,4 +47,32 @@ Client Application Screen print:
 5. Create a Studio flow to put callers into the TaskRouter queue.
 6. Test.
 
+## Application Programs called using Ajax
+
+getTrActivites.php : When initializing the client, get the WorkSpace friendly name and the TaskRouter activities.
+
+generateTrToken.php?tokenPassword= + tokenPassword + &clientid= + clientId : given a password and client identity generate a token.
+
+conferenceEndFn.php?conferenceName= + theConference : given a conference name, end the conference.
+
+taskReservationTaskFix.php?taskSid= + taskSid : given a task SID, if the status is wrapping, change it to completed.
+
+## Utility Programs
+
+conferenceListInProgress.php : List conferences that are in progress.
+
+taskDeleteAll.php : remove all tasks.
+
+taskReservationList.php : List task information.
+
+taskReservationListFix.php : List task information and, if the status is wrapping, change it to completed.
+
+workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
+
+## Twilio Functions
+
+tokenclient.js : code to generate TaskRouter client tokens. Called from generateTrToken.php.
+
+tokenclient-ApiKey.js : Another sample code to generate TaskRouter client tokens.
+
 Cheers...

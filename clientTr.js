@@ -39,12 +39,11 @@ function registerTaskRouterCallbacks() {
         setActivityStatus(worker.activityName);
         if (taskSid !== "" && worker.activityName === "Offline") {
             // Insure the agent is not hanging in assignment status of wrapping.
-            // logger("Run taskReservationTaskFix.php");
             $.get("taskReservationTaskFix.php?taskSid=" + taskSid, function (theResponse) {
                 logger("Task check: " + theResponse);
             })
                     .fail(function () {
-                        logger("- Error running taskReservationTaskFix.php");
+                        logger("- Error running Task Reservation Fix for status: wrapping.");
                         return;
                     });
             taskSid = "";
@@ -251,8 +250,6 @@ function trToken() {
     // logger("Refresh the TaskRouter token using client id: " + clientId + "&tokenPassword=" + tokenPassword);
     logger("Refresh the TaskRouter token using client id: " + clientId);
     $("div.trMessages").html("Refreshing token, please wait.");
-    //
-    // +  /generateTrToken.php?tokenPassword=okaynow              &=clientiddavid
     $.get("generateTrToken.php?tokenPassword=" + tokenPassword + "&clientid=" + clientId, function (theToken) {
         if (theToken.startsWith('0')) {
             $("div.trMessages").html("Invalid password.");
