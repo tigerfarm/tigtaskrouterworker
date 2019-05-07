@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Tiger Agent</title>
+        <title>TR Worker</title>
         <link href="custom/favicon.ico" rel="shortcut icon" type="image/x-icon">
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="https://media.twiliocdn.com/sdk/js/client/releases/1.5.1/twilio.min.js"></script>
@@ -52,6 +52,10 @@
                 <table>
                     <tr><td>Client ID </td><td><input id="clientid" type="text"/></td><td><div class="msgClientid">Set Client ID.</div></td></tr>
                     <tr><td>Password </td><td><input type="password" id="tokenPassword" name="tokenPassword" placeholder="Your access password"/></td><td><div class="msgTokenPassword"></div></tr>
+                    <tr>
+                        <td><div style="padding-top: 9px;">WorkSpace: </div></td>
+                        <td colspan="5"><div class="trWorkSpace" style="padding-top: 9px;">Not set.</div></td>
+                    </tr>
                 </table>
             </div>
             <div style="margin-top: 6px;">
@@ -66,12 +70,8 @@
                         <td><button class="abutton" id="btn-endconf" onclick="endConference();" disabled style="visibility: visible;">End Conference</button></td>
                     </tr>
                     <tr>
-                        <td><div style="padding-top: 9px;">WorkSpace: </div></td>
-                        <td colspan="5"><div class="trWorkSpace" style="padding-top: 9px;">Not set.</div></td>
-                    </tr>
-                    <tr>
                         <td><div style="padding-top: 9px;">Worker status: </div></td>
-                        <td colspan="5"><div class="trStatus" style="padding-top: 9px;">Not set.</div></td>
+                        <td colspan="5"><div class="trStatus" style="padding-top: 9px;">Requires a TaskRouter token.</div></td>
                     </tr>
                     <tr>
                         <td><div style="padding-top: 9px;">TaskRouter: </div></td>
