@@ -1,6 +1,6 @@
 # TaskRouter Worker Status Application Version 3.2
 
-This application is used by TaskRouter Workers to make their TaskRouter status and accept reservations.
+This application is used by TaskRouter Workers to manage their TaskRouter status and accept reservations.
 
 Requirements:
 
@@ -11,7 +11,7 @@ Requirements:
 
 Note, no development required to run this application. It can be completely deployed and tested from a web browser.
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
 
 When you deploy to Heroku, you will be prompted for an app name. 
 The name needs to be unique. Example, enter your name+tw (example: davidtw). 
