@@ -78,7 +78,7 @@ function registerTaskRouterCallbacks() {
         setTrButtons('reservation.accepted');
         theConference = ReservationObject.task.attributes.conference.sid;
         logger("Conference SID: " + theConference);
-        $('#btn-endconf').prop('disabled', false);
+        setButtonEndConference(false);
         worker.update("ActivitySid", ActivitySid_Unavailable, function (error, worker) {
             if (error) {
                 logger("--- acceptReservation, goUnavailable, Error:");
@@ -315,7 +315,7 @@ function setTrButtons(workerActivity) {
             $('#btn-acceptTR').prop('disabled', true);
             $('#btn-rejectTR').prop('disabled', true);
             $('#btn-trHangup').prop('disabled', false);
-            $('#btn-endconf').prop('disabled', false);
+            setButtonEndConference(false);
             break;
         case "In a Call":
             $('#btn-online').prop('disabled', true);

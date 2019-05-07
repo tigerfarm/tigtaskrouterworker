@@ -20,8 +20,12 @@ $twilio = new Client(getenv("ACCOUNT_SID"), getenv('AUTH_TOKEN'));
 
 if (strncmp($conferenceName, "CF", 2) === 0) {
     echo "++ End Conference, SID: " . $conferenceName . "\xA";
-    $conference = $twilio->conferences($conferenceName)
-        ->update(array("status" => "completed"));
+    try {
+        $twilio->conferences($conferenceName)->update(array("status" => "completed"));
+    } catch (Exception $ex) {
+        echo "+ Conference not found.\xA";
+    }
+
     echo "++ Ended.\xA";
     return;
 }
@@ -38,10 +42,11 @@ foreach ($conferences as $record) {
     echo "+ " . $record->sid . " Name: " . $record->friendlyName . "\xA";
     $theConference = $record->sid;
 }
+echo "+ counter" + $counter + "\xA";
 if ($counter === 0) {
     echo "+ Conference not found.\xA";
     return;
 }
-$conference = $twilio->conferences($theConference)->update(array("status" => "completed"));
+$twilio->conferences($theConference)->update(array("status" => "completed"));
 echo "++ Ended.\xA";
 ?>

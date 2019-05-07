@@ -14,7 +14,7 @@
                 $("div.callMessages").html("Please wait, ending conference.");
                 logger("End the conference: " + theConference);
                 // setButtons("endConference()");
-                $('#btn-endconf').prop('disabled', true);
+                setButtonEndConference(true);
                 $.get("conferenceEndFn.php?conferenceName=" + theConference, function (theResponse) {
                     logger("Response: " + theResponse);
                     theConference = "";
@@ -22,6 +22,9 @@
                     logger("- Error ending conference.");
                     return;
                 });
+            }
+            function setButtonEndConference(value) {
+                $('#btn-endconf').prop('disabled', value);
             }
             function clearMessages() {
                 $("div.msgClientid").html("Token id: <b>" + clientId + "</b>");
@@ -39,6 +42,7 @@
                 var log = document.getElementById('log');
                 log.value = "+++ Start.";
                 setTrButtons('init');
+                setButtonEndConference(true);
             };
         </script>
     </head>

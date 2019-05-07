@@ -53,7 +53,7 @@ getTrActivites.php : When initializing the client, get the WorkSpace friendly na
 
 generateTrToken.php?tokenPassword= + tokenPassword + &clientid= + clientId : given a password and client identity generate a token.
 
-conferenceEndFn.php?conferenceName= + theConference : given a conference name, end the conference.
+conferenceEndFn.php?conferenceName= + theConference : given a conference SID, end the conference.
 
 taskReservationTaskFix.php?taskSid= + taskSid : given a task SID, if the status is wrapping, change it to completed.
 
