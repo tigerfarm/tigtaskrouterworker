@@ -1,15 +1,14 @@
 # TaskRouter Worker Status Application Version 3.2
 
-This application is used by TaskRouter Workers to manage their TaskRouter status and accept reservations.
+This application is used by TaskRouter Workers to manage their status and accept reservations.
 
 ## Features
 
-Worker manages their status and call reservations:
-
-- The worker begins by entering their identity and a password.
-- Available: available to take a call.
-- Busy: busy taking a call.
-- Unavailable: unavailable, or offline, not taking calls.
+- The application allows workers enter their identity and a password, using their browser.
+- They manage their status:
+-- Available: available to take a call.
+-- Busy: busy taking a call.
+-- Unavailable: unavailable, or offline, not taking calls.
 - Status is displayed in the browser
 - Accept or reject a call reservation.
 - If a reservation times out, the worker status is changed to unavailable.
