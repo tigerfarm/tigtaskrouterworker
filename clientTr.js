@@ -25,6 +25,9 @@ function registerTaskRouterCallbacks() {
             logger("Languages: " + worker.attributes.languages.join(', '));
         }
         logger("Current activity is: " + worker.activityName);
+        if (worker.activityName === "Unavailable") {
+            goOffline();
+        }
         logger("---------");
         setTrButtons(worker.activityName);
         setActivityStatus(worker.activityName);
@@ -166,11 +169,12 @@ function acceptReservation() {
     //     https://www.twilio.com/console/voice/conferences/settings
     //
     // Conference call options:
-    //     https://www.twilio.com/console/voice/conferences/settings
+    //     https://www.twilio.com/docs/taskrouter/js-sdk/workspace/worker
+    //  Note, Timeout and Record doesn't work.
     var options = {
         "PostWorkActivitySid": ActivitySid_Offline,
-        "Timeout": "10",   // Timeout is the time allowed for the phone to ring, once the reservation is accepted.
-        "Record": "false"
+        "Timeout": "10", // Timeout is the time allowed for the phone to ring, once the reservation is accepted.
+        "Record": "true"
     };
     logger("Conference call attribute, Record: " + options.Record);
     logger("Conference call attribute, Timeout: " + options.Timeout);
@@ -179,17 +183,9 @@ function acceptReservation() {
     // https://www.twilio.com/docs/taskrouter/api/reservations
     // https://www.twilio.com/docs/taskrouter/js-sdk/worker#reservation-conference
     // Note: The conference instruction can only be issued on a task that was created using the <Enqueue> TwiML verb.
-    ReservationObject.conference(null, null, null, null,
-            function (error, reservation) {
-                if (error) {
-                    logger("--- acceptReservation, Error:");
-                    logger(error.code);
-                    logger(error.message);
-                }
-            },
-            options
-            );
-    logger("Conference initiated.");
+    // https://www.twilio.com/docs/taskrouter/js-sdk/workspace/worker
+    ReservationObject.conference(null, null, null, null, null, options);
+
     setTrButtons("In a Call");
 }
 

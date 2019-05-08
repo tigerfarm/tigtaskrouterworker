@@ -40,7 +40,6 @@ Click Reveal Config Vars. Add the following key value pairs:
 ````
 ACCOUNT_SID : your_account_SID (starts with "AC", available from Twilio Console)
 AUTH_TOKEN : your_account_auth_token (Available from Twilio Console)
-TOKEN_HOST : your_Twilio_Functions_domain (example: about-time-1235.twil.io)
 TOKEN_PASSWORD : your_token_password (Password is required to create tokens. You create the password for your users)
 WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using TaskRouter)
 ````
