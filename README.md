@@ -85,10 +85,4 @@ workerStatus.js : Node.js program to list the status of all the WorkSpace worker
 
 nodeHttpServer.js : Node.js web server program for test this application on a local host.
 
-## Twilio Functions
-
-tokenclient.js : code to generate TaskRouter client tokens. Called from generateTrToken.php.
-
-tokenclient-ApiKey.js : Another sample code to generate TaskRouter client tokens.
-
 Cheers...
