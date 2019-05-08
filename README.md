@@ -17,7 +17,7 @@ Worker manages their status and call reservations:
 
 Client Application Screen print:
 
-<img src="Tiger_Agent.jpg" width="42"/>
+<img src="Tiger_Agent.jpg" width="200"/>
 
 Requirements:
 
