@@ -55,11 +55,10 @@ Note, you will need to re-enter the above Config Vars.
 ## Steps to Implement
 
 1. Configure your TaskRouter WorkSpace.
-2. Create a Twilio Function to generate TaskRouter worker tokens.
-3. Configure your account's Twilio Functions settings.
-4. Deploy this application.
-5. Create a Studio flow to put callers into the TaskRouter queue.
-6. Test.
+2. Create a Studio flow to put callers into the TaskRouter queue.
+3. Configure a Twilio phone number to use the Studio flow to put incoming callers into the TaskRouter queue.
+4. Deploy this application and set the environment variables.
+5. Test.
 
 ## Application Programs called using Ajax
 
@@ -83,6 +82,6 @@ taskReservationListFix.php : List task information and, if the status is wrappin
 
 workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
 
-nodeHttpServer.js : Node.js web server program for test this application on a local host.
+nodeHttpServer.js : Node.js web server program for testing this application on a local host.
 
 Cheers...
