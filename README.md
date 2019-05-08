@@ -6,6 +6,7 @@ This application is used by TaskRouter Workers to manage their TaskRouter status
 
 Worker manages their status and call reservations:
 
+- The worker begins by entering their identity and a password.
 - Available: available to take a call.
 - Busy: busy taking a call.
 - Unavailable: unavailable, or offline, not taking calls.
