@@ -2,6 +2,23 @@
 
 This application is used by TaskRouter Workers to manage their TaskRouter status and accept reservations.
 
+## Features
+
+Worker manages their status and call reservations:
+
+- Available: available to take a call.
+- Busy: busy taking a call.
+- Unavailable: unavailable, or offline, not taking calls.
+- Status is displayed in the browser
+- Accept or reject a call reservation.
+- End a reservation.
+- End a call which disconnects all participants from the reservation conference call.
+- If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.
+
+Client Application Screen print:
+
+<img src="Tiger_Agent.jpg" width="42"/>
+
 Requirements:
 
 - For non-developers and developers: you will need a Twilio account. A free Trial account will work.
@@ -33,10 +50,6 @@ To keep the same URL, remove the old app by using the Heroku dashboard:
 Then, from, https://github.com/tigerfarm/tigtaskrouterworker, click Deploy to Heroku button.
 Note, you will need to re-enter the above Config Vars.
 ````
-
-Client Application Screen print:
-
-<img src="Tiger_Agent.jpg"/>
 
 ## Steps to Implement
 
