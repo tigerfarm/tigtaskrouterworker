@@ -44,6 +44,7 @@ function registerTaskRouterCallbacks() {
             })
                     .fail(function () {
                         logger("- Error running Task Reservation Fix for status: wrapping.");
+                        logger("-- The response: " + theResponse);
                         return;
                     });
             taskSid = "";
