@@ -69,6 +69,8 @@ taskReservationListFix.php : List task information and, if the status is wrappin
 
 workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
 
+nodeHttpServer.js : Node.js web server program for test this application on a local host.
+
 ## Twilio Functions
 
 tokenclient.js : code to generate TaskRouter client tokens. Called from generateTrToken.php.
