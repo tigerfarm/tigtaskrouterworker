@@ -184,6 +184,7 @@ function acceptReservation() {
     // https://www.twilio.com/docs/taskrouter/js-sdk/worker#reservation-conference
     // Note: The conference instruction can only be issued on a task that was created using the <Enqueue> TwiML verb.
     // https://www.twilio.com/docs/taskrouter/js-sdk/workspace/worker
+    // https://www.twilio.com/docs/taskrouter/js-sdk/workspace/worker#reservation-conference
     ReservationObject.conference(null, null, null, null, null, options);
 
     setTrButtons("In a Call");
