@@ -12,6 +12,7 @@ Worker manages their status and call reservations:
 - Unavailable: unavailable, or offline, not taking calls.
 - Status is displayed in the browser
 - Accept or reject a call reservation.
+- If a reservation times out, the worker status is changed to unavailable.
 - End a reservation.
 - End a call which disconnects all participants from the reservation conference call.
 - If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.

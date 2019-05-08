@@ -162,12 +162,14 @@ function rejectReservation() {
 }
 function acceptReservation() {
     logger("acceptReservation(): start a conference call, and connect caller and agent.");
-    // 
-    // Agent Conference call options:
+    // Set Agent Conference on:
+    //     https://www.twilio.com/console/voice/conferences/settings
+    //
+    // Conference call options:
     //     https://www.twilio.com/console/voice/conferences/settings
     var options = {
         "PostWorkActivitySid": ActivitySid_Offline,
-        "Timeout": "20",
+        "Timeout": "10",   // Timeout is the time allowed for the phone to ring, once the reservation is accepted.
         "Record": "false"
     };
     logger("Conference call attribute, Record: " + options.Record);
