@@ -2,32 +2,30 @@
 
 This application is used by TaskRouter Workers to manage their status and accept reservations.
 
-## Features
+## Functionality
 
-- The application allows workers enter their identity and a password, using their browser.
-- They manage their status:
--- Available: available to take a call.
--- Busy: busy taking a call.
--- Unavailable: unavailable, or offline, not taking calls.
+- Using their browser, the application allows workers to enter their identity and a password.
+- Workers manage their status: available to take a call, busy while on a call, or unavailable.
 - Status is displayed in the browser
-- Accept or reject a call reservation.
+- Worker can accept or reject a call reservation.
 - If a reservation times out, the worker status is changed to unavailable.
-- End a reservation.
-- End a call which disconnects all participants from the reservation conference call.
+- A worker can end a reservation.
+- A worker can end a call which disconnects all participants from the reservation conference call.
 - If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.
 
-Client Application Screen print:
+Worker application screen:
 
 <img src="Tiger_Agent.jpg" width="300"/>
 
-Requirements:
+Implementation requirements:
 
 - For non-developers and developers: you will need a Twilio account. A free Trial account will work.
 - For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
 - For developers, I have included a Node.JS webserver program that you can run locally on your computer.
   Or, you can also run this application on a website that has a PHP runtime environment.
 
-Note, no development required to run this application. It can be completely deployed and tested from a web browser.
+Note, further development is not required to run this application.
+It can be deployed to Heroku and tested from a web browser.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
 
@@ -39,8 +37,8 @@ Click Reveal Config Vars. Add the following key value pairs:
 ````
 ACCOUNT_SID : your_account_SID (starts with "AC", available from Twilio Console)
 AUTH_TOKEN : your_account_auth_token (Available from Twilio Console)
-TOKEN_PASSWORD : your_token_password (Password is required to create tokens. You create the password for your users)
-WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using TaskRouter)
+TOKEN_PASSWORD : your_token_password (Password is required to create tokens. The password can be any string you want to use.)
+WORKSPACE_SID : your_TaskRouter_workspace_sid
 ````
 To redeploy,
 ````
@@ -54,16 +52,18 @@ Note, you will need to re-enter the above Config Vars.
 ## Steps to Implement
 
 1. Configure your TaskRouter WorkSpace.
-2. Create a Studio flow to put callers into the TaskRouter queue.
-3. Configure a Twilio phone number to use the Studio flow to put incoming callers into the TaskRouter queue.
+2. Create a Studio flow to put incoming callers into the TaskRouter queue.
+3. Configure your Twilio phone number to use the Studio flow.
 4. Deploy this application and set the environment variables.
 5. Test.
 
-## Application Programs called using Ajax
+## Server side Application Programs
 
-getTrActivites.php : When initializing the client, get the WorkSpace friendly name and the TaskRouter activities.
+The programs are called from the browser application using Ajax.
 
-generateTrToken.php?tokenPassword= + tokenPassword + &clientid= + clientId : given a password and client identity generate a token.
+getTrActivites.php : When initializing the browser side client, get the WorkSpace friendly name and the TaskRouter activities.
+
+generateTrToken.php?tokenPassword= + tokenPassword + &clientid= + clientId : given a client identity and the password, generate a token.
 
 conferenceEndFn.php?conferenceName= + theConference : given a conference SID, end the conference.
 
