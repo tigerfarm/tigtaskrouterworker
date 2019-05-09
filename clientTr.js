@@ -186,7 +186,7 @@ function acceptReservation() {
     // https://www.twilio.com/docs/taskrouter/js-sdk/workspace/worker
     // https://www.twilio.com/docs/taskrouter/js-sdk/workspace/worker#reservation-conference
     ReservationObject.conference(null, null, null, null, null, options);
-
+    logger("Conference initiated.");
     setTrButtons("In a Call");
 }
 
