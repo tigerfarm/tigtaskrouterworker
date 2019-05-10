@@ -125,6 +125,11 @@ https://www.twilio.com/console/phone-numbers/search
 In the phone number’s configuration page,
 - Set Voice & Fax, A Call Comes In, to: Studio Flow / Writers IVR
 
+Test, by calling your IVR Twilio phone number.
+- You will hear your Say welcome message.
+- You will be put into the TaskRouter queue and hear the wait music.
+- Disconnect/hangup, your IVR works.
+
 ### Deploy the TaskRouter Workers Application
 
 Click the Deploy to Heroku link:
