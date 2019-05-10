@@ -121,7 +121,9 @@ Drag an Enqueue Call widget onto the flow panel.
 
 In the Console, buy a phone number.
 https://www.twilio.com/console/phone-numbers/search
-- In the phone number’s configuration page, set Voice & Fax, A Call Comes In, to: Studio Flow : Writers IVR
+
+In the phone number’s configuration page,
+- Set Voice & Fax, A Call Comes In, to: Studio Flow / Writers IVR
 
 ### Deploy the TaskRouter Workers Application
 
