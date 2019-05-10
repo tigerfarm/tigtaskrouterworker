@@ -85,6 +85,10 @@ nodeHttpServer.js : Node.js web server program for testing this application on a
 4. Deploy this application and set the environment variables.
 5. Test.
 
+The instructions located at the following GitHub repository URL:
+
+https://github.com/tigerfarm/tigtaskrouterworker
+
 ### TaskRouter WorkSpace Configurations
 
 Create a Workspace, Name: writers.
