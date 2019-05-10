@@ -49,7 +49,7 @@ Then, from, https://github.com/tigerfarm/tigtaskrouterworker, click Deploy to He
 Note, you will need to re-enter the above Config Vars.
 ````
 
-## Server side Application Programs
+### Server side Application Programs
 
 The programs are called from the browser application using Ajax.
 
@@ -61,7 +61,7 @@ conferenceEndFn.php?conferenceName= + theConference : given a conference SID, en
 
 taskReservationTaskFix.php?taskSid= + taskSid : given a task SID, if the status is wrapping, change it to completed.
 
-## Utility Programs
+### Utility Programs
 
 conferenceListInProgress.php : List conferences that are in progress.
 
@@ -74,6 +74,8 @@ taskReservationListFix.php : List task information and, if the status is wrappin
 workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
 
 nodeHttpServer.js : Node.js web server program for testing this application on a local host.
+
+--------------------------------------------------------------------------------
 
 ## Steps to Implement
 
@@ -136,5 +138,7 @@ Create Heroku environment variables.
 ### Test
 
 Call your IVR Twilio phone number.
+
+--------------------------------------------------------------------------------
 
 Cheers...
