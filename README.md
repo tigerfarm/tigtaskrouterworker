@@ -109,7 +109,7 @@ Create a new flow, Friendly name: Writers IVR.
 https://www.twilio.com/console/studio
 
 Add, Gather Input On Call widget.
-- Set the Text to Say to, Welcome to Support. I will put you on hold while I find you an agent.
+- Set the Text to Say to, "Welcome to Support. I will put you on hold while I find you an agent."
 - Set “Stop gathering after” 1 digits.
 
 Drag an Enqueue Call widget onto the flow panel.
