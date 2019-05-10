@@ -144,7 +144,30 @@ Create Heroku environment variables.
 
 ### Test
 
-Call your IVR Twilio phone number.
+In your browser, go to your TaskRouter Workers Application.
+- WorkSpace name is displayed: writers.
+- Enter your worker name: charles.
+- Enter your token password.
+- Click Get access token. Worker status is displayed: Offline.
+- Click Go online. Worker status is displayed: Available.
+- Click Go online, and Go offline, to see how you set your availability.
+- Click Go online.
+
+Call your IVR Twilio phone number and be put into your TaskRouter queue.
+- In your TaskRouter Workers Application, Accept and Reject options are highlighted.
+- Click Accept. End reservation is highlighted. Your phone will ring, and End conference is now highlighted.
+- Answer you phone, and you are connected to the caller.
+- Click End conference, and both you (the TaskRouter worker) and the caller are disconnected from the conference.
+
+You now have a working and tested TaskRouter implementation.
+
+Next steps:
+- Add workers.
+- Add voicemail, for the case where no workers are available.
+This requires setting up voicemail, then linking your Workflow timeout to use voicemail.
+- Add business hours to your IVR. If not business hours, go to straight to voicemail.
+- Add a sales TaskRouter queue and Workflow.
+- Add sales workers.
 
 --------------------------------------------------------------------------------
 
