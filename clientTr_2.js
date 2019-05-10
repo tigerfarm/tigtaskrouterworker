@@ -53,6 +53,10 @@ function registerTaskRouterCallbacks() {
             taskSid = "";
         }
     });
+    // -----------------------------------------------------------------
+    function setActivityStatus(workerActivity) {
+        $("div.trStatus").html(workerActivity);
+    }
 
     // -----------------------------------------------------------------
     worker.on('reservation.created', function (reservation) {
@@ -109,25 +113,6 @@ function registerTaskRouterCallbacks() {
         setTrButtons("canceled");
     });
     // -----------------------------------------------------------------
-}
-
-// -----------------------------------------------------------------
-function setActivityStatus(workerActivity) {
-    $("div.trStatus").html(workerActivity);
-}
-
-function taskReservationTaskFix() {
-    // Insure the agent is not hanging in assignment status of wrapping.
-    logger("taskReservationTaskFix() taskSid=" + taskSid);
-    $.get("taskReservationTaskFix.php?taskSid=" + taskSid, function (thisResponse) {
-        logger("Task check: " + thisResponse);
-    })
-            .fail(function () {
-                logger("- Error running Task Reservation Fix for status: wrapping.");
-                logger("-- The response: " + thisResponse);
-                return;
-            });
-    taskSid = "";
 }
 
 // -----------------------------------------------------------------
@@ -194,8 +179,8 @@ function acceptReservation() {
     // Now using:
     // https://www.twilio.com/docs/voice/api/conference-participant#create-a-participant-agent-conference-only
     var options = {
-        "PostWorkActivitySid": ActivitySid_Offline,
-        "Timeout": 5 // Timeout is the time allowed for the phone to ring, once the reservation is accepted.
+        "PostWorkActivitySid": ActivitySid_Offline
+        , "timeout": "5" // Timeout is the time allowed for the phone to ring, once the reservation is accepted.
         // , "record": "true" // true or false (default)
         // , "record": "record-from-start" // record-from-start or do-not-record (default)
     };

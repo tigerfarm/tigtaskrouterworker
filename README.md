@@ -1,6 +1,6 @@
-# TaskRouter Worker Status Application Version 3.2
+# TaskRouter Worker Application Version 3.2
 
-This application is used by TaskRouter Workers to manage their status and accept reservations.
+This application is used by TaskRouter workers to manage their status and reservations.
 
 ## Functionality
 
@@ -49,14 +49,6 @@ Then, from, https://github.com/tigerfarm/tigtaskrouterworker, click Deploy to He
 Note, you will need to re-enter the above Config Vars.
 ````
 
-## Steps to Implement
-
-1. Configure your TaskRouter WorkSpace.
-2. Create a Studio flow to put incoming callers into the TaskRouter queue.
-3. Configure your Twilio phone number to use the Studio flow.
-4. Deploy this application and set the environment variables.
-5. Test.
-
 ## Server side Application Programs
 
 The programs are called from the browser application using Ajax.
@@ -82,5 +74,67 @@ taskReservationListFix.php : List task information and, if the status is wrappin
 workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
 
 nodeHttpServer.js : Node.js web server program for testing this application on a local host.
+
+## Steps to Implement
+
+1. Configure your TaskRouter WorkSpace.
+2. Create a Studio flow to put incoming callers into the TaskRouter queue.
+3. Configure your Twilio phone number to use the Studio flow.
+4. Deploy this application and set the environment variables.
+5. Test.
+
+### TaskRouter WorkSpace Configurations
+
+Create a Workspace, Name: writers.
+https://www.twilio.com/console/taskrouter/dashboard 
+
+Create a Caller TaskQueue
+- TaskQueue Name to: support.
+- Queue expression: skills HAS "support"
+
+Create a Workflow, Friendly Name: support.
+- Set the Assignment Callback, Task Reservation Timeout to, 10.
+- Set Default queue: support.
+
+Create a Worker, Name, to, charles.
+- Set the Attributes to, {"skills":["support"],"contact_uri":"+16505551111"}.
+
+View Your TaskRouter Activities: Offline, Available, and Unavailable
+
+### Create an IVR Studio Flow to Manage Incoming Calls
+
+Create a new flow, Friendly name: Writers IVR.
+https://www.twilio.com/console/studio
+
+Add, Gather Input On Call widget.
+- Set the Text to Say to, Welcome to Support. I will put you on hold while I find you an agent.
+- Set “Stop gathering after” 1 digits.
+
+Drag an Enqueue Call widget onto the flow panel.
+- Set the widget name to: enqueue_to_Support.
+- Set, TaskRouter Workspace, to: writers.
+- Set, TaskRouter Workflow, to: support.
+
+### Configure your Twilio phone number to use the Studio flow.
+
+In the Console, buy a phone number.
+https://www.twilio.com/console/phone-numbers/search
+- In the phone number’s configuration page, set Voice & Fax, A Call Comes In, to: Studio Flow : Writers IVR
+
+### Deploy the TaskRouter Workers Application
+
+Click the Deploy to Heroku link:
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
+
+Create Heroku environment variables.
+- ACCOUNT_SID : your Twilio account SID
+- AUTH_TOKEN : your Twilio account auth token
+- TOKEN_PASSWORD : your token password
+- WORKSPACE_SID : your TaskRouter workspace SID
+
+### Test
+
+Call your IVR Twilio phone number.
 
 Cheers...
