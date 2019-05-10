@@ -77,12 +77,12 @@ nodeHttpServer.js : Node.js web server program for testing this application on a
 
 --------------------------------------------------------------------------------
 
-## Steps to Implement
+## Steps to Implement a TaskRouter Workflow System
 
 1. Configure your TaskRouter Workspace.
 2. Create a Studio flow to put incoming callers into the TaskRouter queue.
 3. Configure your Twilio phone number to use the Studio flow.
-4. Deploy this application and set the environment variables.
+4. Deploy a TaskRouter Worker application and set the environment variables.
 5. Test.
 
 The instructions are located at the following GitHub repository URL:
