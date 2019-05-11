@@ -24,7 +24,7 @@ Implementation requirements:
 - For developers, I have included a Node.JS webserver program that you can run locally on your computer.
   Or, you can also run this application on a website that has a PHP runtime environment.
 
-Note, further development is not required to run this application.
+Note, this application is ready to run.
 It can be deployed to Heroku and tested from a web browser.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
@@ -48,32 +48,6 @@ To keep the same URL, remove the old app by using the Heroku dashboard:
 Then, from, https://github.com/tigerfarm/tigtaskrouterworker, click Deploy to Heroku button.
 Note, you will need to re-enter the above Config Vars.
 ````
-
-### Server side Application Programs
-
-The programs are called from the browser application using Ajax.
-
-getTrActivites.php : When initializing the browser side client, get the WorkSpace friendly name and the TaskRouter activities.
-
-generateTrToken.php?tokenPassword= + tokenPassword + &clientid= + clientId : given a client identity and the password, generate a token.
-
-conferenceEndFn.php?conferenceName= + theConference : given a conference SID, end the conference.
-
-taskReservationTaskFix.php?taskSid= + taskSid : given a task SID, if the status is wrapping, change it to completed.
-
-### Utility Programs
-
-conferenceListInProgress.php : List conferences that are in progress.
-
-taskDeleteAll.php : remove all tasks.
-
-taskReservationList.php : List task information.
-
-taskReservationListFix.php : List task information and, if the status is wrapping, change it to completed.
-
-workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
-
-nodeHttpServer.js : Node.js web server program for testing this application on a local host.
 
 --------------------------------------------------------------------------------
 
@@ -185,6 +159,66 @@ This requires setting up voicemail, then linking your Workflow timeout to use vo
 - Add business hours to your IVR. If not business hours, go to straight to voicemail.
 - Add a sales TaskRouter queue and Workflow.
 - Add sales workers.
+
+--------------------------------------------------------------------------------
+
+## Documentation
+
+### Local host Implementation using the included NodeJS HTTP Webserver
+
+Notes, the Twilio Node.JS helper library is not required.
+The server side can run locally on a computer using NodeJS, or run on a website that runs PHP programs.
+
+Download the project zip file.
+
+https://github.com/tigerfarm/tigtaskrouterworker
+
+1. Click Clone or Download. Click Download ZIP.
+2. Unzip the file into a work directory.
+3. Change into the unzipped directory.
+
+Install the NodeJS "request" module:
+    
+    $ npm install request
+
+Run the NodeJS HTTP server.
+
+    $ node nodeHttpServer.js
+    +++ Start: nodeHttpServer.js
+    Static file server running at
+      => http://localhost:8000/
+    CTRL + C to shutdown
+    ...
+    
+Use a browser to access the application:
+
+    http://localhost:8000/index.html
+    
+### Server side Application Programs
+
+The programs are called from the browser application using Ajax.
+
+getTrActivites.php : When initializing the browser side client, get the WorkSpace friendly name and the TaskRouter activities.
+
+generateTrToken.php?tokenPassword= + tokenPassword + &clientid= + clientId : given a client identity and the password, generate a token.
+
+conferenceEndFn.php?conferenceName= + theConference : given a conference SID, end the conference.
+
+taskReservationTaskFix.php?taskSid= + taskSid : given a task SID, if the status is wrapping, change it to completed.
+
+### Utility Programs
+
+conferenceListInProgress.php : List conferences that are in progress.
+
+taskDeleteAll.php : remove all tasks.
+
+taskReservationList.php : List task information.
+
+taskReservationListFix.php : List task information and, if the status is wrapping, change it to completed.
+
+workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
+
+nodeHttpServer.js : Node.js web server program for testing this application on a local host.
 
 --------------------------------------------------------------------------------
 
