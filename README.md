@@ -25,7 +25,7 @@ Worker application screen:
 2. Create a Studio flow to put incoming callers into the TaskRouter queue.
 3. Configure your Twilio phone number to use the Studio flow.
 4. Deploy the TaskRouter Worker application and set the environment variables.
-5. Test.
+5. Test the application, test the system.
 
 <img src="flowDiagram.jpg" width="500"/>
 
@@ -126,7 +126,7 @@ Note, if you need to redeploy and keep the same Heroku URL:
 - Select the app, click Settings, go to the bottom, click Delete app.
 - Then, click Deploy to Heroku button. Note, you will need to re-enter the above Config Vars.
 
-### Test the Application
+### Test the Application, Test the System
 
 In your browser, go to your TaskRouter Workers Application.
 - WorkSpace name is displayed: writers.
