@@ -72,7 +72,7 @@ Create a Workflow, and set:
 
 Create a Worker, and set:
 - Name: charles.
-- Attributes to: {"skills":["support"],"contact_uri":"+16505551111"}.
+- Attributes to: {"skills":["support"],"contact_uri":"+16505551111"}. Replace 16505551111, with your mobile phone number.
 
 View Your TaskRouter Activities: Offline, Available, and Unavailable
 
@@ -128,8 +128,8 @@ Add the following key value pairs:
 - TOKEN_PASSWORD : your token password (Password is required to create tokens. The password can be any string you want to use.)
 - WORKSPACE_SID : your TaskRouter workspace SID
 
-Note, if you need to redeploy and keep the same Heroku URL remove the old app by using the Heroku dashboard: https://dashboard.heroku.com.
-- From the dashboard, select the app.
+Note, if you need to redeploy and keep the same Heroku URL, then remove the old app.
+- From the [Heroku dashboard](https://dashboard.heroku.com), select the app which is to be removed.
 - Click Settings. Go to the bottom and click Delete app.
 - Then, redeploy the app by click the GitHub Deploy to Heroku button. Note, you will need to re-enter the Config Vars.
 
@@ -157,12 +157,12 @@ Call your IVR Twilio phone number, and you will be put into the TaskRouter queue
 You now have a working and tested TaskRouter implementation.
 
 Next steps:
-- Add workers.
-- Add voicemail, for the case where no workers are available during a timeout period.
-This requires setting up voicemail, then linking your Workflow timeout to use voicemail.
-- Add business hours to your IVR. If not with the business hours, go straight to voicemail.
+- Add more workers.
 - Add a sales TaskRouter queue (skills HAS "sales") and Workflow.
-- Add sales workers ({"skills":["sales"],"contact_uri":"+16505551111"}). Replace 16505551111, with your mobile phone number.
+- Add sales workers ({"skills":["sales"],"contact_uri":"+16505552222"}).
+- Add sales as an IVR option in the Studio flow. This will require adding a Split widget and another Enqueue Call widget. Click [here](https://www.twilio.com/docs/studio#get-started-with-twilio-studio) for a sample flow with a Split widget.
+- Handle the case where no workers are available and the Workflow times out. Create and test the [Studio voicemail](https://www.twilio.com/docs/studio/widget-library#record-voicemail) flow, link it into your Workflow.
+- Add business hours to your IVR. If caller calls outside of the [business hours](https://www.twilio.com/blog/2018/06/custom-javascript-twilio-functions-code-studio-flows.html), go straight to voicemail.
 - Implement a Twilio Client so that the agents can receive calls on their laptop. Click [here](https://github.com/tigerfarm/OwlClient) for my sample Twilio Client.
 
 --------------------------------------------------------------------------------
