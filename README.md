@@ -17,15 +17,9 @@ Worker application screen:
 
 <img src="Tiger_Agent.jpg" width="300"/>
 
-Implementation requirements:
-
-- You will need a Twilio account. A free Trial account will work.
-- For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
-- For developers, I have included a Node.JS webserver program that you can run locally on your computer.
-  Or, you can also run this application on a website that has a PHP runtime environment.
-
-Note, this application is ready to run.
-It can be deployed to Heroku and tested from a web browser.
+Notes,
+- this application is ready to run.
+- To deploy to Heroku, you will need an [Heroku account](https://heroku.com/) to host your application.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
 
@@ -56,7 +50,7 @@ Note, you will need to re-enter the above Config Vars.
 1. Configure your TaskRouter Workspace.
 2. Create a Studio flow to put incoming callers into the TaskRouter queue.
 3. Configure your Twilio phone number to use the Studio flow.
-4. Deploy a TaskRouter Worker application and set the environment variables.
+4. Deploy the TaskRouter Worker application and set the environment variables.
 5. Test.
 
 <img src="flowDiagram.jpg" width="500"/>
@@ -79,16 +73,19 @@ Implementation requirements:
 Create a Workspace, Name: writers.
 https://www.twilio.com/console/taskrouter/dashboard 
 
-Create a Caller TaskQueue
+Create a Caller TaskQueue, and set:
 - TaskQueue Name to: support.
+- Max Reserved Workers: 1.
 - Queue expression: skills HAS "support"
 
-Create a Workflow, Friendly Name: support.
-- Set the Assignment Callback, Task Reservation Timeout to, 10.
-- Set Default queue: support.
+Create a Workflow, and set:
+- Friendly Name: support.
+- Assignment Callback, Task Reservation Timeout to, 10.
+- Default queue: support.
 
-Create a Worker, Name, to, charles.
-- Set the Attributes to, {"skills":["support"],"contact_uri":"+16505551111"}.
+Create a Worker, and set:
+- Name: charles.
+- Attributes to: {"skills":["support"],"contact_uri":"+16505551111"}.
 
 View Your TaskRouter Activities: Offline, Available, and Unavailable
 
