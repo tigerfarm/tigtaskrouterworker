@@ -126,7 +126,7 @@ Note, if you need to redeploy and keep the same Heroku URL:
 - Select the app, click Settings, go to the bottom, click Delete app.
 - Then, click Deploy to Heroku button. Note, you will need to re-enter the above Config Vars.
 
-### Test
+### Test the Application
 
 In your browser, go to your TaskRouter Workers Application.
 - WorkSpace name is displayed: writers.
