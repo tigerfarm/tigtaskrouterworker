@@ -8,8 +8,8 @@ and end their reservation conference calls.
 
 - Using their browser, the application allows workers to enter their identity and a password.
 - Workers manage their status: available to take a call, busy while on a call, or unavailable.
-- Status is displayed in the browser
-- Worker can accept or reject a call reservation.
+- Status is displayed in the browser.
+- Workers can accept or reject a call reservation.
 - If a worker's reservation times out, the worker status is changed to unavailable.
 - A worker can end a call which disconnects all participants from the reservation conference call.
 - If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.
@@ -28,6 +28,8 @@ Worker application screen print:
 4. Deploy the TaskRouter Worker application and set the environment variables.
 5. Test the application, test the system.
 
+#### Call Flow
+
 <img src="flowDiagram.jpg" width="500"/>
 
 With Twilio Studio and TaskRouter, in less than two hours, you can set up a call flow, which is the bases of a call center. 
@@ -41,16 +43,16 @@ If the call is rejected, TaskRouter will ask the next available agent.
 Agents will use their web browser, on their computer, to manage their status: offline, or available to accept calls.
 When they accept a call, TaskRouter will dial their TaskRouter worker phone number, to connect them to the caller.
 
-The instructions are located at this GitHub repository URL:
+The setup instructions are located at this GitHub repository URL:
 
 https://github.com/tigerfarm/tigtaskrouterworker
 
 Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
 
 Implementation requirements:
-- You will need a Twilio account. A free Trial account will work.
-- You will need an [Heroku account](https://heroku.com/) to host your application.
-- For testing, you will need at least 2 phone numbers. You can use two mobile phone numbers, one to be the caller, the other phone number for the worker (agent).
+- You will need a [Twilio account](http://twilio.com/console). A free Trial account will work for testing.
+- You will need an [Heroku account](https://heroku.com/) to host your application. A free account version will work for testing.
+- For testing, you will need at least 2 phone numbers; for example two mobile phone numbers: one to be the caller, the other phone number for the worker (agent).
 - Developer skills are not required, as the sample application is functional, as is.
 
 ### Configure your TaskRouter Workspace
@@ -65,7 +67,7 @@ Create a Caller TaskQueue, and set:
 
 Create a Workflow, and set:
 - Friendly Name: support.
-- Assignment Callback, Task Reservation Timeout to, 10.
+- Assignment Callback, Task Reservation Timeout: 10.
 - Default queue: support.
 
 Create a Worker, and set:
@@ -79,14 +81,16 @@ View Your TaskRouter Activities: Offline, Available, and Unavailable
 Create a new flow, Friendly name: Writers IVR.
 https://www.twilio.com/console/studio
 
-Add, Gather Input On Call widget.
+Add, Gather Input On Call widget. Join 
 - Set the Text to Say to, "Welcome to Support. I will put you on hold while I find you an agent."
-- Set “Stop gathering after” 1 digits.
+- Set "Stop gathering after" to 1 digit.
 
 Drag an Enqueue Call widget onto the flow panel.
 - Set the widget name to: enqueue_to_Support.
 - Set, TaskRouter Workspace, to: writers.
 - Set, TaskRouter Workflow, to: support.
+
+<img src="StudioIvr.jpg"/>
 
 ### Configure your Twilio phone number to use the Studio flow.
 
