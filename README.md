@@ -21,6 +21,8 @@ Worker application screen:
 
 ## Steps to Implement a TaskRouter Workflow System
 
+<img src="flowDiagram.jpg" width="500"/>
+
 1. Configure your Twilio TaskRouter Workspace.
 2. Create a Studio flow to put incoming callers into the TaskRouter queue.
 3. Configure your Twilio phone number to use the Studio flow.
@@ -37,8 +39,6 @@ If the call is rejected, TaskRouter will ask the next available agent.
 
 Agents will use their web browser, on their computer, to manage their status: offline, or available to accept calls.
 When they accept a call, TaskRouter will dial their TaskRouter worker phone number, to connect them to the caller.
-
-<img src="flowDiagram.jpg" width="500"/>
 
 The instructions are located at this GitHub repository URL:
 
@@ -137,12 +137,13 @@ In your browser, go to your TaskRouter Workers Application.
 - Click Go online, and Go offline, to see how you set your availability.
 - Click Go online.
 
-<img src="TR_WorkerAr.jpg" width="300"/>
+<img src="TR_WorkerOnline.jpg" width="300"/>
 
 Call your IVR Twilio phone number and be put into your TaskRouter queue.
 - In your TaskRouter Workers Application, Accept and Reject options are highlighted.
 - Click Accept. End reservation is highlighted. Your phone will ring, and End conference is now highlighted.
-- Answer you phone, and you are connected to the caller.
+<img src="TR_WorkerAr.jpg" width="300"/>
+- Answer your phone, and you are connected to the caller.
 - Click End conference, and both you (the TaskRouter worker) and the caller are disconnected from the conference.
 
 You now have a working and tested TaskRouter implementation.
