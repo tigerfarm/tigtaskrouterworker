@@ -19,7 +19,7 @@ Worker application screen:
 
 Implementation requirements:
 
-- For non-developers and developers: you will need a Twilio account. A free Trial account will work.
+- You will need a Twilio account. A free Trial account will work.
 - For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
 - For developers, I have included a Node.JS webserver program that you can run locally on your computer.
   Or, you can also run this application on a website that has a PHP runtime environment.
@@ -88,6 +88,14 @@ nodeHttpServer.js : Node.js web server program for testing this application on a
 The instructions are located at the following GitHub repository URL:
 
 https://github.com/tigerfarm/tigtaskrouterworker
+
+Implementation requirements:
+- You will need a Twilio account. A free Trial account will work.
+- You will need an [Heroku account](https://heroku.com/) to host your application.
+- For testing, you will need at least 2 phone numbers. You can use two mobile phone numbers, one to be the caller, the other phone number for the worker (agent).
+- Developer skills are not required, as the sample application is functional, as is.
+
+<img src="flowDiagram.jpg" width="500"/>
 
 ### Configure your TaskRouter Workspace
 
