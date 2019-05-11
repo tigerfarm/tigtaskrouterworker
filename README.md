@@ -21,13 +21,13 @@ Worker application screen:
 
 ## Steps to Implement a TaskRouter Workflow System
 
-<img src="flowDiagram.jpg" width="500"/>
-
 1. Configure your Twilio TaskRouter Workspace.
 2. Create a Studio flow to put incoming callers into the TaskRouter queue.
 3. Configure your Twilio phone number to use the Studio flow.
 4. Deploy the TaskRouter Worker application and set the environment variables.
 5. Test.
+
+<img src="flowDiagram.jpg" width="500"/>
 
 With Twilio Studio and TaskRouter, in less than two hours, you can set up a call flow, which is the bases of a call center. 
 This exercise will walk you through the steps to configure your Twilio phone number to receive calls and put them into a queue.
