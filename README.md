@@ -116,13 +116,19 @@ Test, by calling your IVR Twilio phone number.
 - You will be put into the TaskRouter queue and hear the wait music.
 - Disconnect/hangup, your IVR works.
 
-### Deploy the TaskRouter Workers Application
+### Deploy the TaskRouter Worker Application
 
 Click the Deploy to Heroku link:
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
 
-Create Heroku environment variables.
+When you deploy to Heroku, you will be prompted for an app name. 
+The name needs to be unique. Example, enter your name+tw (example: davidtw). 
+Click Deploy app. Once the application is deployed, click Manage app. 
+Set Heroku project environment variables by clicking Settings. 
+Click Reveal Config Vars.
+
+Add the following key value pairs:
 - ACCOUNT_SID : your Twilio account SID
 - AUTH_TOKEN : your Twilio account auth token
 - TOKEN_PASSWORD : your token password
