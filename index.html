@@ -58,14 +58,18 @@
                 <table>
                     <tr><td>Identity </td><td><input id="clientid" type="text"/></td><td><div class="msgClientid">Set Client ID.</div></td></tr>
                     <tr><td>Password </td><td><input type="password" id="tokenPassword" name="tokenPassword" placeholder="Your access password"/></td><td><div class="msgTokenPassword"></div></tr>
-                    <tr>
-                        <td><div style="padding-top: 9px;">WorkSpace: </div></td>
-                        <td colspan="2"><div class="trWorkSpace" style="padding-top: 9px;">Not set.</div></td>
-                    </tr>
                 </table>
             </div>
             <div style="margin-top: 6px;">
                 <table>
+                    <tr>
+                        <td><div style="padding-top: 9px;">WorkSpace: </div></td>
+                        <td colspan="5"><div class="trWorkSpace" style="padding-top: 9px;">Not set.</div></td>
+                    </tr>
+                    <tr>
+                        <td><div style="padding-top: 9px;">Worker status: </div></td>
+                        <td colspan="5"><div class="trStatus" style="padding-top: 9px;">Requires a TaskRouter token.</div></td>
+                    </tr>
                     <tr style="visibility: visible;">
                         <td><button class="abutton" id="btn-trtoken" onclick="trToken();" style="visibility: visible;">Get access token</button></td>
                         <td><button class="abutton" id="btn-online" onclick="goAvailable();" disabled style="visibility: visible;">Go online</button></td>
@@ -76,12 +80,8 @@
                         <td><button class="abutton" id="btn-endconf" onclick="endConference();" disabled style="visibility: visible;">End conference</button></td>
                     </tr>
                     <tr>
-                        <td><div style="padding-top: 9px;">Worker status: </div></td>
-                        <td colspan="6"><div class="trStatus" style="padding-top: 9px;">Requires a TaskRouter token.</div></td>
-                    </tr>
-                    <tr>
                         <td><div style="padding-top: 9px;">TaskRouter: </div></td>
-                        <td colspan="6"><div class="trMessages" style="padding-top: 9px;">Need to refresh the token.</div></td>
+                        <td colspan="5"><div class="trMessages" style="padding-top: 9px;">Need to refresh the token.</div></td>
                     </tr>
                 </table>
             </div>

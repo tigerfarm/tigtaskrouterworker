@@ -15,7 +15,7 @@ This application is used by Twilio TaskRouter workers to manage their status and
 
 Worker application screen:
 
-<img src="Tiger_Agent.jpg" width="300"/>
+<img src="TR_Worker.jpg" width="300"/>
 
 --------------------------------------------------------------------------------
 
