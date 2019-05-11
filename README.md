@@ -81,11 +81,13 @@ View Your TaskRouter Activities: Offline, Available, and Unavailable
 Create a new flow, Friendly name: Writers IVR.
 https://www.twilio.com/console/studio
 
-Add, Gather Input On Call widget. Join 
+Add, Gather Input On Call widget.
+- Join Tiger Incoming Call to the Gather widget.
 - Set the Text to Say to, "Welcome to Support. I will put you on hold while I find you an agent."
 - Set "Stop gathering after" to 1 digit.
 
 Drag an Enqueue Call widget onto the flow panel.
+- Join the Gather widget to the Enqueue Call widget.
 - Set the widget name to: enqueue_to_Support.
 - Set, TaskRouter Workspace, to: writers.
 - Set, TaskRouter Workflow, to: support.
