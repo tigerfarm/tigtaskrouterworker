@@ -17,32 +17,6 @@ Worker application screen:
 
 <img src="Tiger_Agent.jpg" width="300"/>
 
-Notes,
-- this application is ready to run.
-- To deploy to Heroku, you will need an [Heroku account](https://heroku.com/) to host your application.
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
-
-When you deploy to Heroku, you will be prompted for an app name. 
-The name needs to be unique. Example, enter your name+tw (example: davidtw). 
-Click Deploy app. Once the application is deployed, click Manage app. 
-Set Heroku project environment variables by clicking Settings. 
-Click Reveal Config Vars. Add the following key value pairs:
-````
-ACCOUNT_SID : your_account_SID (starts with "AC", available from Twilio Console)
-AUTH_TOKEN : your_account_auth_token (Available from Twilio Console)
-TOKEN_PASSWORD : your_token_password (Password is required to create tokens. The password can be any string you want to use.)
-WORKSPACE_SID : your_TaskRouter_workspace_sid
-````
-To redeploy,
-````
-To keep the same URL, remove the old app by using the Heroku dashboard:
-    https://dashboard.heroku.com,
-    Select the app, click Settings, go to the bottom, click Delete app.
-Then, from, https://github.com/tigerfarm/tigtaskrouterworker, click Deploy to Heroku button.
-Note, you will need to re-enter the above Config Vars.
-````
-
 --------------------------------------------------------------------------------
 
 ## Steps to Implement a TaskRouter Workflow System
@@ -118,6 +92,9 @@ Test, by calling your IVR Twilio phone number.
 
 ### Deploy the TaskRouter Worker Application
 
+This application is ready to run.
+To deploy to Heroku, you will need an [Heroku account](https://heroku.com/) to host your application.
+
 Click the Deploy to Heroku link:
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
@@ -129,10 +106,15 @@ Set Heroku project environment variables by clicking Settings.
 Click Reveal Config Vars.
 
 Add the following key value pairs:
-- ACCOUNT_SID : your Twilio account SID
-- AUTH_TOKEN : your Twilio account auth token
-- TOKEN_PASSWORD : your token password
+- ACCOUNT_SID : your Twilio account SID (starts with "AC", available from Twilio Console)
+- AUTH_TOKEN : your Twilio account auth token (Available from Twilio Console, click view)
+- TOKEN_PASSWORD : your token password (Password is required to create tokens. The password can be any string you want to use.)
 - WORKSPACE_SID : your TaskRouter workspace SID
+
+Note, if you need to redeploy and keep the same Heroku URL:
+- Remove the old app by using the Heroku dashboard: https://dashboard.heroku.co
+- Select the app, click Settings, go to the bottom, click Delete app.
+- Then, click Deploy to Heroku button. Note, you will need to re-enter the above Config Vars.
 
 ### Test
 
