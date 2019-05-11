@@ -144,18 +144,19 @@ Call your IVR Twilio phone number, and you will be put into the TaskRouter queue
 <img src="TR_WorkerAr.jpg" width="300"/>
 
 - Click Accept. Your phone will ring, and, End conference will be highlighted because the call is a conference call.
-- Answer your phone, and you are connected to the caller in a conference call.
-- Click End conference, and both you (the TaskRouter worker) and the caller are disconnected from the conference.
+- Answer your phone, and you are connected to the caller.
+- Click End conference, and both you (the TaskRouter worker) and the caller are disconnected from the conference; the conference is ended.
 
 You now have a working and tested TaskRouter implementation.
 
 Next steps:
 - Add workers.
-- Add voicemail, for the case where no workers are available.
+- Add voicemail, for the case where no workers are available during a timeout period.
 This requires setting up voicemail, then linking your Workflow timeout to use voicemail.
-- Add business hours to your IVR. If not business hours, go to straight to voicemail.
-- Add a sales TaskRouter queue and Workflow.
-- Add sales workers.
+- Add business hours to your IVR. If not with the business hours, go straight to voicemail.
+- Add a sales TaskRouter queue (skills HAS "sales") and Workflow.
+- Add sales workers ({"skills":["sales"],"contact_uri":"+16505551111"}).
+- Implement a Twilio Client so that the agents can receive calls on their laptop. Click [here](https://github.com/tigerfarm/OwlClient) for my sample Twilio Client.
 
 --------------------------------------------------------------------------------
 
