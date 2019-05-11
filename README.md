@@ -139,11 +139,11 @@ In your browser, go to your TaskRouter Workers Application.
 
 <img src="TR_WorkerOnline.jpg" width="300"/>
 
-Call your IVR Twilio phone number and be put into your TaskRouter queue.
+Call your IVR Twilio phone number, and you will be put into the TaskRouter queue.
 - In your TaskRouter Workers Application, Accept and Reject options are highlighted.
-- Click Accept. Your phone will ring, and, End conference will be highlighted because the call is a conference call.
 <img src="TR_WorkerAr.jpg" width="300"/>
 
+- Click Accept. Your phone will ring, and, End conference will be highlighted because the call is a conference call.
 - Answer your phone, and you are connected to the caller in a conference call.
 - Click End conference, and both you (the TaskRouter worker) and the caller are disconnected from the conference.
 
