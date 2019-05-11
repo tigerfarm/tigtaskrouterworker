@@ -28,6 +28,8 @@ Worker application screen print:
 4. Deploy the TaskRouter Worker application and set the environment variables.
 5. Test the application, test the system.
 
+Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
+
 #### Call Flow
 
 <img src="flowDiagram.jpg" width="500"/>
@@ -46,8 +48,6 @@ When they accept a call, TaskRouter will dial their TaskRouter worker phone numb
 The setup instructions are located at this GitHub repository URL:
 
 https://github.com/tigerfarm/tigtaskrouterworker
-
-Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
 
 Implementation requirements:
 - You will need a [Twilio account](http://twilio.com/console). A free Trial account will work for testing.
@@ -161,8 +161,8 @@ Next steps:
 - Add a sales TaskRouter queue (skills HAS "sales") and Workflow.
 - Add sales workers ({"skills":["sales"],"contact_uri":"+16505552222"}).
 - Add sales as an IVR option in the Studio flow. This will require adding a Split widget and another Enqueue Call widget. Click [here](https://www.twilio.com/docs/studio#get-started-with-twilio-studio) for a sample flow with a Split widget.
-- Handle the case where no workers are available and the Workflow times out. Create and test the [Studio voicemail](https://www.twilio.com/docs/studio/widget-library#record-voicemail) flow, link it into your Workflow.
-- Add business hours to your IVR. If caller calls outside of the [business hours](https://www.twilio.com/blog/2018/06/custom-javascript-twilio-functions-code-studio-flows.html), go straight to voicemail.
+- Handle the case where no workers are available and the Workflow times out. Create and test a [Studio voicemail](https://www.twilio.com/docs/studio/widget-library#record-voicemail) flow. Link it into your Workflow timeout option.
+- Add business hours to your IVR. If a caller calls outside of the [business hours](https://www.twilio.com/blog/2018/06/custom-javascript-twilio-functions-code-studio-flows.html), go straight to voicemail.
 - Implement a Twilio Client so that the agents can receive calls on their laptop. Click [here](https://github.com/tigerfarm/OwlClient) for my sample Twilio Client.
 
 --------------------------------------------------------------------------------
@@ -197,9 +197,9 @@ Run the NodeJS HTTP server.
     
 Use a browser to access the application:
 
-    http://localhost:8000/index.html
+http://localhost:8000/index.html
     
-### Server side Application Programs
+#### Server side Application Programs
 
 The programs are called from the browser application using Ajax.
 
@@ -211,7 +211,7 @@ conferenceEndFn.php?conferenceName= + theConference : given a conference SID, en
 
 taskReservationTaskFix.php?taskSid= + taskSid : given a task SID, if the status is wrapping, change it to completed.
 
-### Utility Programs
+#### Utility Programs
 
 conferenceListInProgress.php : List conferences that are in progress.
 
