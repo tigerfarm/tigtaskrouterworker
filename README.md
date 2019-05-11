@@ -105,14 +105,14 @@ In the phone number’s configuration page,
 Test, by calling your IVR Twilio phone number.
 - You will hear your Say welcome message.
 - You will be put into the TaskRouter queue and hear the wait music.
-- Disconnect/hangup, your IVR works.
+- Disconnect/hangup the call. Your IVR is successfully tested.
 
 ### Deploy the TaskRouter Worker Application
 
 This application is ready to run.
 To deploy to Heroku, you will need an [Heroku account](https://heroku.com/) to host your application.
 
-Click the Deploy to Heroku link:
+Click the Deploy to Heroku link.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigtaskrouterworker)
 
@@ -128,10 +128,10 @@ Add the following key value pairs:
 - TOKEN_PASSWORD : your token password (Password is required to create tokens. The password can be any string you want to use.)
 - WORKSPACE_SID : your TaskRouter workspace SID
 
-Note, if you need to redeploy and keep the same Heroku URL:
-- Remove the old app by using the Heroku dashboard: https://dashboard.heroku.com.
-- Select the app, click Settings, go to the bottom, click Delete app.
-- Then, click Deploy to Heroku button. Note, you will need to re-enter the above Config Vars.
+Note, if you need to redeploy and keep the same Heroku URL remove the old app by using the Heroku dashboard: https://dashboard.heroku.com.
+- From the dashboard, select the app.
+- Click Settings. Go to the bottom and click Delete app.
+- Then, redeploy the app by click the GitHub Deploy to Heroku button. Note, you will need to re-enter the Config Vars.
 
 ### Test the Application, Test the System
 
@@ -162,7 +162,7 @@ Next steps:
 This requires setting up voicemail, then linking your Workflow timeout to use voicemail.
 - Add business hours to your IVR. If not with the business hours, go straight to voicemail.
 - Add a sales TaskRouter queue (skills HAS "sales") and Workflow.
-- Add sales workers ({"skills":["sales"],"contact_uri":"+16505551111"}).
+- Add sales workers ({"skills":["sales"],"contact_uri":"+16505551111"}). Replace 16505551111, with your mobile phone number.
 - Implement a Twilio Client so that the agents can receive calls on their laptop. Click [here](https://github.com/tigerfarm/OwlClient) for my sample Twilio Client.
 
 --------------------------------------------------------------------------------
