@@ -85,17 +85,20 @@ nodeHttpServer.js : Node.js web server program for testing this application on a
 4. Deploy a TaskRouter Worker application and set the environment variables.
 5. Test.
 
+<img src="flowDiagram.jpg" width="500"/>
+
 The instructions are located at the following GitHub repository URL:
 
 https://github.com/tigerfarm/tigtaskrouterworker
+
+Video of the steps:
+https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb
 
 Implementation requirements:
 - You will need a Twilio account. A free Trial account will work.
 - You will need an [Heroku account](https://heroku.com/) to host your application.
 - For testing, you will need at least 2 phone numbers. You can use two mobile phone numbers, one to be the caller, the other phone number for the worker (agent).
 - Developer skills are not required, as the sample application is functional, as is.
-
-<img src="flowDiagram.jpg" width="500"/>
 
 ### Configure your TaskRouter Workspace
 
@@ -164,6 +167,8 @@ In your browser, go to your TaskRouter Workers Application.
 - Click Go online. Worker status is displayed: Available.
 - Click Go online, and Go offline, to see how you set your availability.
 - Click Go online.
+
+<img src="Tiger_Agent.jpg" width="300"/>
 
 Call your IVR Twilio phone number and be put into your TaskRouter queue.
 - In your TaskRouter Workers Application, Accept and Reject options are highlighted.
