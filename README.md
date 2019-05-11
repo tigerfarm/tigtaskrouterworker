@@ -90,7 +90,7 @@ Drag an Enqueue Call widget onto the flow panel.
 - Set, TaskRouter Workspace, to: writers.
 - Set, TaskRouter Workflow, to: support.
 
-<img src="StudioIvr.jpg"/>
+<img src="StudioIvr.jpg" width="200"/>
 
 ### Configure your Twilio phone number to use the Studio flow.
 
