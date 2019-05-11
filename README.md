@@ -112,7 +112,7 @@ Add the following key value pairs:
 - WORKSPACE_SID : your TaskRouter workspace SID
 
 Note, if you need to redeploy and keep the same Heroku URL:
-- Remove the old app by using the Heroku dashboard: https://dashboard.heroku.co
+- Remove the old app by using the Heroku dashboard: https://dashboard.heroku.com.
 - Select the app, click Settings, go to the bottom, click Delete app.
 - Then, click Deploy to Heroku button. Note, you will need to re-enter the above Config Vars.
 
