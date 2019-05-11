@@ -1,6 +1,6 @@
 # TaskRouter Worker Application Version 3.2
 
-This application is used by TaskRouter workers to manage their status and reservations.
+This application is used by Twilio TaskRouter workers to manage their status and reservations.
 
 ## Functionality
 
@@ -21,7 +21,7 @@ Worker application screen:
 
 ## Steps to Implement a TaskRouter Workflow System
 
-1. Configure your TaskRouter Workspace.
+1. Configure your Twilio TaskRouter Workspace.
 2. Create a Studio flow to put incoming callers into the TaskRouter queue.
 3. Configure your Twilio phone number to use the Studio flow.
 4. Deploy the TaskRouter Worker application and set the environment variables.
@@ -137,7 +137,7 @@ In your browser, go to your TaskRouter Workers Application.
 - Click Go online, and Go offline, to see how you set your availability.
 - Click Go online.
 
-<img src="Tiger_Agent.jpg" width="300"/>
+<img src="TR_WorkerAr.jpg" width="300"/>
 
 Call your IVR Twilio phone number and be put into your TaskRouter queue.
 - In your TaskRouter Workers Application, Accept and Reject options are highlighted.
