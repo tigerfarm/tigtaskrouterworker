@@ -1,4 +1,25 @@
-# TaskRouter Worker Application Version 3.2
+# Implement a Call Work Flow System
+
+With Twilio Studio and TaskRouter, in less than two hours, you can set up a call flow, which is the bases of a call center. 
+
+#### Call Flow
+
+<img src="flowDiagram.jpg" width="500"/>
+
+This exercise will walk you through the steps to configure your Twilio phone number to receive calls and put them into a queue.
+The callers will listen to music while TaskRouter arranges an agent to take their call.
+
+1. Configure your Twilio TaskRouter Workspace.
+2. Create a Studio flow to put incoming callers into the TaskRouter queue.
+3. Configure your Twilio phone number to use the Studio flow.
+4. Deploy the TaskRouter Worker application and set the environment variables.
+5. Test the application, test the system.
+
+Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
+
+--------------------------------------------------------------------------------
+
+## TaskRouter Worker Application Version 3.2
 
 This application is used by Twilio TaskRouter workers to 
 manage their availability status, accept or reject reservation calls,
@@ -17,26 +38,6 @@ and end their reservation conference calls.
 Worker application screen print:
 
 <img src="TR_Worker.jpg" width="300"/>
-
---------------------------------------------------------------------------------
-
-## Steps to Implement a TaskRouter Workflow System
-
-1. Configure your Twilio TaskRouter Workspace.
-2. Create a Studio flow to put incoming callers into the TaskRouter queue.
-3. Configure your Twilio phone number to use the Studio flow.
-4. Deploy the TaskRouter Worker application and set the environment variables.
-5. Test the application, test the system.
-
-Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
-
-#### Call Flow
-
-<img src="flowDiagram.jpg" width="500"/>
-
-With Twilio Studio and TaskRouter, in less than two hours, you can set up a call flow, which is the bases of a call center. 
-This exercise will walk you through the steps to configure your Twilio phone number to receive calls and put them into a queue.
-The callers will listen to music while TaskRouter arranges an agent to take their call.
 
 When a caller is added into the queue, TaskRouter creates a reservation and then asks an agent if they will accept the call.
 The agent has the option to Accept, and be connected with the caller; or to Reject the call.
