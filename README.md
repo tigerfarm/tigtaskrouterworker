@@ -102,13 +102,13 @@ Drag an Enqueue Call widget onto the flow panel.
 
 ### Configure your Twilio phone number to use the Studio flow.
 
-In the Console, buy a phone number.
+In the Twilio Console, buy a phone number, if you don't already have one:
 https://www.twilio.com/console/phone-numbers/search
 
 In the phone number’s configuration page,
 - Set Voice & Fax, A Call Comes In, to: Studio Flow / Writers IVR
 
-Test, by calling your IVR Twilio phone number.
+Test, by using your mobile phone to call your IVR Twilio phone number.
 - You will hear your Say welcome message.
 - You will be put into the TaskRouter queue and hear the wait music.
 - Disconnect/hangup the call. Your IVR is successfully tested.
@@ -117,6 +117,7 @@ Test, by calling your IVR Twilio phone number.
 
 This application is ready to run.
 To deploy to Heroku, you will need an [Heroku account](https://heroku.com/) to host your application.
+Once you have an account, stay logged in for the deployment and configuration.
 
 Click the Deploy to Heroku link.
 
@@ -125,7 +126,7 @@ Click the Deploy to Heroku link.
 When you deploy to Heroku, you will be prompted for an app name. 
 The name needs to be unique. Example, enter your name+tw (example: davidtw). 
 Click Deploy app. Once the application is deployed, click Manage app. 
-Set Heroku project environment variables by clicking Settings. 
+Now, set the Heroku project environment variables by clicking Settings. 
 Click Reveal Config Vars.
 
 Add the following key value pairs:
@@ -137,7 +138,7 @@ Add the following key value pairs:
 Note, if you need to redeploy and keep the same Heroku URL, then remove the old app.
 - From the [Heroku dashboard](https://dashboard.heroku.com), select the app which is to be removed.
 - Click Settings. Go to the bottom and click Delete app.
-- Then, redeploy the app by click the GitHub Deploy to Heroku button. Note, you will need to re-enter the Config Vars.
+- Then, redeploy the app by click the GitHub Deploy to Heroku button. And, re-enter the Config Vars.
 
 ### Test the Application, Test the System
 
@@ -147,8 +148,8 @@ In your browser, go to your TaskRouter Workers Application.
 - Enter your token password.
 - Click Get access token. Worker status is displayed: Offline.
 - Click Go online. Worker status is displayed: Available.
-- Click Go online, and Go offline, to see how you set your availability.
-- Click Go online.
+- Click Go offline, and Go online, which is how you set your availability status.
+- Click Go online,to be available for a call reservation.
 
 <img src="TR_WorkerOnline.jpg" width="300"/>
 
@@ -168,12 +169,12 @@ Next steps:
 - Add sales workers ({"skills":["sales"],"contact_uri":"+16505552222"}).
 - Add sales as an IVR option in the Studio flow. This will require adding a Split widget and another Enqueue Call widget. Click [here](https://www.twilio.com/docs/studio#get-started-with-twilio-studio) for a sample flow with a Split widget.
 - Handle the case where no workers are available and the Workflow times out. Create and test a [Studio voicemail](https://www.twilio.com/docs/studio/widget-library#record-voicemail) flow. Link it into your Workflow timeout option.
-- Add business hours to your IVR. If a caller calls outside of the [business hours](https://www.twilio.com/blog/2018/06/custom-javascript-twilio-functions-code-studio-flows.html), go straight to voicemail.
-- Implement a Twilio Client so that the agents can receive calls on their laptop. Click [here](https://github.com/tigerfarm/OwlClient) for my sample Twilio Client which has more features such as putting callers on hold.
+- Add business hours to your IVR. If a caller calls outside of the [business hours](https://www.twilio.com/blog/2018/06/custom-javascript-twilio-functions-code-studio-flows.html), put them straight into voicemail.
+- Implement a Twilio Client so that agents can receive calls on their laptop. Click [here](https://github.com/tigerfarm/OwlClient) for my sample Twilio Client which has more features such as putting callers on hold.
 
 --------------------------------------------------------------------------------
 
-## Documentation
+## Documentation for Developers
 
 ### Local host Implementation using the included NodeJS HTTP Webserver
 
