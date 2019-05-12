@@ -47,7 +47,7 @@ When they accept a call, TaskRouter will dial their TaskRouter worker phone numb
 
 The setup instructions are located at this GitHub repository URL:
 
-https://github.com/tigerfarm/tigtaskrouterworker
+https://github.com/tigerfarm/tigtaskrouterworker/blob/master/README.md
 
 Implementation requirements:
 - You will need a [Twilio account](http://twilio.com/console). A free Trial account will work for testing.
@@ -57,8 +57,11 @@ Implementation requirements:
 
 ### Configure your TaskRouter Workspace
 
-Create a Workspace, Name: writers.
+Go to the TaskRouter dashboard:
 https://www.twilio.com/console/taskrouter/dashboard 
+
+Create a Workspace, and set:
+- Name: writers.
 
 Create a Caller TaskQueue, and set:
 - TaskQueue Name to: support.
