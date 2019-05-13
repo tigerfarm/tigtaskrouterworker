@@ -2,7 +2,7 @@
 
 With Twilio Studio and TaskRouter, in less than two hours, you can set up a call flow, which is the bases of a call center. 
 
-#### Call Flow
+#### Call Work Flow
 
 <img src="flowDiagram.jpg" width="600"/>
 
@@ -17,7 +17,7 @@ The callers will listen to music while TaskRouter arranges an agent to take thei
 
 Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
 
-Implementation requirements:
+#### Implementation requirements:
 - You will need a [Twilio account](http://twilio.com/console). A free Trial account will work for testing.
 - You will need an [Heroku account](https://heroku.com/) to host your application. A free account version will work for testing.
 - For testing, you will need at least 2 phone numbers; for example two mobile phone numbers: one to be the caller, the other phone number for the worker (agent).
@@ -40,16 +40,16 @@ Create a Workspace, and set:
 Create a Caller TaskQueue, and set:
 - TaskQueue Name to: support.
 - Max Reserved Workers: 1.
-- Queue expression: skills HAS "support"
+- Queue expression: skills HAS "support". Workers with the skill to handle support calls ("skills":["support"]) will be ask to take calls in this queue.
 
 Create a Workflow, and set:
 - Friendly Name: support.
-- Assignment Callback, Task Reservation Timeout: 10.
+- Assignment Callback, Task Reservation Timeout: 10. This gives the worker 10 seconds to accept the reservation before TaskRouter sets them to unavailable, and asks another worker to accept the call reservation.
 - Default queue: support.
 
 Create a Worker, and set:
 - Name: charles.
-- Attributes to: {"skills":["support"],"contact_uri":"+16505551111"}. Replace 16505551111, with your mobile phone number.
+- Attributes to: {"skills":["support"],"contact_uri":"+16505551111"}. Replace 16505551111, with your mobile phone number. This is the number that TaskRouter will use to call the worker.
 
 View Your TaskRouter Activities: Offline, Available, and Unavailable
 
@@ -61,12 +61,12 @@ https://www.twilio.com/console/studio
 Create a new flow, and set:
 - Friendly name: Writers IVR.
 
-Drag an Gather Input On Call widget onto the flow panel.
+Drag an Gather Input On Call widget onto the flow panel. This widget will welcome callers.
 - Join Trigger Incoming Call to the Gather widget.
 - Set the Text to Say to: "Welcome to Support. I will put you on hold while I find you an agent."
 - Set "Stop gathering after" to 1 digit.
 
-Drag an Enqueue Call widget onto the flow panel.
+Drag an Enqueue Call widget onto the flow panel. This widget will put callers into the TaskRouter support queue.
 - Join the Gather widget to the Enqueue Call widget.
 - Set the widget name to: enqueue_to_Support.
 - Set, TaskRouter Workspace, to: writers.
@@ -114,7 +114,7 @@ Note, if you need to redeploy and keep the same Heroku URL, then remove the old 
 - Click Settings. Go to the bottom and click Delete app.
 - Then, redeploy the app by click the GitHub Deploy to Heroku button. And, re-enter the Config Vars.
 
-### Test the Application, Test the System
+#### Test the Application, Test the System
 
 In your browser, go to your TaskRouter Workers Application.
 - WorkSpace name is displayed: writers.
@@ -127,6 +127,8 @@ In your browser, go to your TaskRouter Workers Application.
 
 <img src="TR_WorkerOnline.jpg" width="300"/>
 
+### Test the Call Work Flow System
+
 Call your IVR Twilio phone number, and you will be put into the TaskRouter queue.
 - In your TaskRouter Workers Application, Accept and Reject options are highlighted.
 <img src="TR_WorkerAr.jpg" width="300"/>
@@ -137,7 +139,7 @@ Call your IVR Twilio phone number, and you will be put into the TaskRouter queue
 
 You now have a working and tested TaskRouter implementation.
 
-Next steps:
+#### Next steps:
 - Add more workers.
 - Add a sales TaskRouter queue (skills HAS "sales") and Workflow.
 - Add sales workers ({"skills":["sales"],"contact_uri":"+16505552222"}).
