@@ -13,48 +13,21 @@ The callers will listen to music while TaskRouter arranges an agent to take thei
 2. Create a Studio flow to put incoming callers into the TaskRouter queue.
 3. Configure your Twilio phone number to use the Studio flow.
 4. Deploy the TaskRouter Worker application and set the environment variables.
-5. Test the application, test the system.
+5. Test the call work flow system.
 
 Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
-
---------------------------------------------------------------------------------
-
-## TaskRouter Worker Application Version 3.2
-
-This application is used by Twilio TaskRouter workers to 
-manage their availability status, accept or reject reservation calls,
-and end their reservation conference calls.
-
-## Functionality
-
-- Using their browser, the application allows workers to enter their identity and a password.
-- Workers manage their status: available to take a call, busy while on a call, or unavailable.
-- Status is displayed in the browser.
-- Workers can accept or reject a call reservation.
-- If a worker's reservation times out, the worker status is changed to unavailable.
-- A worker can end a call which disconnects all participants from the reservation conference call.
-- If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.
-
-Worker application screen print:
-
-<img src="TR_Worker.jpg" width="300"/>
-
-When a caller is added into the queue, TaskRouter creates a reservation and then asks an agent if they will accept the call.
-The agent has the option to Accept, and be connected with the caller; or to Reject the call.
-If the call is rejected, TaskRouter will ask the next available agent.
-
-Agents will use their web browser, on their computer, to manage their status: offline, or available to accept calls.
-When they accept a call, TaskRouter will dial their TaskRouter worker phone number, to connect them to the caller.
-
-The setup instructions are located at this GitHub repository URL:
-
-https://github.com/tigerfarm/tigtaskrouterworker/blob/master/README.md
 
 Implementation requirements:
 - You will need a [Twilio account](http://twilio.com/console). A free Trial account will work for testing.
 - You will need an [Heroku account](https://heroku.com/) to host your application. A free account version will work for testing.
 - For testing, you will need at least 2 phone numbers; for example two mobile phone numbers: one to be the caller, the other phone number for the worker (agent).
 - Developer skills are not required, as the sample application is functional, as is.
+
+The setup instructions are located at this GitHub repository URL:
+
+https://github.com/tigerfarm/tigtaskrouterworker/blob/master/README.md
+
+--------------------------------------------------------------------------------
 
 ### Configure your TaskRouter Workspace
 
@@ -232,6 +205,35 @@ taskReservationListFix.php : List task information and, if the status is wrappin
 workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
 
 nodeHttpServer.js : Node.js web server program for testing this application on a local host.
+
+--------------------------------------------------------------------------------
+
+## TaskRouter Worker Application Version 3.2
+
+This application is used by Twilio TaskRouter workers to 
+manage their availability status, accept or reject reservation calls,
+and end their reservation conference calls.
+
+## Functionality
+
+- Using their browser, the application allows workers to enter their identity and a password.
+- Workers manage their status: available to take a call, busy while on a call, or unavailable.
+- Status is displayed in the browser.
+- Workers can accept or reject a call reservation.
+- If a worker's reservation times out, the worker status is changed to unavailable.
+- A worker can end a call which disconnects all participants from the reservation conference call.
+- If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.
+
+Worker application screen print:
+
+<img src="TR_Worker.jpg" width="300"/>
+
+When a caller is added into the queue, TaskRouter creates a reservation and then asks an agent if they will accept the call.
+The agent has the option to Accept, and be connected with the caller; or to Reject the call.
+If the call is rejected, TaskRouter will ask the next available agent.
+
+Agents will use their web browser, on their computer, to manage their status: offline, or available to accept calls.
+When they accept a call, TaskRouter will dial their TaskRouter worker phone number, to connect them to the caller.
 
 --------------------------------------------------------------------------------
 
