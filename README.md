@@ -6,7 +6,7 @@ With Twilio Studio and TaskRouter, in less than two hours, you can set up a call
 
 <img src="flowDiagram.jpg" width="500"/>
 
-This exercise will walk you through the steps to configure your Twilio phone number to receive calls and put them into a queue.
+This exercise will walk you through the steps to configure your Twilio phone number to receive calls and put the callers into a queue.
 The callers will listen to music while TaskRouter arranges an agent to take their call.
 
 1. Configure your Twilio TaskRouter Workspace.
