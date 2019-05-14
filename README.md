@@ -9,11 +9,11 @@ With Twilio Studio and TaskRouter, in less than two hours, you can set up a call
 This exercise will walk you through the steps to configure your Twilio phone number to receive calls and put the callers into a queue.
 The callers will listen to music while TaskRouter arranges an agent to take their call.
 
-1. Configure your Twilio TaskRouter Workspace.
-2. Create a Studio flow to put incoming callers into the TaskRouter queue.
-3. Configure your Twilio phone number to use the Studio flow.
-4. Deploy the TaskRouter Worker application and set the environment variables.
-5. Test the call work flow system.
+1. [Configure](README.md#configure-your-taskrouter-workspace) your Twilio TaskRouter Workspace.
+2. [Create](README.md#configure-your-taskrouter-workspace) a Studio flow to put incoming callers into the TaskRouter queue.
+3. [Configure](README.md#configure-your-taskrouter-workspace) your Twilio phone number to use the Studio flow.
+4. [Deploy](README.md#configure-your-taskrouter-workspace) the TaskRouter Worker application and set the environment variables.
+5. [Test](README.md#configure-your-taskrouter-workspace) the call work flow system.
 
 Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
 
