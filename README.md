@@ -53,7 +53,7 @@ Create a Worker, and set:
 
 View Your TaskRouter Activities: Offline, Available, and Unavailable
 
-### Create an IVR Studio Flow to Manage Incoming Calls
+### Create an IVR, using Studio, to put incoming callers into the TaskRouter queue
 
 Go to the TaskRouter dashboard:
 https://www.twilio.com/console/studio
@@ -73,7 +73,7 @@ Drag an "Enqueue Call" widget onto the flow panel. This widget will put callers 
 
 <img src="StudioIvr.jpg" width="200"/>
 
-### Configure your Twilio phone number to use the Studio flow.
+### Configure your Twilio phone number to use the Studio IVR.
 
 In the Twilio Console, buy a phone number, if you don't already have one:
 https://www.twilio.com/console/phone-numbers/search
@@ -86,7 +86,7 @@ Test, by using your mobile phone to call your IVR Twilio phone number.
 - You will be put into the TaskRouter queue and hear the wait music.
 - Disconnect/hangup the call. Your IVR is successfully tested.
 
-### Deploy the TaskRouter Worker Application
+### Deploy the TaskRouter Worker Application and set the environment variables
 
 This application is ready to run.
 To deploy to Heroku, you will need an [Heroku account](https://heroku.com/) to host your application.
@@ -113,7 +113,7 @@ Note, if you need to redeploy and keep the same Heroku URL, then remove the old 
 - Click Settings. Go to the bottom and click Delete app.
 - Then, redeploy the app by click the GitHub Deploy to Heroku button. And, re-enter the Config Vars.
 
-#### Test the Application, Test the System
+#### Test the Application
 
 In your browser, go to your TaskRouter Workers Application.
 - WorkSpace name is displayed: writers.
