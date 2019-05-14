@@ -61,14 +61,13 @@ https://www.twilio.com/console/studio
 Create a new flow, and set:
 - Friendly name: Writers IVR.
 
-Drag an Gather Input On Call widget onto the flow panel. This widget will welcome callers.
+Drag a "Gather Input On Call" widget onto the flow panel. This widget will welcome callers.
 - Join Trigger Incoming Call to the Gather widget.
 - Set the Text to Say to: "Welcome to Support. I will put you on hold while I find you an agent."
 - Set "Stop gathering after" to 1 digit.
 
-Drag an Enqueue Call widget onto the flow panel. This widget will put callers into the TaskRouter support queue.
+Drag an "Enqueue Call" widget onto the flow panel. This widget will put callers into the TaskRouter support queue.
 - Join the Gather widget to the Enqueue Call widget.
-- Set the widget name to: enqueue_to_Support.
 - Set, TaskRouter Workspace, to: writers.
 - Set, TaskRouter Workflow, to: support.
 
