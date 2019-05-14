@@ -10,8 +10,8 @@ This exercise will walk you through the steps to configure your Twilio phone num
 The callers will listen to music while TaskRouter arranges an agent to take their call.
 
 1. [Configure](README.md#configure-your-taskrouter-workspace) your Twilio TaskRouter Workspace.
-2. [Create](README.md#create-an-ivr-studio-flow-to-manage-incoming-calls) a Studio flow IVR to put incoming callers into the TaskRouter queue.
-3. [Configure](README.md#configure-your-twilio-phone-number-to-use-the-studio-flow) your Twilio phone number to use the Studio flow.
+2. [Create](README.md#create-an-ivr-studio-flow-to-manage-incoming-calls) an IVR, using Studio, to put incoming callers into the TaskRouter queue.
+3. [Configure](README.md#configure-your-twilio-phone-number-to-use-the-studio-flow) your Twilio phone number to use the Studio IVR.
 4. [Deploy](README.md#deploy-the-taskrouter-worker-application) the TaskRouter Worker application and set the environment variables.
 5. [Test](README.md#test-the-call-work-flow-system) the call work flow system.
 
