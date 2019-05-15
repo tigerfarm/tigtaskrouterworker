@@ -158,6 +158,28 @@ You now have a working and tested TaskRouter implementation.
 
 --------------------------------------------------------------------------------
 
+## TaskRouter Worker Application Version 3.2
+
+This application is used by Twilio TaskRouter workers to 
+manage their availability status, accept or reject reservation calls,
+and end their reservation conference calls.
+
+## Functionality
+
+- Using their browser, the application allows workers to enter their identity and a password.
+- Workers manage their status: available to take a call, busy while on a call, or unavailable.
+- Status is displayed in the browser.
+- Workers can accept or reject a call reservation.
+- If a worker's reservation times out, the worker status is changed to unavailable.
+- A worker can end a call which disconnects all participants from the reservation conference call.
+- If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.
+
+Worker application screen print:
+
+<img src="TR_Worker.jpg" width="300"/>
+
+--------------------------------------------------------------------------------
+
 ## Documentation for Developers
 
 ### Local host Implementation using the included NodeJS HTTP Webserver
@@ -215,28 +237,6 @@ taskReservationListFix.php : List task information and, if the status is wrappin
 workerStatus.js : Node.js program to list the status of all the WorkSpace workers.
 
 nodeHttpServer.js : Node.js web server program for testing this application on a local host.
-
---------------------------------------------------------------------------------
-
-## TaskRouter Worker Application Version 3.2
-
-This application is used by Twilio TaskRouter workers to 
-manage their availability status, accept or reject reservation calls,
-and end their reservation conference calls.
-
-## Functionality
-
-- Using their browser, the application allows workers to enter their identity and a password.
-- Workers manage their status: available to take a call, busy while on a call, or unavailable.
-- Status is displayed in the browser.
-- Workers can accept or reject a call reservation.
-- If a worker's reservation times out, the worker status is changed to unavailable.
-- A worker can end a call which disconnects all participants from the reservation conference call.
-- If a task is set to wrapping, it is automatically reset to completed. This avoids a worker not being able to reset their status.
-
-Worker application screen print:
-
-<img src="TR_Worker.jpg" width="300"/>
 
 --------------------------------------------------------------------------------
 
