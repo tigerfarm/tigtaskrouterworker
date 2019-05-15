@@ -10,7 +10,7 @@ This exercise will walk you through the steps to configure your Twilio phone num
 The callers will listen to music while TaskRouter arranges an agent to take their call.
 
 1. [Configure](README.md#configure-your-taskrouter-workspace) your Twilio TaskRouter Workspace.
-2. [Create](README.md#create-an-ivr-studio-flow-to-manage-incoming-calls) an IVR, using Studio, to put incoming callers into the TaskRouter queue.
+2. [Create](README.md#create-an-ivr-studio-flow-to-manage-incoming-calls) an IVR, using Studio, to welcome the caller and put them into the TaskRouter queue.
 3. [Configure](README.md#configure-your-twilio-phone-number-to-use-the-studio-flow) your Twilio phone number to use the Studio IVR.
 4. [Deploy](README.md#deploy-the-taskrouter-worker-application) the TaskRouter Worker application and set the environment variables.
 5. [Test](README.md#test-the-call-work-flow-system) the call work flow system.
@@ -30,6 +30,10 @@ https://github.com/tigerfarm/tigtaskrouterworker/blob/master/README.md
 --------------------------------------------------------------------------------
 
 ### Configure your TaskRouter Workspace
+
+When a caller is added into the queue, TaskRouter creates a reservation and then asks an agent if they will accept the call.
+The agent has the option to Accept, and be connected with the caller; or to Reject the call.
+If the call is rejected, TaskRouter will ask the next available agent.
 
 Go to the TaskRouter dashboard:
 https://www.twilio.com/console/taskrouter/dashboard 
@@ -53,7 +57,9 @@ Create a Worker, and set:
 
 View Your TaskRouter Activities: Offline, Available, and Unavailable
 
-### Create an IVR, using Studio, to put incoming callers into the TaskRouter queue
+### Create an IVR Using Studio
+
+The Studio flow will welcome the call and then put them incoming into the TaskRouter support queue.
 
 Go to the TaskRouter dashboard:
 https://www.twilio.com/console/studio
@@ -87,6 +93,8 @@ Test, by using your mobile phone to call your IVR Twilio phone number.
 - Disconnect/hangup the call. Your IVR is successfully tested.
 
 ### Deploy the TaskRouter Worker Application and set the environment variables
+
+Agents will use their web browser, on their computer, to manage their status: offline, or available to accept calls.
 
 This application is ready to run.
 To deploy to Heroku, you will need an [Heroku account](https://heroku.com/) to host your application.
@@ -132,7 +140,8 @@ Call your IVR Twilio phone number, and you will be put into the TaskRouter queue
 - In your TaskRouter Workers Application, Accept and Reject options are highlighted.
 <img src="TR_WorkerAr.jpg" width="300"/>
 
-- Click Accept. Your phone will ring, and, End conference will be highlighted because the call is a conference call.
+- Click Accept. When you accept a call, TaskRouter will dial your TaskRouter worker phone number("contact_uri").
+- Your phone will ring, and, End conference will be highlighted because the call is a conference call.
 - Answer your phone, and you are connected to the caller.
 - Click End conference, and both you (the TaskRouter worker) and the caller are disconnected from the conference; the conference is ended.
 
@@ -228,13 +237,6 @@ and end their reservation conference calls.
 Worker application screen print:
 
 <img src="TR_Worker.jpg" width="300"/>
-
-When a caller is added into the queue, TaskRouter creates a reservation and then asks an agent if they will accept the call.
-The agent has the option to Accept, and be connected with the caller; or to Reject the call.
-If the call is rejected, TaskRouter will ask the next available agent.
-
-Agents will use their web browser, on their computer, to manage their status: offline, or available to accept calls.
-When they accept a call, TaskRouter will dial their TaskRouter worker phone number, to connect them to the caller.
 
 --------------------------------------------------------------------------------
 
