@@ -79,7 +79,8 @@ Drag an "Enqueue Call" widget onto the flow panel. This widget will put callers 
 
 <img src="StudioIvr.jpg" width="200"/>
 
-If you are creating the Studio flow with your phone, you can import the following JSON.
+If you are creating the Studio flow with your phone (drag and drop may not work), use the New Flow option: Import from JSON.
+Copy and paste the following JSON, as your New Flow JSON Flow definition text.
 ````
 {
   "description": "A New Flow",
@@ -92,7 +93,7 @@ If you are creating the Studio flow with your phone, you can import the followin
           "x": 0,
           "y": 0
         },
-        "flow_url": "https://webhooks.twilio.com/v1/Accounts/ACb666e3a4193a029f6fe28e63e9659a78/Flows/FW787c8de4bb9577e9697dba201f9f467f"
+        "flow_url": "https://webhooks.twilio.com/v1/Accounts/ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/Flows/FWxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
       },
       "transitions": [
         {
