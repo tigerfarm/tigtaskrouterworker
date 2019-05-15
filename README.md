@@ -79,6 +79,128 @@ Drag an "Enqueue Call" widget onto the flow panel. This widget will put callers 
 
 <img src="StudioIvr.jpg" width="200"/>
 
+If you are creating the Studio flow with your phone, you can import the following JSON.
+````
+{
+  "description": "A New Flow",
+  "states": [
+    {
+      "type": "InitialState",
+      "name": "Trigger",
+      "properties": {
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "flow_url": "https://webhooks.twilio.com/v1/Accounts/ACb666e3a4193a029f6fe28e63e9659a78/Flows/FW787c8de4bb9577e9697dba201f9f467f"
+      },
+      "transitions": [
+        {
+          "event": "incomingMessage",
+          "conditions": [],
+          "next": null,
+          "uuid": "0ec90fc9-0b8e-4dbc-b14f-988146b3f22b"
+        },
+        {
+          "event": "incomingCall",
+          "conditions": [],
+          "next": "FFed2061cbcccea5d1e81bc370443c86af",
+          "uuid": "fc31453e-5e84-4aa2-a3db-ddf78d6a2995"
+        },
+        {
+          "event": "incomingRequest",
+          "conditions": [],
+          "next": null,
+          "uuid": "ee80989e-62de-486a-91df-1633532be716"
+        }
+      ],
+      "sid": "FF855b9620cafaf5495d85b14458ea7f87"
+    },
+    {
+      "type": "Gather",
+      "name": "gather_1",
+      "properties": {
+        "offset": {
+          "x": 0,
+          "y": 190
+        },
+        "timeout": 5,
+        "finish_on_key": "#",
+        "stop_gather": true,
+        "number_of_digits": 1,
+        "save_response_as": null,
+        "say": "Welcome to Support. I will put you on hold while I find you an agent.",
+        "play": null,
+        "voice": "alice",
+        "language": "en",
+        "loop": 1,
+        "hints": null,
+        "gather_language": "en"
+      },
+      "transitions": [
+        {
+          "event": "keypress",
+          "conditions": [],
+          "next": "FFe0bce614d5fbf9de2ab854b1ee64336b",
+          "uuid": "5c6ed01c-2698-46ef-b6a1-7bad7129281c"
+        },
+        {
+          "event": "speech",
+          "conditions": [],
+          "next": null,
+          "uuid": "e2d838f2-dd7f-4ba5-8c88-813311692a06"
+        },
+        {
+          "event": "timeout",
+          "conditions": [],
+          "next": "FFe0bce614d5fbf9de2ab854b1ee64336b",
+          "uuid": "27c7cac7-7daf-488c-8b2b-194661878120"
+        }
+      ],
+      "sid": "FFed2061cbcccea5d1e81bc370443c86af"
+    },
+    {
+      "type": "EnqueueCall",
+      "name": "enqueue_1",
+      "properties": {
+        "offset": {
+          "x": 20,
+          "y": 410
+        },
+        "workflow_sid": "WW1dcfb9e1569ae293adfac3b5289e7d49",
+        "queue_name": null,
+        "priority": null,
+        "timeout": null,
+        "task_attributes": null,
+        "wait_url": null,
+        "wait_url_method": null
+      },
+      "transitions": [
+        {
+          "event": "callComplete",
+          "conditions": [],
+          "next": null,
+          "uuid": "9ea0ebfa-a42d-424a-bba5-1c2acbfc529f"
+        },
+        {
+          "event": "failedToEnqueue",
+          "conditions": [],
+          "next": null,
+          "uuid": "6f1f9e4d-fdad-41ce-a925-8a89ebed763d"
+        },
+        {
+          "event": "callFailure",
+          "conditions": [],
+          "next": null,
+          "uuid": "a52e5ee1-f13e-49ed-af93-6db25d8ec3ed"
+        }
+      ],
+      "sid": "FFe0bce614d5fbf9de2ab854b1ee64336b"
+    }
+  ]
+}
+````
+
 ### Configure your Twilio phone number to use the Studio IVR.
 
 In the Twilio Console, buy a phone number, if you don't already have one:
