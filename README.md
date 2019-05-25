@@ -15,7 +15,7 @@ The callers will listen to music while TaskRouter arranges an agent to take thei
 4. [Deploy](README.md#deploy-the-taskrouter-worker-application) the TaskRouter Worker application and set the environment variables.
 5. [Test](README.md#test-the-call-work-flow-system) the call work flow system.
 
-Click [here](https://www.loom.com/share/f7b6cb45e12a439aaaef05affb714acb) for a video of me walking through the steps.
+Click [here](https://www.youtube.com/watch?v=OElX06i40Mg) for a video of me walking through the steps.
 
 #### Implementation requirements:
 - You will need a [Twilio account](http://twilio.com/console). A free Trial account will work for testing.
