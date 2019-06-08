@@ -123,7 +123,7 @@ function taskReservationTaskFix() {
         logger("Task check: " + thisResponse);
     })
             .fail(function () {
-                logger("- Error running Task Reservation Fix for status: wrapping.");
+                logger("- Error running Task Reservation, possible cause, status: wrapping.");
                 logger("-- The response: " + thisResponse);
                 return;
             });
