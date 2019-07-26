@@ -1,0 +1,6 @@
+# Ignore my specific files and directories:
+#
+setheroku.sh
+#
+/node_modules/
+#
