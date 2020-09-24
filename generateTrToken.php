@@ -1,25 +1,26 @@
 <?php
 // -------------------------------------------------------
-$token_password = getenv("TOKEN_PASSWORD");
-if ($argc > 1 ) {
-    $tokenPassword = $argv[1];
-} else {
-    $tokenPassword = $_GET['tokenPassword'];
+// clientid : a TaskRouter Worker.
+// tokenPassword : text string match to environment variable TOKEN_PASSWORD.
+// -------------------------------------------------------
+$clientid = htmlspecialchars($_GET["clientid"]);
+if ($clientid == "") {
+    $clientid = getenv('CLIENT_ID');
+    if ($clientid == "") {
+        echo '-- CLIENT_ID must be an environment variable or GET parameter.';
+        return;
+    }
 }
+
+$tokenPassword = htmlspecialchars($_GET["tokenPassword"]);
+if ($tokenPassword == "") {
+    echo '-- tokenPassword must be a GET parameter.';
+    return;
+}
+$token_password = getenv("TOKEN_PASSWORD");
 if ($token_password !== $tokenPassword) {
     // echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
     echo "0";
-    return;
-}
-$clientid = "";
-if ($argc > 2 ) {
-    $clientid = $argv[2];
-} else {
-    $clientid = $_REQUEST['clientid'];
-}
-if ($clientid == "") {
-    // echo "1" . " :" . $clientid . ":";
-    echo "1";
     return;
 }
 // -------------------------------------------------------

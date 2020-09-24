@@ -41,7 +41,7 @@ https://www.twilio.com/console/taskrouter/dashboard
 Create a Workspace, and set:
 - Name: writers.
 
-Create a Caller TaskQueue, and set:
+Create a TaskQueue for callers, and set:
 - TaskQueue Name to: support.
 - Max Reserved Workers: 1.
 - Queue expression: skills HAS "support". Workers with the skill to handle support calls ("skills":["support"]) will be ask to take calls in this queue.
@@ -49,7 +49,7 @@ Create a Caller TaskQueue, and set:
 Create a Workflow, and set:
 - Friendly Name: support.
 - Assignment Callback, Task Reservation Timeout: 10. This gives the worker 10 seconds to accept the reservation before TaskRouter sets them to unavailable, and asks another worker to accept the call reservation.
-- Default queue: support.
+- Default queue: support. Note, I had to shrink the screen print to be able to see "support" as an option.
 
 Create a Worker, and set:
 - Name: charles.
@@ -66,6 +66,7 @@ https://www.twilio.com/console/studio
 
 Create a new flow, and set:
 - Friendly name: Writers IVR.
+- Use the default: Start from scratch.
 
 Drag a "Gather Input On Call" widget onto the flow panel. This widget will welcome callers.
 - Join Trigger Incoming Call to the Gather widget.
@@ -79,7 +80,9 @@ Drag an "Enqueue Call" widget onto the flow panel. This widget will put callers 
 
 <img src="StudioIvr.jpg" width="200"/>
 
-If you are creating the Studio flow with your phone (drag and drop may not work), use the New Flow option: Import from JSON.
+Click Save. Click Publish. The Studio is complete and ready to use.
+
+--- Or, if you are creating the Studio flow with your phone (drag and drop may not work), use the New Flow option: Import from JSON.
 Copy and paste the following JSON, as your New Flow JSON Flow definition text.
 ````
 {
