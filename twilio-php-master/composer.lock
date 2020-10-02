@@ -77,7 +77,7 @@
                 "kukulich/fshl": "~2.1",
                 "latte/latte": ">=2.2.0,<2.3.5",
                 "michelf/php-markdown": "~1.4",
-                "nette/application": "~2.2",
+                "nette/application": "~2.3.14",
                 "nette/bootstrap": "~2.2",
                 "nette/di": "~2.2",
                 "nette/mail": "~2.2",
