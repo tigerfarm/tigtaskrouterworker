@@ -4,3 +4,4 @@ setheroku.sh
 #
 /node_modules/
 #
+/nbproject/private/
