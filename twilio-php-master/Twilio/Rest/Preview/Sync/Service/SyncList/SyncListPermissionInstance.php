@@ -16,33 +16,32 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
- * @property string accountSid
- * @property string serviceSid
- * @property string listSid
- * @property string identity
- * @property boolean read
- * @property boolean write
- * @property boolean manage
- * @property string url
+ *
+ * @property string $accountSid
+ * @property string $serviceSid
+ * @property string $listSid
+ * @property string $identity
+ * @property bool $read
+ * @property bool $write
+ * @property bool $manage
+ * @property string $url
  */
 class SyncListPermissionInstance extends InstanceResource {
     /**
      * Initialize the SyncListPermissionInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
      * @param string $serviceSid Sync Service Instance SID.
      * @param string $listSid Sync List SID.
      * @param string $identity Identity of the user to whom the Sync List
      *                         Permission applies.
-     * @return \Twilio\Rest\Preview\Sync\Service\SyncList\SyncListPermissionInstance 
      */
-    public function __construct(Version $version, array $payload, $serviceSid, $listSid, $identity = null) {
+    public function __construct(Version $version, array $payload, string $serviceSid, string $listSid, string $identity = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'serviceSid' => Values::array_get($payload, 'service_sid'),
             'listSid' => Values::array_get($payload, 'list_sid'),
@@ -51,22 +50,22 @@ class SyncListPermissionInstance extends InstanceResource {
             'write' => Values::array_get($payload, 'write'),
             'manage' => Values::array_get($payload, 'manage'),
             'url' => Values::array_get($payload, 'url'),
-        );
+        ];
 
-        $this->solution = array(
+        $this->solution = [
             'serviceSid' => $serviceSid,
             'listSid' => $listSid,
             'identity' => $identity ?: $this->properties['identity'],
-        );
+        ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Preview\Sync\Service\SyncList\SyncListPermissionContext Context for this SyncListPermissionInstance
+     *
+     * @return SyncListPermissionContext Context for this SyncListPermissionInstance
      */
-    protected function proxy() {
+    protected function proxy(): SyncListPermissionContext {
         if (!$this->context) {
             $this->context = new SyncListPermissionContext(
                 $this->version,
@@ -80,52 +79,52 @@ class SyncListPermissionInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a SyncListPermissionInstance
-     * 
+     * Fetch the SyncListPermissionInstance
+     *
      * @return SyncListPermissionInstance Fetched SyncListPermissionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): SyncListPermissionInstance {
         return $this->proxy()->fetch();
     }
 
     /**
-     * Deletes the SyncListPermissionInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the SyncListPermissionInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
      * Update the SyncListPermissionInstance
-     * 
-     * @param boolean $read Read access.
-     * @param boolean $write Write access.
-     * @param boolean $manage Manage access.
+     *
+     * @param bool $read Read access.
+     * @param bool $write Write access.
+     * @param bool $manage Manage access.
      * @return SyncListPermissionInstance Updated SyncListPermissionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($read, $write, $manage) {
+    public function update(bool $read, bool $write, bool $manage): SyncListPermissionInstance {
         return $this->proxy()->update($read, $write, $manage);
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -134,14 +133,14 @@ class SyncListPermissionInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Sync.SyncListPermissionInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Sync.SyncListPermissionInstance ' . \implode(' ', $context) . ']';
     }
 }

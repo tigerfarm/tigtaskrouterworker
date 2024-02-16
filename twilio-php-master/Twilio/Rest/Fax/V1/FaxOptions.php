@@ -17,49 +17,52 @@ use Twilio\Values;
  */
 abstract class FaxOptions {
     /**
-     * @param string $from Include only faxes sent from
-     * @param string $to Include only faxes sent to
-     * @param \DateTime $dateCreatedOnOrBefore Include only faxes created on or
-     *                                         before
-     * @param \DateTime $dateCreatedAfter Include only faxes created after
+     * @param string $from Retrieve only those faxes sent from this phone number
+     * @param string $to Retrieve only those faxes sent to this phone number
+     * @param \DateTime $dateCreatedOnOrBefore Retrieve only faxes created on or
+     *                                         before this date
+     * @param \DateTime $dateCreatedAfter Retrieve only faxes created after this
+     *                                    date
      * @return ReadFaxOptions Options builder
      */
-    public static function read($from = Values::NONE, $to = Values::NONE, $dateCreatedOnOrBefore = Values::NONE, $dateCreatedAfter = Values::NONE) {
+    public static function read(string $from = Values::NONE, string $to = Values::NONE, \DateTime $dateCreatedOnOrBefore = Values::NONE, \DateTime $dateCreatedAfter = Values::NONE): ReadFaxOptions {
         return new ReadFaxOptions($from, $to, $dateCreatedOnOrBefore, $dateCreatedAfter);
     }
 
     /**
      * @param string $quality The quality of this fax
-     * @param string $statusCallback URL for fax status callbacks
-     * @param string $from Twilio number from which to originate the fax
-     * @param string $sipAuthUsername Username for SIP authentication
-     * @param string $sipAuthPassword Password for SIP authentication
-     * @param boolean $storeMedia Whether or not to store media
-     * @param integer $ttl How many minutes to attempt a fax
+     * @param string $statusCallback The URL we should call to send status
+     *                               information to your application
+     * @param string $from The number the fax was sent from
+     * @param string $sipAuthUsername The username for SIP authentication
+     * @param string $sipAuthPassword The password for SIP authentication
+     * @param bool $storeMedia Whether to store a copy of the sent media
+     * @param int $ttl How long in minutes to try to send the fax
      * @return CreateFaxOptions Options builder
      */
-    public static function create($quality = Values::NONE, $statusCallback = Values::NONE, $from = Values::NONE, $sipAuthUsername = Values::NONE, $sipAuthPassword = Values::NONE, $storeMedia = Values::NONE, $ttl = Values::NONE) {
+    public static function create(string $quality = Values::NONE, string $statusCallback = Values::NONE, string $from = Values::NONE, string $sipAuthUsername = Values::NONE, string $sipAuthPassword = Values::NONE, bool $storeMedia = Values::NONE, int $ttl = Values::NONE): CreateFaxOptions {
         return new CreateFaxOptions($quality, $statusCallback, $from, $sipAuthUsername, $sipAuthPassword, $storeMedia, $ttl);
     }
 
     /**
-     * @param string $status The updated status of this fax
+     * @param string $status The new status of the resource
      * @return UpdateFaxOptions Options builder
      */
-    public static function update($status = Values::NONE) {
+    public static function update(string $status = Values::NONE): UpdateFaxOptions {
         return new UpdateFaxOptions($status);
     }
 }
 
 class ReadFaxOptions extends Options {
     /**
-     * @param string $from Include only faxes sent from
-     * @param string $to Include only faxes sent to
-     * @param \DateTime $dateCreatedOnOrBefore Include only faxes created on or
-     *                                         before
-     * @param \DateTime $dateCreatedAfter Include only faxes created after
+     * @param string $from Retrieve only those faxes sent from this phone number
+     * @param string $to Retrieve only those faxes sent to this phone number
+     * @param \DateTime $dateCreatedOnOrBefore Retrieve only faxes created on or
+     *                                         before this date
+     * @param \DateTime $dateCreatedAfter Retrieve only faxes created after this
+     *                                    date
      */
-    public function __construct($from = Values::NONE, $to = Values::NONE, $dateCreatedOnOrBefore = Values::NONE, $dateCreatedAfter = Values::NONE) {
+    public function __construct(string $from = Values::NONE, string $to = Values::NONE, \DateTime $dateCreatedOnOrBefore = Values::NONE, \DateTime $dateCreatedAfter = Values::NONE) {
         $this->options['from'] = $from;
         $this->options['to'] = $to;
         $this->options['dateCreatedOnOrBefore'] = $dateCreatedOnOrBefore;
@@ -67,77 +70,74 @@ class ReadFaxOptions extends Options {
     }
 
     /**
-     * Filters the returned list to only include faxes sent from the supplied number, given in E.164 format.
-     * 
-     * @param string $from Include only faxes sent from
+     * Retrieve only those faxes sent from this phone number, specified in [E.164](https://www.twilio.com/docs/glossary/what-e164) format.
+     *
+     * @param string $from Retrieve only those faxes sent from this phone number
      * @return $this Fluent Builder
      */
-    public function setFrom($from) {
+    public function setFrom(string $from): self {
         $this->options['from'] = $from;
         return $this;
     }
 
     /**
-     * Filters the returned list to only include faxes sent to the supplied number, given in E.164 format.
-     * 
-     * @param string $to Include only faxes sent to
+     * Retrieve only those faxes sent to this phone number, specified in [E.164](https://www.twilio.com/docs/glossary/what-e164) format.
+     *
+     * @param string $to Retrieve only those faxes sent to this phone number
      * @return $this Fluent Builder
      */
-    public function setTo($to) {
+    public function setTo(string $to): self {
         $this->options['to'] = $to;
         return $this;
     }
 
     /**
-     * Filters the returned list to only include faxes created on or before the supplied date, given in ISO 8601 format.
-     * 
-     * @param \DateTime $dateCreatedOnOrBefore Include only faxes created on or
-     *                                         before
+     * Retrieve only those faxes with a `date_created` that is before or equal to this value, specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+     *
+     * @param \DateTime $dateCreatedOnOrBefore Retrieve only faxes created on or
+     *                                         before this date
      * @return $this Fluent Builder
      */
-    public function setDateCreatedOnOrBefore($dateCreatedOnOrBefore) {
+    public function setDateCreatedOnOrBefore(\DateTime $dateCreatedOnOrBefore): self {
         $this->options['dateCreatedOnOrBefore'] = $dateCreatedOnOrBefore;
         return $this;
     }
 
     /**
-     * Filters the returned list to only include faxes created after the supplied date, given in ISO 8601 format.
-     * 
-     * @param \DateTime $dateCreatedAfter Include only faxes created after
+     * Retrieve only those faxes with a `date_created` that is later than this value, specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+     *
+     * @param \DateTime $dateCreatedAfter Retrieve only faxes created after this
+     *                                    date
      * @return $this Fluent Builder
      */
-    public function setDateCreatedAfter($dateCreatedAfter) {
+    public function setDateCreatedAfter(\DateTime $dateCreatedAfter): self {
         $this->options['dateCreatedAfter'] = $dateCreatedAfter;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Fax.V1.ReadFaxOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Fax.V1.ReadFaxOptions ' . $options . ']';
     }
 }
 
 class CreateFaxOptions extends Options {
     /**
      * @param string $quality The quality of this fax
-     * @param string $statusCallback URL for fax status callbacks
-     * @param string $from Twilio number from which to originate the fax
-     * @param string $sipAuthUsername Username for SIP authentication
-     * @param string $sipAuthPassword Password for SIP authentication
-     * @param boolean $storeMedia Whether or not to store media
-     * @param integer $ttl How many minutes to attempt a fax
+     * @param string $statusCallback The URL we should call to send status
+     *                               information to your application
+     * @param string $from The number the fax was sent from
+     * @param string $sipAuthUsername The username for SIP authentication
+     * @param string $sipAuthPassword The password for SIP authentication
+     * @param bool $storeMedia Whether to store a copy of the sent media
+     * @param int $ttl How long in minutes to try to send the fax
      */
-    public function __construct($quality = Values::NONE, $statusCallback = Values::NONE, $from = Values::NONE, $sipAuthUsername = Values::NONE, $sipAuthPassword = Values::NONE, $storeMedia = Values::NONE, $ttl = Values::NONE) {
+    public function __construct(string $quality = Values::NONE, string $statusCallback = Values::NONE, string $from = Values::NONE, string $sipAuthUsername = Values::NONE, string $sipAuthPassword = Values::NONE, bool $storeMedia = Values::NONE, int $ttl = Values::NONE) {
         $this->options['quality'] = $quality;
         $this->options['statusCallback'] = $statusCallback;
         $this->options['from'] = $from;
@@ -148,129 +148,120 @@ class CreateFaxOptions extends Options {
     }
 
     /**
-     * A [quality value](https://www.twilio.com/docs/api/fax/rest/faxes#fax-quality-values), which defaults to `fine`
-     * 
+     * The [Fax Quality value](https://www.twilio.com/docs/fax/api/fax-resource#fax-quality-values) that describes the fax quality. Can be: `standard`, `fine`, or `superfine` and defaults to `fine`.
+     *
      * @param string $quality The quality of this fax
      * @return $this Fluent Builder
      */
-    public function setQuality($quality) {
+    public function setQuality(string $quality): self {
         $this->options['quality'] = $quality;
         return $this;
     }
 
     /**
-     * A [status callback](https://www.twilio.com/docs/api/fax/rest/faxes#fax-status-callback) URL that will receive a POST when the status of the fax changes
-     * 
-     * @param string $statusCallback URL for fax status callbacks
+     * The URL we should call using the `POST` method to send [status information](https://www.twilio.com/docs/fax/api/fax-resource#fax-status-callback) to your application when the status of the fax changes.
+     *
+     * @param string $statusCallback The URL we should call to send status
+     *                               information to your application
      * @return $this Fluent Builder
      */
-    public function setStatusCallback($statusCallback) {
+    public function setStatusCallback(string $statusCallback): self {
         $this->options['statusCallback'] = $statusCallback;
         return $this;
     }
 
     /**
-     * The phone number to use as the caller id, E.164-formatted. If using a phone number, it must be a Twilio number or a verified outgoing caller id for your account. If sending to a SIP address, this can be any alphanumeric string (plus the characters `+`, `_`, `.`, and `-`) to use in the From header of the SIP request.
-     * 
-     * @param string $from Twilio number from which to originate the fax
+     * The number the fax was sent from. Can be the phone number in [E.164](https://www.twilio.com/docs/glossary/what-e164) format or the SIP `from` value. The caller ID displayed to the recipient uses this value. If this is a phone number, it must be a Twilio number or a verified outgoing caller id from your account. If `to` is a SIP address, this can be any alphanumeric string (and also the characters `+`, `_`, `.`, and `-`), which will be used in the `from` header of the SIP request.
+     *
+     * @param string $from The number the fax was sent from
      * @return $this Fluent Builder
      */
-    public function setFrom($from) {
+    public function setFrom(string $from): self {
         $this->options['from'] = $from;
         return $this;
     }
 
     /**
-     * The username to use for authentication when sending to a SIP address.
-     * 
-     * @param string $sipAuthUsername Username for SIP authentication
+     * The username to use with the `sip_auth_password` to authenticate faxes sent to a SIP address.
+     *
+     * @param string $sipAuthUsername The username for SIP authentication
      * @return $this Fluent Builder
      */
-    public function setSipAuthUsername($sipAuthUsername) {
+    public function setSipAuthUsername(string $sipAuthUsername): self {
         $this->options['sipAuthUsername'] = $sipAuthUsername;
         return $this;
     }
 
     /**
-     * The password to use for authentication when sending to a SIP address.
-     * 
-     * @param string $sipAuthPassword Password for SIP authentication
+     * The password to use with `sip_auth_username` to authenticate faxes sent to a SIP address.
+     *
+     * @param string $sipAuthPassword The password for SIP authentication
      * @return $this Fluent Builder
      */
-    public function setSipAuthPassword($sipAuthPassword) {
+    public function setSipAuthPassword(string $sipAuthPassword): self {
         $this->options['sipAuthPassword'] = $sipAuthPassword;
         return $this;
     }
 
     /**
-     * Whether or not to store a copy of the sent media on Twilio's servers for later retrieval (defaults to `true`)
-     * 
-     * @param boolean $storeMedia Whether or not to store media
+     * Whether to store a copy of the sent media on our servers for later retrieval. Can be: `true` or `false` and the default is `true`.
+     *
+     * @param bool $storeMedia Whether to store a copy of the sent media
      * @return $this Fluent Builder
      */
-    public function setStoreMedia($storeMedia) {
+    public function setStoreMedia(bool $storeMedia): self {
         $this->options['storeMedia'] = $storeMedia;
         return $this;
     }
 
     /**
-     * How many minutes from when a fax was initiated should Twilio attempt to send a fax.
-     * 
-     * @param integer $ttl How many minutes to attempt a fax
+     * How long in minutes from when the fax is initiated that we should try to send the fax.
+     *
+     * @param int $ttl How long in minutes to try to send the fax
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Fax.V1.CreateFaxOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Fax.V1.CreateFaxOptions ' . $options . ']';
     }
 }
 
 class UpdateFaxOptions extends Options {
     /**
-     * @param string $status The updated status of this fax
+     * @param string $status The new status of the resource
      */
-    public function __construct($status = Values::NONE) {
+    public function __construct(string $status = Values::NONE) {
         $this->options['status'] = $status;
     }
 
     /**
-     * The updated status of this fax. The only valid option is `canceled`. This may fail if the status has already started transmission.
-     * 
-     * @param string $status The updated status of this fax
+     * The new [status](https://www.twilio.com/docs/fax/api/fax-resource#fax-status-values) of the resource. Can be only `canceled`. This may fail if transmission has already started.
+     *
+     * @param string $status The new status of the resource
      * @return $this Fluent Builder
      */
-    public function setStatus($status) {
+    public function setStatus(string $status): self {
         $this->options['status'] = $status;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Fax.V1.UpdateFaxOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Fax.V1.UpdateFaxOptions ' . $options . ']';
     }
 }

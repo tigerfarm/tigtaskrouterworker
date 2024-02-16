@@ -14,16 +14,16 @@ class FaxResponse extends TwiML {
      * FaxResponse constructor.
      */
     public function __construct() {
-        parent::__construct('Response');
+        parent::__construct('Response', null);
     }
 
     /**
      * Add Receive child.
-     * 
+     *
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Fax\Receive Child element.
      */
-    public function receive($attributes = array()) {
+    public function receive($attributes = []): Fax\Receive {
         return $this->nest(new Fax\Receive($attributes));
     }
 }

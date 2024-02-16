@@ -9,27 +9,28 @@
 
 namespace Twilio\Rest\Taskrouter\V1\Workspace;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\ListResource;
 use Twilio\Options;
+use Twilio\Stream;
 use Twilio\Values;
 use Twilio\Version;
 
 class WorkflowList extends ListResource {
     /**
      * Construct the WorkflowList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The ID of the Workspace that contains this
+     * @param string $workspaceSid The SID of the Workspace that contains the
      *                             Workflow
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkflowList 
      */
-    public function __construct(Version $version, $workspaceSid) {
+    public function __construct(Version $version, string $workspaceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('workspaceSid' => $workspaceSid, );
+        $this->solution = ['workspaceSid' => $workspaceSid, ];
 
-        $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Workflows';
+        $this->uri = '/Workspaces/' . \rawurlencode($workspaceSid) . '/Workflows';
     }
 
     /**
@@ -39,7 +40,7 @@ class WorkflowList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. stream()
      *                   guarantees to never return more than limit.  Default is no
@@ -49,9 +50,9 @@ class WorkflowList extends ListResource {
      *                        page_size is defined but a limit is defined, stream()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
-     * @return \Twilio\Stream stream of results
+     * @return Stream stream of results
      */
-    public function stream($options = array(), $limit = null, $pageSize = null) {
+    public function stream(array $options = [], int $limit = null, $pageSize = null): Stream {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($options, $limits['pageSize']);
@@ -63,7 +64,7 @@ class WorkflowList extends ListResource {
      * Reads WorkflowInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. read()
      *                   guarantees to never return more than limit.  Default is no
@@ -75,34 +76,31 @@ class WorkflowList extends ListResource {
      *                        efficient page size, i.e. min(limit, 1000)
      * @return WorkflowInstance[] Array of results
      */
-    public function read($options = array(), $limit = null, $pageSize = null) {
-        return iterator_to_array($this->stream($options, $limit, $pageSize), false);
+    public function read(array $options = [], int $limit = null, $pageSize = null): array {
+        return \iterator_to_array($this->stream($options, $limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of WorkflowInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param mixed $pageSize Number of records to return, defaults to 50
      * @param string $pageToken PageToken provided by the API
      * @param mixed $pageNumber Page Number, this value is simply for client state
-     * @return \Twilio\Page Page of WorkflowInstance
+     * @return WorkflowPage Page of WorkflowInstance
      */
-    public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
+    public function page(array $options = [], $pageSize = Values::NONE, string $pageToken = Values::NONE, $pageNumber = Values::NONE): WorkflowPage {
         $options = new Values($options);
-        $params = Values::of(array(
+
+        $params = Values::of([
             'FriendlyName' => $options['friendlyName'],
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
-        ));
+        ]);
 
-        $response = $this->version->page(
-            'GET',
-            $this->uri,
-            $params
-        );
+        $response = $this->version->page('GET', $this->uri, $params);
 
         return new WorkflowPage($this->version, $response, $this->solution);
     }
@@ -110,11 +108,11 @@ class WorkflowList extends ListResource {
     /**
      * Retrieve a specific page of WorkflowInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
-     * @return \Twilio\Page Page of WorkflowInstance
+     * @return WorkflowPage Page of WorkflowInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage(string $targetUrl): WorkflowPage {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -124,53 +122,47 @@ class WorkflowList extends ListResource {
     }
 
     /**
-     * Create a new WorkflowInstance
-     * 
-     * @param string $friendlyName A string representing a human readable name for
-     *                             this Workflow.
-     * @param string $configuration JSON document configuring the rules for this
-     *                              Workflow.
+     * Create the WorkflowInstance
+     *
+     * @param string $friendlyName descriptive string that you create to describe
+     *                             the Workflow resource
+     * @param string $configuration A JSON string that contains the rules to apply
+     *                              to the Workflow
      * @param array|Options $options Optional Arguments
-     * @return WorkflowInstance Newly created WorkflowInstance
+     * @return WorkflowInstance Created WorkflowInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function create($friendlyName, $configuration, $options = array()) {
+    public function create(string $friendlyName, string $configuration, array $options = []): WorkflowInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'FriendlyName' => $friendlyName,
             'Configuration' => $configuration,
             'AssignmentCallbackUrl' => $options['assignmentCallbackUrl'],
             'FallbackAssignmentCallbackUrl' => $options['fallbackAssignmentCallbackUrl'],
             'TaskReservationTimeout' => $options['taskReservationTimeout'],
-        ));
+        ]);
 
-        $payload = $this->version->create(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->create('POST', $this->uri, [], $data);
 
         return new WorkflowInstance($this->version, $payload, $this->solution['workspaceSid']);
     }
 
     /**
      * Constructs a WorkflowContext
-     * 
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkflowContext 
+     *
+     * @param string $sid The SID of the resource
      */
-    public function getContext($sid) {
+    public function getContext(string $sid): WorkflowContext {
         return new WorkflowContext($this->version, $this->solution['workspaceSid'], $sid);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Taskrouter.V1.WorkflowList]';
     }
 }

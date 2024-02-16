@@ -13,47 +13,48 @@ use Twilio\Deserialize;
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceResource;
 use Twilio\Options;
+use Twilio\Rest\Proxy\V1\Service\Session\InteractionList;
+use Twilio\Rest\Proxy\V1\Service\Session\ParticipantList;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
- * @property string sid
- * @property string serviceSid
- * @property string accountSid
- * @property \DateTime dateStarted
- * @property \DateTime dateEnded
- * @property \DateTime dateLastInteraction
- * @property \DateTime dateExpiry
- * @property string uniqueName
- * @property string status
- * @property string closedReason
- * @property integer ttl
- * @property string mode
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property string url
- * @property array links
+ *
+ * @property string $sid
+ * @property string $serviceSid
+ * @property string $accountSid
+ * @property \DateTime $dateStarted
+ * @property \DateTime $dateEnded
+ * @property \DateTime $dateLastInteraction
+ * @property \DateTime $dateExpiry
+ * @property string $uniqueName
+ * @property string $status
+ * @property string $closedReason
+ * @property int $ttl
+ * @property string $mode
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property string $url
+ * @property array $links
  */
 class SessionInstance extends InstanceResource {
-    protected $_interactions = null;
-    protected $_participants = null;
+    protected $_interactions;
+    protected $_participants;
 
     /**
      * Initialize the SessionInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $serviceSid Service Sid.
-     * @param string $sid A string that uniquely identifies this Session.
-     * @return \Twilio\Rest\Proxy\V1\Service\SessionInstance 
+     * @param string $serviceSid The SID of the resource's parent Service
+     * @param string $sid The unique string that identifies the resource
      */
-    public function __construct(Version $version, array $payload, $serviceSid, $sid = null) {
+    public function __construct(Version $version, array $payload, string $serviceSid, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'sid' => Values::array_get($payload, 'sid'),
             'serviceSid' => Values::array_get($payload, 'service_sid'),
             'accountSid' => Values::array_get($payload, 'account_sid'),
@@ -70,19 +71,18 @@ class SessionInstance extends InstanceResource {
             'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
             'url' => Values::array_get($payload, 'url'),
             'links' => Values::array_get($payload, 'links'),
-        );
+        ];
 
-        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['serviceSid' => $serviceSid, 'sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Proxy\V1\Service\SessionContext Context for this
-     *                                                      SessionInstance
+     *
+     * @return SessionContext Context for this SessionInstance
      */
-    protected function proxy() {
+    protected function proxy(): SessionContext {
         if (!$this->context) {
             $this->context = new SessionContext(
                 $this->version,
@@ -95,68 +95,64 @@ class SessionInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a SessionInstance
-     * 
+     * Fetch the SessionInstance
+     *
      * @return SessionInstance Fetched SessionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): SessionInstance {
         return $this->proxy()->fetch();
     }
 
     /**
-     * Deletes the SessionInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the SessionInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
      * Update the SessionInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return SessionInstance Updated SessionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): SessionInstance {
         return $this->proxy()->update($options);
     }
 
     /**
      * Access the interactions
-     * 
-     * @return \Twilio\Rest\Proxy\V1\Service\Session\InteractionList 
      */
-    protected function getInteractions() {
+    protected function getInteractions(): InteractionList {
         return $this->proxy()->interactions;
     }
 
     /**
      * Access the participants
-     * 
-     * @return \Twilio\Rest\Proxy\V1\Service\Session\ParticipantList 
      */
-    protected function getParticipants() {
+    protected function getParticipants(): ParticipantList {
         return $this->proxy()->participants;
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -165,14 +161,14 @@ class SessionInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Proxy.V1.SessionInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Proxy.V1.SessionInstance ' . \implode(' ', $context) . ']';
     }
 }

@@ -17,42 +17,42 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
- * @property string sid
- * @property string accountSid
- * @property string serviceSid
- * @property \DateTime dateCreated
- * @property string identities
- * @property string tags
- * @property string segments
- * @property string priority
- * @property integer ttl
- * @property string title
- * @property string body
- * @property string sound
- * @property string action
- * @property array data
- * @property array apn
- * @property array gcm
- * @property array fcm
- * @property array sms
- * @property array facebookMessenger
- * @property array alexa
+ *
+ * @property string $sid
+ * @property string $accountSid
+ * @property string $serviceSid
+ * @property \DateTime $dateCreated
+ * @property string[] $identities
+ * @property string[] $tags
+ * @property string[] $segments
+ * @property string $priority
+ * @property int $ttl
+ * @property string $title
+ * @property string $body
+ * @property string $sound
+ * @property string $action
+ * @property array $data
+ * @property array $apn
+ * @property array $gcm
+ * @property array $fcm
+ * @property array $sms
+ * @property array $facebookMessenger
+ * @property array $alexa
  */
 class NotificationInstance extends InstanceResource {
     /**
      * Initialize the NotificationInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $serviceSid The service_sid
-     * @return \Twilio\Rest\Notify\V1\Service\NotificationInstance 
+     * @param string $serviceSid The SID of the Service that the resource is
+     *                           associated with
      */
-    public function __construct(Version $version, array $payload, $serviceSid) {
+    public function __construct(Version $version, array $payload, string $serviceSid) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'sid' => Values::array_get($payload, 'sid'),
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'serviceSid' => Values::array_get($payload, 'service_sid'),
@@ -73,25 +73,25 @@ class NotificationInstance extends InstanceResource {
             'sms' => Values::array_get($payload, 'sms'),
             'facebookMessenger' => Values::array_get($payload, 'facebook_messenger'),
             'alexa' => Values::array_get($payload, 'alexa'),
-        );
+        ];
 
-        $this->solution = array('serviceSid' => $serviceSid, );
+        $this->solution = ['serviceSid' => $serviceSid, ];
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -100,10 +100,10 @@ class NotificationInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Notify.V1.NotificationInstance]';
     }
 }

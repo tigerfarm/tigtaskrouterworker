@@ -14,19 +14,17 @@ use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Fax\V1;
 
 /**
- * @property \Twilio\Rest\Fax\V1 v1
- * @property \Twilio\Rest\Fax\V1\FaxList faxes
+ * @property \Twilio\Rest\Fax\V1 $v1
+ * @property \Twilio\Rest\Fax\V1\FaxList $faxes
  * @method \Twilio\Rest\Fax\V1\FaxContext faxes(string $sid)
  */
 class Fax extends Domain {
-    protected $_v1 = null;
+    protected $_v1;
 
     /**
      * Construct the Fax Domain
-     * 
-     * @param \Twilio\Rest\Client $client Twilio\Rest\Client to communicate with
-     *                                    Twilio
-     * @return \Twilio\Rest\Fax Domain for Fax
+     *
+     * @param Client $client Client to communicate with Twilio
      */
     public function __construct(Client $client) {
         parent::__construct($client);
@@ -35,9 +33,9 @@ class Fax extends Domain {
     }
 
     /**
-     * @return \Twilio\Rest\Fax\V1 Version v1 of fax
+     * @return V1 Version v1 of fax
      */
-    protected function getV1() {
+    protected function getV1(): V1 {
         if (!$this->_v1) {
             $this->_v1 = new V1($this);
         }
@@ -46,14 +44,14 @@ class Fax extends Domain {
 
     /**
      * Magic getter to lazy load version
-     * 
+     *
      * @param string $name Version to return
      * @return \Twilio\Version The requested version
-     * @throws \Twilio\Exceptions\TwilioException For unknown versions
+     * @throws TwilioException For unknown versions
      */
-    public function __get($name) {
-        $method = 'get' . ucfirst($name);
-        if (method_exists($this, $method)) {
+    public function __get(string $name) {
+        $method = 'get' . \ucfirst($name);
+        if (\method_exists($this, $method)) {
             return $this->$method();
         }
 
@@ -62,42 +60,38 @@ class Fax extends Domain {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
      * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
-        $method = 'context' . ucfirst($name);
-        if (method_exists($this, $method)) {
-            return call_user_func_array(array($this, $method), $arguments);
+    public function __call(string $name, array $arguments) {
+        $method = 'context' . \ucfirst($name);
+        if (\method_exists($this, $method)) {
+            return \call_user_func_array([$this, $method], $arguments);
         }
 
         throw new TwilioException('Unknown context ' . $name);
     }
 
-    /**
-     * @return \Twilio\Rest\Fax\V1\FaxList 
-     */
-    protected function getFaxes() {
+    protected function getFaxes(): \Twilio\Rest\Fax\V1\FaxList {
         return $this->v1->faxes;
     }
 
     /**
-     * @param string $sid A string that uniquely identifies this fax.
-     * @return \Twilio\Rest\Fax\V1\FaxContext 
+     * @param string $sid The unique string that identifies the resource
      */
-    protected function contextFaxes($sid) {
+    protected function contextFaxes(string $sid): \Twilio\Rest\Fax\V1\FaxContext {
         return $this->v1->faxes($sid);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Fax]';
     }
 }

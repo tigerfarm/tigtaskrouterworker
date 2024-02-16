@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Notify\V1\Service;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Serialize;
@@ -21,31 +22,31 @@ use Twilio\Version;
 class NotificationList extends ListResource {
     /**
      * Construct the NotificationList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @return \Twilio\Rest\Notify\V1\Service\NotificationList 
+     * @param string $serviceSid The SID of the Service that the resource is
+     *                           associated with
      */
-    public function __construct(Version $version, $serviceSid) {
+    public function __construct(Version $version, string $serviceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, );
+        $this->solution = ['serviceSid' => $serviceSid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Notifications';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/Notifications';
     }
 
     /**
-     * Create a new NotificationInstance
-     * 
+     * Create the NotificationInstance
+     *
      * @param array|Options $options Optional Arguments
-     * @return NotificationInstance Newly created NotificationInstance
+     * @return NotificationInstance Created NotificationInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function create($options = array()) {
+    public function create(array $options = []): NotificationInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'Identity' => Serialize::map($options['identity'], function($e) { return $e; }),
             'Tag' => Serialize::map($options['tag'], function($e) { return $e; }),
             'Body' => $options['body'],
@@ -63,24 +64,20 @@ class NotificationList extends ListResource {
             'Segment' => Serialize::map($options['segment'], function($e) { return $e; }),
             'Alexa' => Serialize::jsonObject($options['alexa']),
             'ToBinding' => Serialize::map($options['toBinding'], function($e) { return $e; }),
-        ));
+            'DeliveryCallbackUrl' => $options['deliveryCallbackUrl'],
+        ]);
 
-        $payload = $this->version->create(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->create('POST', $this->uri, [], $data);
 
         return new NotificationInstance($this->version, $payload, $this->solution['serviceSid']);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Notify.V1.NotificationList]';
     }
 }

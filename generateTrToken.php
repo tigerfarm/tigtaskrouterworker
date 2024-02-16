@@ -1,9 +1,12 @@
 <?php
+
 // -------------------------------------------------------
 // clientid : a TaskRouter Worker.
 // tokenPassword : text string match to environment variable TOKEN_PASSWORD.
 // -------------------------------------------------------
-$clientid = htmlspecialchars($_GET["clientid"]);
+// var_dump($argv);
+
+$clientid = $argv[1];
 if ($clientid == "") {
     $clientid = getenv('CLIENT_ID');
     if ($clientid == "") {
@@ -12,17 +15,18 @@ if ($clientid == "") {
     }
 }
 
-$tokenPassword = htmlspecialchars($_GET["tokenPassword"]);
+$tokenPassword = $argv[2];
 if ($tokenPassword == "") {
     echo '-- tokenPassword must be a GET parameter.';
     return;
 }
 $token_password = getenv("TOKEN_PASSWORD");
 if ($token_password !== $tokenPassword) {
-    // echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
+    echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
     echo "0";
     return;
 }
+
 // -------------------------------------------------------
 require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 use Twilio\Jwt\TaskRouter\WorkerCapability;

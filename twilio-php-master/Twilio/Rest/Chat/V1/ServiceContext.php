@@ -11,6 +11,7 @@ namespace Twilio\Rest\Chat\V1;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
+use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Rest\Chat\V1\Service\ChannelList;
 use Twilio\Rest\Chat\V1\Service\RoleList;
@@ -20,73 +21,66 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\Chat\V1\Service\ChannelList channels
- * @property \Twilio\Rest\Chat\V1\Service\RoleList roles
- * @property \Twilio\Rest\Chat\V1\Service\UserList users
+ * @property ChannelList $channels
+ * @property RoleList $roles
+ * @property UserList $users
  * @method \Twilio\Rest\Chat\V1\Service\ChannelContext channels(string $sid)
  * @method \Twilio\Rest\Chat\V1\Service\RoleContext roles(string $sid)
  * @method \Twilio\Rest\Chat\V1\Service\UserContext users(string $sid)
  */
 class ServiceContext extends InstanceContext {
-    protected $_channels = null;
-    protected $_roles = null;
-    protected $_users = null;
+    protected $_channels;
+    protected $_roles;
+    protected $_users;
 
     /**
      * Initialize the ServiceContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Chat\V1\ServiceContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $sid The unique string that identifies the resource
      */
     public function __construct(Version $version, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = ['sid' => $sid, ];
 
-        $this->uri = '/Services/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a ServiceInstance
-     * 
+     * Fetch the ServiceInstance
+     *
      * @return ServiceInstance Fetched ServiceInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): ServiceInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new ServiceInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
-     * Deletes the ServiceInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the ServiceInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
      * Update the ServiceInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return ServiceInstance Updated ServiceInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): ServiceInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'FriendlyName' => $options['friendlyName'],
             'DefaultServiceRoleSid' => $options['defaultServiceRoleSid'],
             'DefaultChannelRoleSid' => $options['defaultChannelRoleSid'],
@@ -109,72 +103,49 @@ class ServiceContext extends InstanceContext {
             'WebhookFilters' => Serialize::map($options['webhookFilters'], function($e) { return $e; }),
             'Webhooks.OnMessageSend.Url' => $options['webhooksOnMessageSendUrl'],
             'Webhooks.OnMessageSend.Method' => $options['webhooksOnMessageSendMethod'],
-            'Webhooks.OnMessageSend.Format' => $options['webhooksOnMessageSendFormat'],
             'Webhooks.OnMessageUpdate.Url' => $options['webhooksOnMessageUpdateUrl'],
             'Webhooks.OnMessageUpdate.Method' => $options['webhooksOnMessageUpdateMethod'],
-            'Webhooks.OnMessageUpdate.Format' => $options['webhooksOnMessageUpdateFormat'],
             'Webhooks.OnMessageRemove.Url' => $options['webhooksOnMessageRemoveUrl'],
             'Webhooks.OnMessageRemove.Method' => $options['webhooksOnMessageRemoveMethod'],
-            'Webhooks.OnMessageRemove.Format' => $options['webhooksOnMessageRemoveFormat'],
             'Webhooks.OnChannelAdd.Url' => $options['webhooksOnChannelAddUrl'],
             'Webhooks.OnChannelAdd.Method' => $options['webhooksOnChannelAddMethod'],
-            'Webhooks.OnChannelAdd.Format' => $options['webhooksOnChannelAddFormat'],
             'Webhooks.OnChannelDestroy.Url' => $options['webhooksOnChannelDestroyUrl'],
             'Webhooks.OnChannelDestroy.Method' => $options['webhooksOnChannelDestroyMethod'],
-            'Webhooks.OnChannelDestroy.Format' => $options['webhooksOnChannelDestroyFormat'],
             'Webhooks.OnChannelUpdate.Url' => $options['webhooksOnChannelUpdateUrl'],
             'Webhooks.OnChannelUpdate.Method' => $options['webhooksOnChannelUpdateMethod'],
-            'Webhooks.OnChannelUpdate.Format' => $options['webhooksOnChannelUpdateFormat'],
             'Webhooks.OnMemberAdd.Url' => $options['webhooksOnMemberAddUrl'],
             'Webhooks.OnMemberAdd.Method' => $options['webhooksOnMemberAddMethod'],
-            'Webhooks.OnMemberAdd.Format' => $options['webhooksOnMemberAddFormat'],
             'Webhooks.OnMemberRemove.Url' => $options['webhooksOnMemberRemoveUrl'],
             'Webhooks.OnMemberRemove.Method' => $options['webhooksOnMemberRemoveMethod'],
-            'Webhooks.OnMemberRemove.Format' => $options['webhooksOnMemberRemoveFormat'],
             'Webhooks.OnMessageSent.Url' => $options['webhooksOnMessageSentUrl'],
             'Webhooks.OnMessageSent.Method' => $options['webhooksOnMessageSentMethod'],
-            'Webhooks.OnMessageSent.Format' => $options['webhooksOnMessageSentFormat'],
             'Webhooks.OnMessageUpdated.Url' => $options['webhooksOnMessageUpdatedUrl'],
             'Webhooks.OnMessageUpdated.Method' => $options['webhooksOnMessageUpdatedMethod'],
-            'Webhooks.OnMessageUpdated.Format' => $options['webhooksOnMessageUpdatedFormat'],
             'Webhooks.OnMessageRemoved.Url' => $options['webhooksOnMessageRemovedUrl'],
             'Webhooks.OnMessageRemoved.Method' => $options['webhooksOnMessageRemovedMethod'],
-            'Webhooks.OnMessageRemoved.Format' => $options['webhooksOnMessageRemovedFormat'],
             'Webhooks.OnChannelAdded.Url' => $options['webhooksOnChannelAddedUrl'],
             'Webhooks.OnChannelAdded.Method' => $options['webhooksOnChannelAddedMethod'],
-            'Webhooks.OnChannelAdded.Format' => $options['webhooksOnChannelAddedFormat'],
             'Webhooks.OnChannelDestroyed.Url' => $options['webhooksOnChannelDestroyedUrl'],
             'Webhooks.OnChannelDestroyed.Method' => $options['webhooksOnChannelDestroyedMethod'],
-            'Webhooks.OnChannelDestroyed.Format' => $options['webhooksOnChannelDestroyedFormat'],
             'Webhooks.OnChannelUpdated.Url' => $options['webhooksOnChannelUpdatedUrl'],
             'Webhooks.OnChannelUpdated.Method' => $options['webhooksOnChannelUpdatedMethod'],
-            'Webhooks.OnChannelUpdated.Format' => $options['webhooksOnChannelUpdatedFormat'],
             'Webhooks.OnMemberAdded.Url' => $options['webhooksOnMemberAddedUrl'],
             'Webhooks.OnMemberAdded.Method' => $options['webhooksOnMemberAddedMethod'],
-            'Webhooks.OnMemberAdded.Format' => $options['webhooksOnMemberAddedFormat'],
             'Webhooks.OnMemberRemoved.Url' => $options['webhooksOnMemberRemovedUrl'],
             'Webhooks.OnMemberRemoved.Method' => $options['webhooksOnMemberRemovedMethod'],
-            'Webhooks.OnMemberRemoved.Format' => $options['webhooksOnMemberRemovedFormat'],
             'Limits.ChannelMembers' => $options['limitsChannelMembers'],
             'Limits.UserChannels' => $options['limitsUserChannels'],
-        ));
+        ]);
 
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->update('POST', $this->uri, [], $data);
 
         return new ServiceInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
      * Access the channels
-     * 
-     * @return \Twilio\Rest\Chat\V1\Service\ChannelList 
      */
-    protected function getChannels() {
+    protected function getChannels(): ChannelList {
         if (!$this->_channels) {
             $this->_channels = new ChannelList($this->version, $this->solution['sid']);
         }
@@ -184,10 +155,8 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the roles
-     * 
-     * @return \Twilio\Rest\Chat\V1\Service\RoleList 
      */
-    protected function getRoles() {
+    protected function getRoles(): RoleList {
         if (!$this->_roles) {
             $this->_roles = new RoleList($this->version, $this->solution['sid']);
         }
@@ -197,10 +166,8 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the users
-     * 
-     * @return \Twilio\Rest\Chat\V1\Service\UserList 
      */
-    protected function getUsers() {
+    protected function getUsers(): UserList {
         if (!$this->_users) {
             $this->_users = new UserList($this->version, $this->solution['sid']);
         }
@@ -210,14 +177,14 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
-     * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * @return ListResource The requested subresource
+     * @throws TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get(string $name): ListResource {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -226,16 +193,16 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -243,14 +210,14 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Chat.V1.ServiceContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Chat.V1.ServiceContext ' . \implode(' ', $context) . ']';
     }
 }

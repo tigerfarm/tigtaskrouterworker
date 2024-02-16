@@ -17,42 +17,41 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property string apiVersion
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property string friendlyName
- * @property string messageStatusCallback
- * @property string sid
- * @property string smsFallbackMethod
- * @property string smsFallbackUrl
- * @property string smsMethod
- * @property string smsStatusCallback
- * @property string smsUrl
- * @property string statusCallback
- * @property string statusCallbackMethod
- * @property string uri
- * @property boolean voiceCallerIdLookup
- * @property string voiceFallbackMethod
- * @property string voiceFallbackUrl
- * @property string voiceMethod
- * @property string voiceUrl
+ * @property string $accountSid
+ * @property string $apiVersion
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property string $friendlyName
+ * @property string $messageStatusCallback
+ * @property string $sid
+ * @property string $smsFallbackMethod
+ * @property string $smsFallbackUrl
+ * @property string $smsMethod
+ * @property string $smsStatusCallback
+ * @property string $smsUrl
+ * @property string $statusCallback
+ * @property string $statusCallbackMethod
+ * @property string $uri
+ * @property bool $voiceCallerIdLookup
+ * @property string $voiceFallbackMethod
+ * @property string $voiceFallbackUrl
+ * @property string $voiceMethod
+ * @property string $voiceUrl
  */
 class ApplicationInstance extends InstanceResource {
     /**
      * Initialize the ApplicationInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $accountSid A string that uniquely identifies this resource
-     * @param string $sid Fetch by unique Application Sid
-     * @return \Twilio\Rest\Api\V2010\Account\ApplicationInstance 
+     * @param string $accountSid The SID of the Account that created the resource
+     * @param string $sid The unique string that identifies the resource
      */
-    public function __construct(Version $version, array $payload, $accountSid, $sid = null) {
+    public function __construct(Version $version, array $payload, string $accountSid, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'apiVersion' => Values::array_get($payload, 'api_version'),
             'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
@@ -73,19 +72,18 @@ class ApplicationInstance extends InstanceResource {
             'voiceFallbackUrl' => Values::array_get($payload, 'voice_fallback_url'),
             'voiceMethod' => Values::array_get($payload, 'voice_method'),
             'voiceUrl' => Values::array_get($payload, 'voice_url'),
-        );
+        ];
 
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\ApplicationContext Context for this
-     *                                                           ApplicationInstance
+     *
+     * @return ApplicationContext Context for this ApplicationInstance
      */
-    protected function proxy() {
+    protected function proxy(): ApplicationContext {
         if (!$this->context) {
             $this->context = new ApplicationContext(
                 $this->version,
@@ -98,50 +96,50 @@ class ApplicationInstance extends InstanceResource {
     }
 
     /**
-     * Deletes the ApplicationInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the ApplicationInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
-     * Fetch a ApplicationInstance
-     * 
+     * Fetch the ApplicationInstance
+     *
      * @return ApplicationInstance Fetched ApplicationInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): ApplicationInstance {
         return $this->proxy()->fetch();
     }
 
     /**
      * Update the ApplicationInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return ApplicationInstance Updated ApplicationInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): ApplicationInstance {
         return $this->proxy()->update($options);
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -150,14 +148,14 @@ class ApplicationInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.ApplicationInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.ApplicationInstance ' . \implode(' ', $context) . ']';
     }
 }

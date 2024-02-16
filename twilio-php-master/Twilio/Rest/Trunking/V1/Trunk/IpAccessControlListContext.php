@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Trunking\V1\Trunk;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
@@ -16,35 +17,29 @@ use Twilio\Version;
 class IpAccessControlListContext extends InstanceContext {
     /**
      * Initialize the IpAccessControlListContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $trunkSid The trunk_sid
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Trunking\V1\Trunk\IpAccessControlListContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $trunkSid The SID of the Trunk from which to fetch the IP
+     *                         Access Control List
+     * @param string $sid The unique string that identifies the resource
      */
     public function __construct(Version $version, $trunkSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('trunkSid' => $trunkSid, 'sid' => $sid, );
+        $this->solution = ['trunkSid' => $trunkSid, 'sid' => $sid, ];
 
-        $this->uri = '/Trunks/' . rawurlencode($trunkSid) . '/IpAccessControlLists/' . rawurlencode($sid) . '';
+        $this->uri = '/Trunks/' . \rawurlencode($trunkSid) . '/IpAccessControlLists/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a IpAccessControlListInstance
-     * 
+     * Fetch the IpAccessControlListInstance
+     *
      * @return IpAccessControlListInstance Fetched IpAccessControlListInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): IpAccessControlListInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new IpAccessControlListInstance(
             $this->version,
@@ -55,25 +50,25 @@ class IpAccessControlListContext extends InstanceContext {
     }
 
     /**
-     * Deletes the IpAccessControlListInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the IpAccessControlListInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Trunking.V1.IpAccessControlListContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Trunking.V1.IpAccessControlListContext ' . \implode(' ', $context) . ']';
     }
 }

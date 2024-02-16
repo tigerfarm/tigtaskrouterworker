@@ -14,57 +14,77 @@ use Twilio\Values;
 
 abstract class SharedCostOptions {
     /**
-     * @param integer $areaCode The area_code
-     * @param string $contains The contains
-     * @param boolean $smsEnabled The sms_enabled
-     * @param boolean $mmsEnabled The mms_enabled
-     * @param boolean $voiceEnabled The voice_enabled
-     * @param boolean $excludeAllAddressRequired The exclude_all_address_required
-     * @param boolean $excludeLocalAddressRequired The
-     *                                             exclude_local_address_required
-     * @param boolean $excludeForeignAddressRequired The
-     *                                               exclude_foreign_address_required
-     * @param boolean $beta The beta
-     * @param string $nearNumber The near_number
-     * @param string $nearLatLong The near_lat_long
-     * @param integer $distance The distance
-     * @param string $inPostalCode The in_postal_code
-     * @param string $inRegion The in_region
-     * @param string $inRateCenter The in_rate_center
-     * @param string $inLata The in_lata
-     * @param string $inLocality The in_locality
-     * @param boolean $faxEnabled The fax_enabled
+     * @param int $areaCode The area code of the phone numbers to read
+     * @param string $contains The pattern on which to match phone numbers
+     * @param bool $smsEnabled Whether the phone numbers can receive text messages
+     * @param bool $mmsEnabled Whether the phone numbers can receive MMS messages
+     * @param bool $voiceEnabled Whether the phone numbers can receive calls.
+     * @param bool $excludeAllAddressRequired Whether to exclude phone numbers that
+     *                                        require an Address
+     * @param bool $excludeLocalAddressRequired Whether to exclude phone numbers
+     *                                          that require a local address
+     * @param bool $excludeForeignAddressRequired Whether to exclude phone numbers
+     *                                            that require a foreign address
+     * @param bool $beta Whether to read phone numbers new to the Twilio platform
+     * @param string $nearNumber Given a phone number, find a geographically close
+     *                           number within distance miles. (US/Canada only)
+     * @param string $nearLatLong Given a latitude/longitude pair lat,long find
+     *                            geographically close numbers within distance
+     *                            miles. (US/Canada only)
+     * @param int $distance The search radius, in miles, for a near_ query.
+     *                      (US/Canada only)
+     * @param string $inPostalCode Limit results to a particular postal code.
+     *                             (US/Canada only)
+     * @param string $inRegion Limit results to a particular region. (US/Canada
+     *                         only)
+     * @param string $inRateCenter Limit results to a specific rate center, or
+     *                             given a phone number search within the same rate
+     *                             center as that number. (US/Canada only)
+     * @param string $inLata Limit results to a specific local access and transport
+     *                       area. (US/Canada only)
+     * @param string $inLocality Limit results to a particular locality
+     * @param bool $faxEnabled Whether the phone numbers can receive faxes
      * @return ReadSharedCostOptions Options builder
      */
-    public static function read($areaCode = Values::NONE, $contains = Values::NONE, $smsEnabled = Values::NONE, $mmsEnabled = Values::NONE, $voiceEnabled = Values::NONE, $excludeAllAddressRequired = Values::NONE, $excludeLocalAddressRequired = Values::NONE, $excludeForeignAddressRequired = Values::NONE, $beta = Values::NONE, $nearNumber = Values::NONE, $nearLatLong = Values::NONE, $distance = Values::NONE, $inPostalCode = Values::NONE, $inRegion = Values::NONE, $inRateCenter = Values::NONE, $inLata = Values::NONE, $inLocality = Values::NONE, $faxEnabled = Values::NONE) {
+    public static function read(int $areaCode = Values::NONE, string $contains = Values::NONE, bool $smsEnabled = Values::NONE, bool $mmsEnabled = Values::NONE, bool $voiceEnabled = Values::NONE, bool $excludeAllAddressRequired = Values::NONE, bool $excludeLocalAddressRequired = Values::NONE, bool $excludeForeignAddressRequired = Values::NONE, bool $beta = Values::NONE, string $nearNumber = Values::NONE, string $nearLatLong = Values::NONE, int $distance = Values::NONE, string $inPostalCode = Values::NONE, string $inRegion = Values::NONE, string $inRateCenter = Values::NONE, string $inLata = Values::NONE, string $inLocality = Values::NONE, bool $faxEnabled = Values::NONE): ReadSharedCostOptions {
         return new ReadSharedCostOptions($areaCode, $contains, $smsEnabled, $mmsEnabled, $voiceEnabled, $excludeAllAddressRequired, $excludeLocalAddressRequired, $excludeForeignAddressRequired, $beta, $nearNumber, $nearLatLong, $distance, $inPostalCode, $inRegion, $inRateCenter, $inLata, $inLocality, $faxEnabled);
     }
 }
 
 class ReadSharedCostOptions extends Options {
     /**
-     * @param integer $areaCode The area_code
-     * @param string $contains The contains
-     * @param boolean $smsEnabled The sms_enabled
-     * @param boolean $mmsEnabled The mms_enabled
-     * @param boolean $voiceEnabled The voice_enabled
-     * @param boolean $excludeAllAddressRequired The exclude_all_address_required
-     * @param boolean $excludeLocalAddressRequired The
-     *                                             exclude_local_address_required
-     * @param boolean $excludeForeignAddressRequired The
-     *                                               exclude_foreign_address_required
-     * @param boolean $beta The beta
-     * @param string $nearNumber The near_number
-     * @param string $nearLatLong The near_lat_long
-     * @param integer $distance The distance
-     * @param string $inPostalCode The in_postal_code
-     * @param string $inRegion The in_region
-     * @param string $inRateCenter The in_rate_center
-     * @param string $inLata The in_lata
-     * @param string $inLocality The in_locality
-     * @param boolean $faxEnabled The fax_enabled
+     * @param int $areaCode The area code of the phone numbers to read
+     * @param string $contains The pattern on which to match phone numbers
+     * @param bool $smsEnabled Whether the phone numbers can receive text messages
+     * @param bool $mmsEnabled Whether the phone numbers can receive MMS messages
+     * @param bool $voiceEnabled Whether the phone numbers can receive calls.
+     * @param bool $excludeAllAddressRequired Whether to exclude phone numbers that
+     *                                        require an Address
+     * @param bool $excludeLocalAddressRequired Whether to exclude phone numbers
+     *                                          that require a local address
+     * @param bool $excludeForeignAddressRequired Whether to exclude phone numbers
+     *                                            that require a foreign address
+     * @param bool $beta Whether to read phone numbers new to the Twilio platform
+     * @param string $nearNumber Given a phone number, find a geographically close
+     *                           number within distance miles. (US/Canada only)
+     * @param string $nearLatLong Given a latitude/longitude pair lat,long find
+     *                            geographically close numbers within distance
+     *                            miles. (US/Canada only)
+     * @param int $distance The search radius, in miles, for a near_ query.
+     *                      (US/Canada only)
+     * @param string $inPostalCode Limit results to a particular postal code.
+     *                             (US/Canada only)
+     * @param string $inRegion Limit results to a particular region. (US/Canada
+     *                         only)
+     * @param string $inRateCenter Limit results to a specific rate center, or
+     *                             given a phone number search within the same rate
+     *                             center as that number. (US/Canada only)
+     * @param string $inLata Limit results to a specific local access and transport
+     *                       area. (US/Canada only)
+     * @param string $inLocality Limit results to a particular locality
+     * @param bool $faxEnabled Whether the phone numbers can receive faxes
      */
-    public function __construct($areaCode = Values::NONE, $contains = Values::NONE, $smsEnabled = Values::NONE, $mmsEnabled = Values::NONE, $voiceEnabled = Values::NONE, $excludeAllAddressRequired = Values::NONE, $excludeLocalAddressRequired = Values::NONE, $excludeForeignAddressRequired = Values::NONE, $beta = Values::NONE, $nearNumber = Values::NONE, $nearLatLong = Values::NONE, $distance = Values::NONE, $inPostalCode = Values::NONE, $inRegion = Values::NONE, $inRateCenter = Values::NONE, $inLata = Values::NONE, $inLocality = Values::NONE, $faxEnabled = Values::NONE) {
+    public function __construct(int $areaCode = Values::NONE, string $contains = Values::NONE, bool $smsEnabled = Values::NONE, bool $mmsEnabled = Values::NONE, bool $voiceEnabled = Values::NONE, bool $excludeAllAddressRequired = Values::NONE, bool $excludeLocalAddressRequired = Values::NONE, bool $excludeForeignAddressRequired = Values::NONE, bool $beta = Values::NONE, string $nearNumber = Values::NONE, string $nearLatLong = Values::NONE, int $distance = Values::NONE, string $inPostalCode = Values::NONE, string $inRegion = Values::NONE, string $inRateCenter = Values::NONE, string $inLata = Values::NONE, string $inLocality = Values::NONE, bool $faxEnabled = Values::NONE) {
         $this->options['areaCode'] = $areaCode;
         $this->options['contains'] = $contains;
         $this->options['smsEnabled'] = $smsEnabled;
@@ -86,217 +106,222 @@ class ReadSharedCostOptions extends Options {
     }
 
     /**
-     * The area_code
-     * 
-     * @param integer $areaCode The area_code
+     * The area code of the phone numbers to read. Applies to only phone numbers in the US and Canada.
+     *
+     * @param int $areaCode The area code of the phone numbers to read
      * @return $this Fluent Builder
      */
-    public function setAreaCode($areaCode) {
+    public function setAreaCode(int $areaCode): self {
         $this->options['areaCode'] = $areaCode;
         return $this;
     }
 
     /**
-     * The contains
-     * 
-     * @param string $contains The contains
+     * The pattern on which to match phone numbers. Valid characters are `*`, `0-9`, `a-z`, and `A-Z`. The `*` character matches any single digit. For examples, see [Example 2](https://www.twilio.com/docs/phone-numbers/api/availablephonenumber-resource#local-get-basic-example-2) and [Example 3](https://www.twilio.com/docs/phone-numbers/api/availablephonenumber-resource#local-get-basic-example-3). If specified, this value must have at least two characters.
+     *
+     * @param string $contains The pattern on which to match phone numbers
      * @return $this Fluent Builder
      */
-    public function setContains($contains) {
+    public function setContains(string $contains): self {
         $this->options['contains'] = $contains;
         return $this;
     }
 
     /**
-     * The sms_enabled
-     * 
-     * @param boolean $smsEnabled The sms_enabled
+     * Whether the phone numbers can receive text messages. Can be: `true` or `false`.
+     *
+     * @param bool $smsEnabled Whether the phone numbers can receive text messages
      * @return $this Fluent Builder
      */
-    public function setSmsEnabled($smsEnabled) {
+    public function setSmsEnabled(bool $smsEnabled): self {
         $this->options['smsEnabled'] = $smsEnabled;
         return $this;
     }
 
     /**
-     * The mms_enabled
-     * 
-     * @param boolean $mmsEnabled The mms_enabled
+     * Whether the phone numbers can receive MMS messages. Can be: `true` or `false`.
+     *
+     * @param bool $mmsEnabled Whether the phone numbers can receive MMS messages
      * @return $this Fluent Builder
      */
-    public function setMmsEnabled($mmsEnabled) {
+    public function setMmsEnabled(bool $mmsEnabled): self {
         $this->options['mmsEnabled'] = $mmsEnabled;
         return $this;
     }
 
     /**
-     * The voice_enabled
-     * 
-     * @param boolean $voiceEnabled The voice_enabled
+     * Whether the phone numbers can receive calls. Can be: `true` or `false`.
+     *
+     * @param bool $voiceEnabled Whether the phone numbers can receive calls.
      * @return $this Fluent Builder
      */
-    public function setVoiceEnabled($voiceEnabled) {
+    public function setVoiceEnabled(bool $voiceEnabled): self {
         $this->options['voiceEnabled'] = $voiceEnabled;
         return $this;
     }
 
     /**
-     * The exclude_all_address_required
-     * 
-     * @param boolean $excludeAllAddressRequired The exclude_all_address_required
+     * Whether to exclude phone numbers that require an [Address](https://www.twilio.com/docs/usage/api/address). Can be: `true` or `false` and the default is `false`.
+     *
+     * @param bool $excludeAllAddressRequired Whether to exclude phone numbers that
+     *                                        require an Address
      * @return $this Fluent Builder
      */
-    public function setExcludeAllAddressRequired($excludeAllAddressRequired) {
+    public function setExcludeAllAddressRequired(bool $excludeAllAddressRequired): self {
         $this->options['excludeAllAddressRequired'] = $excludeAllAddressRequired;
         return $this;
     }
 
     /**
-     * The exclude_local_address_required
-     * 
-     * @param boolean $excludeLocalAddressRequired The
-     *                                             exclude_local_address_required
+     * Whether to exclude phone numbers that require a local [Address](https://www.twilio.com/docs/usage/api/address). Can be: `true` or `false` and the default is `false`.
+     *
+     * @param bool $excludeLocalAddressRequired Whether to exclude phone numbers
+     *                                          that require a local address
      * @return $this Fluent Builder
      */
-    public function setExcludeLocalAddressRequired($excludeLocalAddressRequired) {
+    public function setExcludeLocalAddressRequired(bool $excludeLocalAddressRequired): self {
         $this->options['excludeLocalAddressRequired'] = $excludeLocalAddressRequired;
         return $this;
     }
 
     /**
-     * The exclude_foreign_address_required
-     * 
-     * @param boolean $excludeForeignAddressRequired The
-     *                                               exclude_foreign_address_required
+     * Whether to exclude phone numbers that require a foreign [Address](https://www.twilio.com/docs/usage/api/address). Can be: `true` or `false` and the default is `false`.
+     *
+     * @param bool $excludeForeignAddressRequired Whether to exclude phone numbers
+     *                                            that require a foreign address
      * @return $this Fluent Builder
      */
-    public function setExcludeForeignAddressRequired($excludeForeignAddressRequired) {
+    public function setExcludeForeignAddressRequired(bool $excludeForeignAddressRequired): self {
         $this->options['excludeForeignAddressRequired'] = $excludeForeignAddressRequired;
         return $this;
     }
 
     /**
-     * The beta
-     * 
-     * @param boolean $beta The beta
+     * Whether to read phone numbers that are new to the Twilio platform. Can be: `true` or `false` and the default is `true`.
+     *
+     * @param bool $beta Whether to read phone numbers new to the Twilio platform
      * @return $this Fluent Builder
      */
-    public function setBeta($beta) {
+    public function setBeta(bool $beta): self {
         $this->options['beta'] = $beta;
         return $this;
     }
 
     /**
-     * The near_number
-     * 
-     * @param string $nearNumber The near_number
+     * Given a phone number, find a geographically close number within `distance` miles. Distance defaults to 25 miles. Applies to only phone numbers in the US and Canada.
+     *
+     * @param string $nearNumber Given a phone number, find a geographically close
+     *                           number within distance miles. (US/Canada only)
      * @return $this Fluent Builder
      */
-    public function setNearNumber($nearNumber) {
+    public function setNearNumber(string $nearNumber): self {
         $this->options['nearNumber'] = $nearNumber;
         return $this;
     }
 
     /**
-     * The near_lat_long
-     * 
-     * @param string $nearLatLong The near_lat_long
+     * Given a latitude/longitude pair `lat,long` find geographically close numbers within `distance` miles. Applies to only phone numbers in the US and Canada.
+     *
+     * @param string $nearLatLong Given a latitude/longitude pair lat,long find
+     *                            geographically close numbers within distance
+     *                            miles. (US/Canada only)
      * @return $this Fluent Builder
      */
-    public function setNearLatLong($nearLatLong) {
+    public function setNearLatLong(string $nearLatLong): self {
         $this->options['nearLatLong'] = $nearLatLong;
         return $this;
     }
 
     /**
-     * The distance
-     * 
-     * @param integer $distance The distance
+     * The search radius, in miles, for a `near_` query.  Can be up to `500` and the default is `25`. Applies to only phone numbers in the US and Canada.
+     *
+     * @param int $distance The search radius, in miles, for a near_ query.
+     *                      (US/Canada only)
      * @return $this Fluent Builder
      */
-    public function setDistance($distance) {
+    public function setDistance(int $distance): self {
         $this->options['distance'] = $distance;
         return $this;
     }
 
     /**
-     * The in_postal_code
-     * 
-     * @param string $inPostalCode The in_postal_code
+     * Limit results to a particular postal code. Given a phone number, search within the same postal code as that number. Applies to only phone numbers in the US and Canada.
+     *
+     * @param string $inPostalCode Limit results to a particular postal code.
+     *                             (US/Canada only)
      * @return $this Fluent Builder
      */
-    public function setInPostalCode($inPostalCode) {
+    public function setInPostalCode(string $inPostalCode): self {
         $this->options['inPostalCode'] = $inPostalCode;
         return $this;
     }
 
     /**
-     * The in_region
-     * 
-     * @param string $inRegion The in_region
+     * Limit results to a particular region, state, or province. Given a phone number, search within the same region as that number. Applies to only phone numbers in the US and Canada.
+     *
+     * @param string $inRegion Limit results to a particular region. (US/Canada
+     *                         only)
      * @return $this Fluent Builder
      */
-    public function setInRegion($inRegion) {
+    public function setInRegion(string $inRegion): self {
         $this->options['inRegion'] = $inRegion;
         return $this;
     }
 
     /**
-     * The in_rate_center
-     * 
-     * @param string $inRateCenter The in_rate_center
+     * Limit results to a specific rate center, or given a phone number search within the same rate center as that number. Requires `in_lata` to be set as well. Applies to only phone numbers in the US and Canada.
+     *
+     * @param string $inRateCenter Limit results to a specific rate center, or
+     *                             given a phone number search within the same rate
+     *                             center as that number. (US/Canada only)
      * @return $this Fluent Builder
      */
-    public function setInRateCenter($inRateCenter) {
+    public function setInRateCenter(string $inRateCenter): self {
         $this->options['inRateCenter'] = $inRateCenter;
         return $this;
     }
 
     /**
-     * The in_lata
-     * 
-     * @param string $inLata The in_lata
+     * Limit results to a specific local access and transport area ([LATA](https://en.wikipedia.org/wiki/Local_access_and_transport_area)). Given a phone number, search within the same [LATA](https://en.wikipedia.org/wiki/Local_access_and_transport_area) as that number. Applies to only phone numbers in the US and Canada.
+     *
+     * @param string $inLata Limit results to a specific local access and transport
+     *                       area. (US/Canada only)
      * @return $this Fluent Builder
      */
-    public function setInLata($inLata) {
+    public function setInLata(string $inLata): self {
         $this->options['inLata'] = $inLata;
         return $this;
     }
 
     /**
-     * The in_locality
-     * 
-     * @param string $inLocality The in_locality
+     * Limit results to a particular locality or city. Given a phone number, search within the same Locality as that number.
+     *
+     * @param string $inLocality Limit results to a particular locality
      * @return $this Fluent Builder
      */
-    public function setInLocality($inLocality) {
+    public function setInLocality(string $inLocality): self {
         $this->options['inLocality'] = $inLocality;
         return $this;
     }
 
     /**
-     * The fax_enabled
-     * 
-     * @param boolean $faxEnabled The fax_enabled
+     * Whether the phone numbers can receive faxes. Can be: `true` or `false`.
+     *
+     * @param bool $faxEnabled Whether the phone numbers can receive faxes
      * @return $this Fluent Builder
      */
-    public function setFaxEnabled($faxEnabled) {
+    public function setFaxEnabled(bool $faxEnabled): self {
         $this->options['faxEnabled'] = $faxEnabled;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Api.V2010.ReadSharedCostOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Api.V2010.ReadSharedCostOptions ' . $options . ']';
     }
 }

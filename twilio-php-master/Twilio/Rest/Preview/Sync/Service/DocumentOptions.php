@@ -21,8 +21,16 @@ abstract class DocumentOptions {
      * @param array $data The data
      * @return CreateDocumentOptions Options builder
      */
-    public static function create($uniqueName = Values::NONE, $data = Values::NONE) {
+    public static function create(string $uniqueName = Values::NONE, array $data = Values::ARRAY_NONE): CreateDocumentOptions {
         return new CreateDocumentOptions($uniqueName, $data);
+    }
+
+    /**
+     * @param string $ifMatch The If-Match HTTP request header
+     * @return UpdateDocumentOptions Options builder
+     */
+    public static function update(string $ifMatch = Values::NONE): UpdateDocumentOptions {
+        return new UpdateDocumentOptions($ifMatch);
     }
 }
 
@@ -31,45 +39,70 @@ class CreateDocumentOptions extends Options {
      * @param string $uniqueName The unique_name
      * @param array $data The data
      */
-    public function __construct($uniqueName = Values::NONE, $data = Values::NONE) {
+    public function __construct(string $uniqueName = Values::NONE, array $data = Values::ARRAY_NONE) {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['data'] = $data;
     }
 
     /**
      * The unique_name
-     * 
+     *
      * @param string $uniqueName The unique_name
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName(string $uniqueName): self {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
      * The data
-     * 
+     *
      * @param array $data The data
      * @return $this Fluent Builder
      */
-    public function setData($data) {
+    public function setData(array $data): self {
         $this->options['data'] = $data;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Preview.Sync.CreateDocumentOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Preview.Sync.CreateDocumentOptions ' . $options . ']';
+    }
+}
+
+class UpdateDocumentOptions extends Options {
+    /**
+     * @param string $ifMatch The If-Match HTTP request header
+     */
+    public function __construct(string $ifMatch = Values::NONE) {
+        $this->options['ifMatch'] = $ifMatch;
+    }
+
+    /**
+     * The If-Match HTTP request header
+     *
+     * @param string $ifMatch The If-Match HTTP request header
+     * @return $this Fluent Builder
+     */
+    public function setIfMatch(string $ifMatch): self {
+        $this->options['ifMatch'] = $ifMatch;
+        return $this;
+    }
+
+    /**
+     * Provide a friendly representation
+     *
+     * @return string Machine friendly representation
+     */
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Preview.Sync.UpdateDocumentOptions ' . $options . ']';
     }
 }

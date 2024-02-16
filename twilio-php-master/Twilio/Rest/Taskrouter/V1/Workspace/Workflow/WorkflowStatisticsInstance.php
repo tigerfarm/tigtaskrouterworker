@@ -16,47 +16,48 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property array cumulative
- * @property array realtime
- * @property string workflowSid
- * @property string workspaceSid
- * @property string url
+ * @property string $accountSid
+ * @property array $cumulative
+ * @property array $realtime
+ * @property string $workflowSid
+ * @property string $workspaceSid
+ * @property string $url
  */
 class WorkflowStatisticsInstance extends InstanceResource {
     /**
      * Initialize the WorkflowStatisticsInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $workspaceSid The workspace_sid
-     * @param string $workflowSid The workflow_sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Workflow\WorkflowStatisticsInstance 
+     * @param string $workspaceSid The SID of the Workspace that contains the
+     *                             Workflow
+     * @param string $workflowSid Returns the list of Tasks that are being
+     *                            controlled by the Workflow with the specified SID
+     *                            value
      */
-    public function __construct(Version $version, array $payload, $workspaceSid, $workflowSid) {
+    public function __construct(Version $version, array $payload, string $workspaceSid, string $workflowSid) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'cumulative' => Values::array_get($payload, 'cumulative'),
             'realtime' => Values::array_get($payload, 'realtime'),
             'workflowSid' => Values::array_get($payload, 'workflow_sid'),
             'workspaceSid' => Values::array_get($payload, 'workspace_sid'),
             'url' => Values::array_get($payload, 'url'),
-        );
+        ];
 
-        $this->solution = array('workspaceSid' => $workspaceSid, 'workflowSid' => $workflowSid, );
+        $this->solution = ['workspaceSid' => $workspaceSid, 'workflowSid' => $workflowSid, ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Workflow\WorkflowStatisticsContext Context for this
-     *                                                                                 WorkflowStatisticsInstance
+     *
+     * @return WorkflowStatisticsContext Context for this WorkflowStatisticsInstance
      */
-    protected function proxy() {
+    protected function proxy(): WorkflowStatisticsContext {
         if (!$this->context) {
             $this->context = new WorkflowStatisticsContext(
                 $this->version,
@@ -69,30 +70,30 @@ class WorkflowStatisticsInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a WorkflowStatisticsInstance
-     * 
+     * Fetch the WorkflowStatisticsInstance
+     *
      * @param array|Options $options Optional Arguments
      * @return WorkflowStatisticsInstance Fetched WorkflowStatisticsInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch($options = array()) {
+    public function fetch(array $options = []): WorkflowStatisticsInstance {
         return $this->proxy()->fetch($options);
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -101,14 +102,14 @@ class WorkflowStatisticsInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Taskrouter.V1.WorkflowStatisticsInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Taskrouter.V1.WorkflowStatisticsInstance ' . \implode(' ', $context) . ']';
     }
 }

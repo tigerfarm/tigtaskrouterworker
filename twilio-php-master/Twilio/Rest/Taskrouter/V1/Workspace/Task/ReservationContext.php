@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Taskrouter\V1\Workspace\Task;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Options;
 use Twilio\Serialize;
@@ -18,36 +19,31 @@ use Twilio\Version;
 class ReservationContext extends InstanceContext {
     /**
      * Initialize the ReservationContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
-     * @param string $taskSid The task_sid
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Task\ReservationContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $workspaceSid The SID of the Workspace with the
+     *                             TaskReservation resource to fetch
+     * @param string $taskSid The SID of the reserved Task resource with the
+     *                        TaskReservation resource to fetch
+     * @param string $sid The SID of the TaskReservation resource to fetch
      */
     public function __construct(Version $version, $workspaceSid, $taskSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('workspaceSid' => $workspaceSid, 'taskSid' => $taskSid, 'sid' => $sid, );
+        $this->solution = ['workspaceSid' => $workspaceSid, 'taskSid' => $taskSid, 'sid' => $sid, ];
 
-        $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Tasks/' . rawurlencode($taskSid) . '/Reservations/' . rawurlencode($sid) . '';
+        $this->uri = '/Workspaces/' . \rawurlencode($workspaceSid) . '/Tasks/' . \rawurlencode($taskSid) . '/Reservations/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a ReservationInstance
-     * 
+     * Fetch the ReservationInstance
+     *
      * @return ReservationInstance Fetched ReservationInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): ReservationInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new ReservationInstance(
             $this->version,
@@ -60,15 +56,15 @@ class ReservationContext extends InstanceContext {
 
     /**
      * Update the ReservationInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return ReservationInstance Updated ReservationInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): ReservationInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'ReservationStatus' => $options['reservationStatus'],
             'WorkerActivitySid' => $options['workerActivitySid'],
             'Instruction' => $options['instruction'],
@@ -118,14 +114,14 @@ class ReservationContext extends InstanceContext {
             'SipAuthPassword' => $options['sipAuthPassword'],
             'DequeueStatusCallbackEvent' => Serialize::map($options['dequeueStatusCallbackEvent'], function($e) { return $e; }),
             'PostWorkActivitySid' => $options['postWorkActivitySid'],
-        ));
+            'SupervisorMode' => $options['supervisorMode'],
+            'Supervisor' => $options['supervisor'],
+            'EndConferenceOnCustomerExit' => Serialize::booleanToString($options['endConferenceOnCustomerExit']),
+            'BeepOnCustomerEntrance' => Serialize::booleanToString($options['beepOnCustomerEntrance']),
+        ]);
+        $headers = Values::of(['If-Match' => $options['ifMatch'], ]);
 
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->update('POST', $this->uri, [], $data, $headers);
 
         return new ReservationInstance(
             $this->version,
@@ -138,14 +134,14 @@ class ReservationContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Taskrouter.V1.ReservationContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Taskrouter.V1.ReservationContext ' . \implode(' ', $context) . ']';
     }
 }

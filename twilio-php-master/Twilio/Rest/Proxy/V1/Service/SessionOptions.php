@@ -17,285 +17,222 @@ use Twilio\Values;
  */
 abstract class SessionOptions {
     /**
-     * @param string $uniqueName The unique_name
-     * @param string $status The Status of this Session
-     * @return ReadSessionOptions Options builder
-     */
-    public static function read($uniqueName = Values::NONE, $status = Values::NONE) {
-        return new ReadSessionOptions($uniqueName, $status);
-    }
-
-    /**
-     * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param \DateTime $dateExpiry The date this Session should expire
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The Mode of this Session
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
+     * @param \DateTime $dateExpiry The ISO 8601 date when the Session should expire
+     * @param int $ttl When the session will expire
+     * @param string $mode The Mode of the Session
      * @param string $status Session status
-     * @param array $participants The participants
+     * @param array[] $participants The Participant objects to include in the new
+     *                              session
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
      * @return CreateSessionOptions Options builder
      */
-    public static function create($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
-        return new CreateSessionOptions($uniqueName, $dateExpiry, $ttl, $mode, $status, $participants);
+    public static function create(string $uniqueName = Values::NONE, \DateTime $dateExpiry = Values::NONE, int $ttl = Values::NONE, string $mode = Values::NONE, string $status = Values::NONE, array $participants = Values::ARRAY_NONE, bool $failOnParticipantConflict = Values::NONE): CreateSessionOptions {
+        return new CreateSessionOptions($uniqueName, $dateExpiry, $ttl, $mode, $status, $participants, $failOnParticipantConflict);
     }
 
     /**
-     * @param string $uniqueName The unique_name
-     * @param \DateTime $dateExpiry The date this Session should ge expired
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The mode
-     * @param string $status The Status of this Session
-     * @param array $participants The participants
+     * @param \DateTime $dateExpiry The ISO 8601 date when the Session should expire
+     * @param int $ttl When the session will expire
+     * @param string $status The new status of the resource
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
      * @return UpdateSessionOptions Options builder
      */
-    public static function update($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
-        return new UpdateSessionOptions($uniqueName, $dateExpiry, $ttl, $mode, $status, $participants);
-    }
-}
-
-class ReadSessionOptions extends Options {
-    /**
-     * @param string $uniqueName The unique_name
-     * @param string $status The Status of this Session
-     */
-    public function __construct($uniqueName = Values::NONE, $status = Values::NONE) {
-        $this->options['uniqueName'] = $uniqueName;
-        $this->options['status'] = $status;
-    }
-
-    /**
-     * The unique_name
-     * 
-     * @param string $uniqueName The unique_name
-     * @return $this Fluent Builder
-     */
-    public function setUniqueName($uniqueName) {
-        $this->options['uniqueName'] = $uniqueName;
-        return $this;
-    }
-
-    /**
-     * The Status of this Session. One of `in-progress`, `closed`, `failed`, `unknown` or `completed`.
-     * 
-     * @param string $status The Status of this Session
-     * @return $this Fluent Builder
-     */
-    public function setStatus($status) {
-        $this->options['status'] = $status;
-        return $this;
-    }
-
-    /**
-     * Provide a friendly representation
-     * 
-     * @return string Machine friendly representation
-     */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Proxy.V1.ReadSessionOptions ' . implode(' ', $options) . ']';
+    public static function update(\DateTime $dateExpiry = Values::NONE, int $ttl = Values::NONE, string $status = Values::NONE, bool $failOnParticipantConflict = Values::NONE): UpdateSessionOptions {
+        return new UpdateSessionOptions($dateExpiry, $ttl, $status, $failOnParticipantConflict);
     }
 }
 
 class CreateSessionOptions extends Options {
     /**
-     * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param \DateTime $dateExpiry The date this Session should expire
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The Mode of this Session
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
+     * @param \DateTime $dateExpiry The ISO 8601 date when the Session should expire
+     * @param int $ttl When the session will expire
+     * @param string $mode The Mode of the Session
      * @param string $status Session status
-     * @param array $participants The participants
+     * @param array[] $participants The Participant objects to include in the new
+     *                              session
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
      */
-    public function __construct($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
+    public function __construct(string $uniqueName = Values::NONE, \DateTime $dateExpiry = Values::NONE, int $ttl = Values::NONE, string $mode = Values::NONE, string $status = Values::NONE, array $participants = Values::ARRAY_NONE, bool $failOnParticipantConflict = Values::NONE) {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['dateExpiry'] = $dateExpiry;
         $this->options['ttl'] = $ttl;
         $this->options['mode'] = $mode;
         $this->options['status'] = $status;
         $this->options['participants'] = $participants;
+        $this->options['failOnParticipantConflict'] = $failOnParticipantConflict;
     }
 
     /**
-     * Your identifier for this Session such as a Job ID or conversation ID.
-     * 
-     * @param string $uniqueName A unique, developer assigned name of this Session.
+     * An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**
+     *
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName(string $uniqueName): self {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
-     * An absolute time at which this Session should close. If this is populated, it takes precedence over TTL values.
-     * 
-     * @param \DateTime $dateExpiry The date this Session should expire
+     * The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.
+     *
+     * @param \DateTime $dateExpiry The ISO 8601 date when the Session should expire
      * @return $this Fluent Builder
      */
-    public function setDateExpiry($dateExpiry) {
+    public function setDateExpiry(\DateTime $dateExpiry): self {
         $this->options['dateExpiry'] = $dateExpiry;
         return $this;
     }
 
     /**
-     * The Time To Live for this Session. The amount of time, specified in seconds, that this Session should live for before closing. Keys off the last interaction or session creation time.
-     * 
-     * @param integer $ttl TTL for a Session, in seconds.
+     * The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session's last Interaction.
+     *
+     * @param int $ttl When the session will expire
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
-     * The type of communications mediums allowed on a Session. Defaults to voice-and-message, other options are voice-only OR message-only.
-     * 
-     * @param string $mode The Mode of this Session
+     * The Mode of the Session. Can be: `message-only`, `voice-only`, or `voice-and-message` and the default value is `voice-and-message`.
+     *
+     * @param string $mode The Mode of the Session
      * @return $this Fluent Builder
      */
-    public function setMode($mode) {
+    public function setMode(string $mode): self {
         $this->options['mode'] = $mode;
         return $this;
     }
 
     /**
-     * Set this value to 'closed' to close the session. A Session can be re-opened by posting to a closed session with the value 'in-progress.'  This will be 'open' by default on create.
-     * 
+     * The initial status of the Session. Can be: `open`, `in-progress`, `closed`, `failed`, or `unknown`. The default is `open` on create.
+     *
      * @param string $status Session status
      * @return $this Fluent Builder
      */
-    public function setStatus($status) {
+    public function setStatus(string $status): self {
         $this->options['status'] = $status;
         return $this;
     }
 
     /**
-     * The participants
-     * 
-     * @param array $participants The participants
+     * The Participant objects to include in the new session.
+     *
+     * @param array[] $participants The Participant objects to include in the new
+     *                              session
      * @return $this Fluent Builder
      */
-    public function setParticipants($participants) {
+    public function setParticipants(array $participants): self {
         $this->options['participants'] = $participants;
+        return $this;
+    }
+
+    /**
+     * [Experimental] For accounts with the ProxyAllowParticipantConflict account flag, setting to true enables per-request opt-in to allowing Proxy to reject a Session create (with Participants) request that could cause the same Identifier/ProxyIdentifier pair to be active in multiple Sessions. Depending on the context, this could be a 409 error (Twilio error code 80623) or a 400 error (Twilio error code 80604). If not provided, requests will be allowed to succeed and a Debugger notification (80802) will be emitted. Having multiple, active Participants with the same Identifier/ProxyIdentifier pair causes calls and messages from affected Participants to be routed incorrectly. Please note, the default behavior for accounts without the ProxyAllowParticipantConflict flag is to reject the request as described.  This will eventually be the default for all accounts.
+     *
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
+     * @return $this Fluent Builder
+     */
+    public function setFailOnParticipantConflict(bool $failOnParticipantConflict): self {
+        $this->options['failOnParticipantConflict'] = $failOnParticipantConflict;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Proxy.V1.CreateSessionOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Proxy.V1.CreateSessionOptions ' . $options . ']';
     }
 }
 
 class UpdateSessionOptions extends Options {
     /**
-     * @param string $uniqueName The unique_name
-     * @param \DateTime $dateExpiry The date this Session should ge expired
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The mode
-     * @param string $status The Status of this Session
-     * @param array $participants The participants
+     * @param \DateTime $dateExpiry The ISO 8601 date when the Session should expire
+     * @param int $ttl When the session will expire
+     * @param string $status The new status of the resource
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
      */
-    public function __construct($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
-        $this->options['uniqueName'] = $uniqueName;
+    public function __construct(\DateTime $dateExpiry = Values::NONE, int $ttl = Values::NONE, string $status = Values::NONE, bool $failOnParticipantConflict = Values::NONE) {
         $this->options['dateExpiry'] = $dateExpiry;
         $this->options['ttl'] = $ttl;
-        $this->options['mode'] = $mode;
         $this->options['status'] = $status;
-        $this->options['participants'] = $participants;
+        $this->options['failOnParticipantConflict'] = $failOnParticipantConflict;
     }
 
     /**
-     * The unique_name
-     * 
-     * @param string $uniqueName The unique_name
+     * The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.
+     *
+     * @param \DateTime $dateExpiry The ISO 8601 date when the Session should expire
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
-        $this->options['uniqueName'] = $uniqueName;
-        return $this;
-    }
-
-    /**
-     * The date that this Session should be expired, given in ISO 8601 format.
-     * 
-     * @param \DateTime $dateExpiry The date this Session should ge expired
-     * @return $this Fluent Builder
-     */
-    public function setDateExpiry($dateExpiry) {
+    public function setDateExpiry(\DateTime $dateExpiry): self {
         $this->options['dateExpiry'] = $dateExpiry;
         return $this;
     }
 
     /**
-     * The time delay, in seconds, after which a session will be expired.  Keyed off of last interaction time.
-     * 
-     * @param integer $ttl TTL for a Session, in seconds.
+     * The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session's last Interaction.
+     *
+     * @param int $ttl When the session will expire
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
-     * The mode
-     * 
-     * @param string $mode The mode
+     * The new status of the resource. Can be: `in-progress` to re-open a session or `closed` to close a session.
+     *
+     * @param string $status The new status of the resource
      * @return $this Fluent Builder
      */
-    public function setMode($mode) {
-        $this->options['mode'] = $mode;
-        return $this;
-    }
-
-    /**
-     * The Status of this Session. Set `in-progress` to re-open a session, `closed` to close a session.
-     * 
-     * @param string $status The Status of this Session
-     * @return $this Fluent Builder
-     */
-    public function setStatus($status) {
+    public function setStatus(string $status): self {
         $this->options['status'] = $status;
         return $this;
     }
 
     /**
-     * The participants
-     * 
-     * @param array $participants The participants
+     * [Experimental] For accounts with the ProxyAllowParticipantConflict account flag, setting to true enables per-request opt-in to allowing Proxy to return a 400 error (Twilio error code 80604) when a request to set a Session to in-progress would cause Participants with the same Identifier/ProxyIdentifier pair to be active in multiple Sessions. If not provided, requests will be allowed to succeed, and a Debugger notification (80801) will be emitted. Having multiple, active Participants with the same Identifier/ProxyIdentifier pair causes calls and messages from affected Participants to be routed incorrectly. Please note, the default behavior for accounts without the ProxyAllowParticipantConflict flag is to reject the request as described.  This will eventually be the default for all accounts.
+     *
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
      * @return $this Fluent Builder
      */
-    public function setParticipants($participants) {
-        $this->options['participants'] = $participants;
+    public function setFailOnParticipantConflict(bool $failOnParticipantConflict): self {
+        $this->options['failOnParticipantConflict'] = $failOnParticipantConflict;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Proxy.V1.UpdateSessionOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Proxy.V1.UpdateSessionOptions ' . $options . ']';
     }
 }

@@ -14,41 +14,43 @@ use Twilio\Values;
 
 abstract class ConnectAppOptions {
     /**
-     * @param string $authorizeRedirectUrl URIL Twilio sends requests when users
-     *                                     authorize
-     * @param string $companyName The company name set for this Connect App.
-     * @param string $deauthorizeCallbackMethod HTTP method Twilio WIll use making
-     *                                          requests to the url
-     * @param string $deauthorizeCallbackUrl URL Twilio will send a request when a
-     *                                       user de-authorizes this app
-     * @param string $description A more detailed human readable description
-     * @param string $friendlyName A human readable name for the Connect App.
-     * @param string $homepageUrl The URL users can obtain more information
-     * @param string $permissions The set of permissions that your ConnectApp
-     *                            requests.
+     * @param string $authorizeRedirectUrl The URL to redirect the user to after
+     *                                     authorization
+     * @param string $companyName The company name to set for the Connect App
+     * @param string $deauthorizeCallbackMethod The HTTP method to use when calling
+     *                                          deauthorize_callback_url
+     * @param string $deauthorizeCallbackUrl The URL to call to de-authorize the
+     *                                       Connect App
+     * @param string $description A description of the Connect App
+     * @param string $friendlyName A string to describe the resource
+     * @param string $homepageUrl A public URL where users can obtain more
+     *                            information
+     * @param string[] $permissions The set of permissions that your ConnectApp
+     *                              will request
      * @return UpdateConnectAppOptions Options builder
      */
-    public static function update($authorizeRedirectUrl = Values::NONE, $companyName = Values::NONE, $deauthorizeCallbackMethod = Values::NONE, $deauthorizeCallbackUrl = Values::NONE, $description = Values::NONE, $friendlyName = Values::NONE, $homepageUrl = Values::NONE, $permissions = Values::NONE) {
+    public static function update(string $authorizeRedirectUrl = Values::NONE, string $companyName = Values::NONE, string $deauthorizeCallbackMethod = Values::NONE, string $deauthorizeCallbackUrl = Values::NONE, string $description = Values::NONE, string $friendlyName = Values::NONE, string $homepageUrl = Values::NONE, array $permissions = Values::ARRAY_NONE): UpdateConnectAppOptions {
         return new UpdateConnectAppOptions($authorizeRedirectUrl, $companyName, $deauthorizeCallbackMethod, $deauthorizeCallbackUrl, $description, $friendlyName, $homepageUrl, $permissions);
     }
 }
 
 class UpdateConnectAppOptions extends Options {
     /**
-     * @param string $authorizeRedirectUrl URIL Twilio sends requests when users
-     *                                     authorize
-     * @param string $companyName The company name set for this Connect App.
-     * @param string $deauthorizeCallbackMethod HTTP method Twilio WIll use making
-     *                                          requests to the url
-     * @param string $deauthorizeCallbackUrl URL Twilio will send a request when a
-     *                                       user de-authorizes this app
-     * @param string $description A more detailed human readable description
-     * @param string $friendlyName A human readable name for the Connect App.
-     * @param string $homepageUrl The URL users can obtain more information
-     * @param string $permissions The set of permissions that your ConnectApp
-     *                            requests.
+     * @param string $authorizeRedirectUrl The URL to redirect the user to after
+     *                                     authorization
+     * @param string $companyName The company name to set for the Connect App
+     * @param string $deauthorizeCallbackMethod The HTTP method to use when calling
+     *                                          deauthorize_callback_url
+     * @param string $deauthorizeCallbackUrl The URL to call to de-authorize the
+     *                                       Connect App
+     * @param string $description A description of the Connect App
+     * @param string $friendlyName A string to describe the resource
+     * @param string $homepageUrl A public URL where users can obtain more
+     *                            information
+     * @param string[] $permissions The set of permissions that your ConnectApp
+     *                              will request
      */
-    public function __construct($authorizeRedirectUrl = Values::NONE, $companyName = Values::NONE, $deauthorizeCallbackMethod = Values::NONE, $deauthorizeCallbackUrl = Values::NONE, $description = Values::NONE, $friendlyName = Values::NONE, $homepageUrl = Values::NONE, $permissions = Values::NONE) {
+    public function __construct(string $authorizeRedirectUrl = Values::NONE, string $companyName = Values::NONE, string $deauthorizeCallbackMethod = Values::NONE, string $deauthorizeCallbackUrl = Values::NONE, string $description = Values::NONE, string $friendlyName = Values::NONE, string $homepageUrl = Values::NONE, array $permissions = Values::ARRAY_NONE) {
         $this->options['authorizeRedirectUrl'] = $authorizeRedirectUrl;
         $this->options['companyName'] = $companyName;
         $this->options['deauthorizeCallbackMethod'] = $deauthorizeCallbackMethod;
@@ -60,109 +62,105 @@ class UpdateConnectAppOptions extends Options {
     }
 
     /**
-     * The URL the user's browser will redirect to after Twilio authenticates the user and obtains authorization for this Connect App.
-     * 
-     * @param string $authorizeRedirectUrl URIL Twilio sends requests when users
-     *                                     authorize
+     * The URL to redirect the user to after we authenticate the user and obtain authorization to access the Connect App.
+     *
+     * @param string $authorizeRedirectUrl The URL to redirect the user to after
+     *                                     authorization
      * @return $this Fluent Builder
      */
-    public function setAuthorizeRedirectUrl($authorizeRedirectUrl) {
+    public function setAuthorizeRedirectUrl(string $authorizeRedirectUrl): self {
         $this->options['authorizeRedirectUrl'] = $authorizeRedirectUrl;
         return $this;
     }
 
     /**
-     * The company name set for this Connect App.
-     * 
-     * @param string $companyName The company name set for this Connect App.
+     * The company name to set for the Connect App.
+     *
+     * @param string $companyName The company name to set for the Connect App
      * @return $this Fluent Builder
      */
-    public function setCompanyName($companyName) {
+    public function setCompanyName(string $companyName): self {
         $this->options['companyName'] = $companyName;
         return $this;
     }
 
     /**
-     * The HTTP method to be used when making a request to the `DeauthorizeCallbackUrl`. Either `GET` or `POST`.
-     * 
-     * @param string $deauthorizeCallbackMethod HTTP method Twilio WIll use making
-     *                                          requests to the url
+     * The HTTP method to use when calling `deauthorize_callback_url`.
+     *
+     * @param string $deauthorizeCallbackMethod The HTTP method to use when calling
+     *                                          deauthorize_callback_url
      * @return $this Fluent Builder
      */
-    public function setDeauthorizeCallbackMethod($deauthorizeCallbackMethod) {
+    public function setDeauthorizeCallbackMethod(string $deauthorizeCallbackMethod): self {
         $this->options['deauthorizeCallbackMethod'] = $deauthorizeCallbackMethod;
         return $this;
     }
 
     /**
-     * The URL to which Twilio will send a request when a user de-authorizes this Connect App.
-     * 
-     * @param string $deauthorizeCallbackUrl URL Twilio will send a request when a
-     *                                       user de-authorizes this app
+     * The URL to call using the `deauthorize_callback_method` to de-authorize the Connect App.
+     *
+     * @param string $deauthorizeCallbackUrl The URL to call to de-authorize the
+     *                                       Connect App
      * @return $this Fluent Builder
      */
-    public function setDeauthorizeCallbackUrl($deauthorizeCallbackUrl) {
+    public function setDeauthorizeCallbackUrl(string $deauthorizeCallbackUrl): self {
         $this->options['deauthorizeCallbackUrl'] = $deauthorizeCallbackUrl;
         return $this;
     }
 
     /**
-     * A more detailed human readable description of the Connect App.
-     * 
-     * @param string $description A more detailed human readable description
+     * A description of the Connect App.
+     *
+     * @param string $description A description of the Connect App
      * @return $this Fluent Builder
      */
-    public function setDescription($description) {
+    public function setDescription(string $description): self {
         $this->options['description'] = $description;
         return $this;
     }
 
     /**
-     * A human readable description of the Connect App, with maximum length 64 characters.
-     * 
-     * @param string $friendlyName A human readable name for the Connect App.
+     * A descriptive string that you create to describe the resource. It can be up to 64 characters long.
+     *
+     * @param string $friendlyName A string to describe the resource
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName(string $friendlyName): self {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
-     * The public URL where users can obtain more information about this Connect App.
-     * 
-     * @param string $homepageUrl The URL users can obtain more information
+     * A public URL where users can obtain more information about this Connect App.
+     *
+     * @param string $homepageUrl A public URL where users can obtain more
+     *                            information
      * @return $this Fluent Builder
      */
-    public function setHomepageUrl($homepageUrl) {
+    public function setHomepageUrl(string $homepageUrl): self {
         $this->options['homepageUrl'] = $homepageUrl;
         return $this;
     }
 
     /**
-     * A comma-separated list of permssions you will request from users of this ConnectApp.  Valid permssions are `get-all` or `post-all`.
-     * 
-     * @param string $permissions The set of permissions that your ConnectApp
-     *                            requests.
+     * A comma-separated list of the permissions you will request from the users of this ConnectApp.  Can include: `get-all` and `post-all`.
+     *
+     * @param string[] $permissions The set of permissions that your ConnectApp
+     *                              will request
      * @return $this Fluent Builder
      */
-    public function setPermissions($permissions) {
+    public function setPermissions(array $permissions): self {
         $this->options['permissions'] = $permissions;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Api.V2010.UpdateConnectAppOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Api.V2010.UpdateConnectAppOptions ' . $options . ']';
     }
 }

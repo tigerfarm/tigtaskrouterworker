@@ -16,33 +16,32 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
- * @property string accountSid
- * @property string serviceSid
- * @property string documentSid
- * @property string identity
- * @property boolean read
- * @property boolean write
- * @property boolean manage
- * @property string url
+ *
+ * @property string $accountSid
+ * @property string $serviceSid
+ * @property string $documentSid
+ * @property string $identity
+ * @property bool $read
+ * @property bool $write
+ * @property bool $manage
+ * @property string $url
  */
 class DocumentPermissionInstance extends InstanceResource {
     /**
      * Initialize the DocumentPermissionInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
      * @param string $serviceSid Sync Service Instance SID.
      * @param string $documentSid Sync Document SID.
      * @param string $identity Identity of the user to whom the Sync Document
      *                         Permission applies.
-     * @return \Twilio\Rest\Preview\Sync\Service\Document\DocumentPermissionInstance 
      */
-    public function __construct(Version $version, array $payload, $serviceSid, $documentSid, $identity = null) {
+    public function __construct(Version $version, array $payload, string $serviceSid, string $documentSid, string $identity = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'serviceSid' => Values::array_get($payload, 'service_sid'),
             'documentSid' => Values::array_get($payload, 'document_sid'),
@@ -51,22 +50,22 @@ class DocumentPermissionInstance extends InstanceResource {
             'write' => Values::array_get($payload, 'write'),
             'manage' => Values::array_get($payload, 'manage'),
             'url' => Values::array_get($payload, 'url'),
-        );
+        ];
 
-        $this->solution = array(
+        $this->solution = [
             'serviceSid' => $serviceSid,
             'documentSid' => $documentSid,
             'identity' => $identity ?: $this->properties['identity'],
-        );
+        ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Preview\Sync\Service\Document\DocumentPermissionContext Context for this DocumentPermissionInstance
+     *
+     * @return DocumentPermissionContext Context for this DocumentPermissionInstance
      */
-    protected function proxy() {
+    protected function proxy(): DocumentPermissionContext {
         if (!$this->context) {
             $this->context = new DocumentPermissionContext(
                 $this->version,
@@ -80,52 +79,52 @@ class DocumentPermissionInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a DocumentPermissionInstance
-     * 
+     * Fetch the DocumentPermissionInstance
+     *
      * @return DocumentPermissionInstance Fetched DocumentPermissionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): DocumentPermissionInstance {
         return $this->proxy()->fetch();
     }
 
     /**
-     * Deletes the DocumentPermissionInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the DocumentPermissionInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
      * Update the DocumentPermissionInstance
-     * 
-     * @param boolean $read Read access.
-     * @param boolean $write Write access.
-     * @param boolean $manage Manage access.
+     *
+     * @param bool $read Read access.
+     * @param bool $write Write access.
+     * @param bool $manage Manage access.
      * @return DocumentPermissionInstance Updated DocumentPermissionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($read, $write, $manage) {
+    public function update(bool $read, bool $write, bool $manage): DocumentPermissionInstance {
         return $this->proxy()->update($read, $write, $manage);
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -134,14 +133,14 @@ class DocumentPermissionInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Sync.DocumentPermissionInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Sync.DocumentPermissionInstance ' . \implode(' ', $context) . ']';
     }
 }

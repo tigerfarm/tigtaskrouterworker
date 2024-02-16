@@ -10,12 +10,13 @@
 namespace Twilio\Rest\Pricing\V1;
 
 use Twilio\Exceptions\TwilioException;
+use Twilio\InstanceContext;
 use Twilio\ListResource;
 use Twilio\Rest\Pricing\V1\Messaging\CountryList;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\Pricing\V1\Messaging\CountryList countries
+ * @property CountryList $countries
  * @method \Twilio\Rest\Pricing\V1\Messaging\CountryContext countries(string $isoCountry)
  */
 class MessagingList extends ListResource {
@@ -23,21 +24,20 @@ class MessagingList extends ListResource {
 
     /**
      * Construct the MessagingList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @return \Twilio\Rest\Pricing\V1\MessagingList 
      */
     public function __construct(Version $version) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array();
+        $this->solution = [];
     }
 
     /**
      * Access the countries
      */
-    protected function getCountries() {
+    protected function getCountries(): CountryList {
         if (!$this->_countries) {
             $this->_countries = new CountryList($this->version);
         }
@@ -47,14 +47,14 @@ class MessagingList extends ListResource {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
      * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * @throws TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get(string $name) {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -63,16 +63,16 @@ class MessagingList extends ListResource {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -80,10 +80,10 @@ class MessagingList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Pricing.V1.MessagingList]';
     }
 }

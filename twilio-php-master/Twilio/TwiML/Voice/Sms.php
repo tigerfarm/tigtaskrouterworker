@@ -14,61 +14,56 @@ use Twilio\TwiML\TwiML;
 class Sms extends TwiML {
     /**
      * Sms constructor.
-     * 
+     *
      * @param string $message Message body
      * @param array $attributes Optional attributes
      */
-    public function __construct($message, $attributes = array()) {
+    public function __construct($message, $attributes = []) {
         parent::__construct('Sms', $message, $attributes);
     }
 
     /**
      * Add To attribute.
-     * 
-     * @param phoneNumber $to Number to send message to
-     * @return TwiML $this.
+     *
+     * @param string $to Number to send message to
      */
-    public function setTo($to) {
+    public function setTo($to): self {
         return $this->setAttribute('to', $to);
     }
 
     /**
      * Add From attribute.
-     * 
-     * @param phoneNumber $from Number to send message from
-     * @return TwiML $this.
+     *
+     * @param string $from Number to send message from
      */
-    public function setFrom($from) {
+    public function setFrom($from): self {
         return $this->setAttribute('from', $from);
     }
 
     /**
      * Add Action attribute.
-     * 
-     * @param url $action Action URL
-     * @return TwiML $this.
+     *
+     * @param string $action Action URL
      */
-    public function setAction($action) {
+    public function setAction($action): self {
         return $this->setAttribute('action', $action);
     }
 
     /**
      * Add Method attribute.
-     * 
-     * @param httpMethod $method Action URL method
-     * @return TwiML $this.
+     *
+     * @param string $method Action URL method
      */
-    public function setMethod($method) {
+    public function setMethod($method): self {
         return $this->setAttribute('method', $method);
     }
 
     /**
      * Add StatusCallback attribute.
-     * 
-     * @param url $statusCallback Status callback URL
-     * @return TwiML $this.
+     *
+     * @param string $statusCallback Status callback URL
      */
-    public function setStatusCallback($statusCallback) {
+    public function setStatusCallback($statusCallback): self {
         return $this->setAttribute('statusCallback', $statusCallback);
     }
 }

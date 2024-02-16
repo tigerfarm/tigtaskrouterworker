@@ -12,141 +12,151 @@ namespace Twilio\Rest\Sync\V1\Service;
 use Twilio\Options;
 use Twilio\Values;
 
-/**
- * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- */
 abstract class DocumentOptions {
     /**
-     * @param string $uniqueName Human-readable name for this document
-     * @param array $data JSON data to be stored in this document
-     * @param integer $ttl Time-to-live of this Document in seconds, defaults to no
-     *                     expiration.
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the Sync Document
+     * @param array $data A JSON string that represents an arbitrary, schema-less
+     *                    object that the Sync Document stores
+     * @param int $ttl How long, in seconds, before the Sync Document expires and
+     *                 is deleted
      * @return CreateDocumentOptions Options builder
      */
-    public static function create($uniqueName = Values::NONE, $data = Values::NONE, $ttl = Values::NONE) {
+    public static function create(string $uniqueName = Values::NONE, array $data = Values::ARRAY_NONE, int $ttl = Values::NONE): CreateDocumentOptions {
         return new CreateDocumentOptions($uniqueName, $data, $ttl);
     }
 
     /**
-     * @param array $data Contains an arbitrary JSON object to be stored in this
-     *                    Document.
-     * @param integer $ttl New time-to-live of this Document in seconds.
+     * @param array $data A JSON string that represents an arbitrary, schema-less
+     *                    object that the Sync Document stores
+     * @param int $ttl How long, in seconds, before the Document resource expires
+     *                 and is deleted
+     * @param string $ifMatch The If-Match HTTP request header
      * @return UpdateDocumentOptions Options builder
      */
-    public static function update($data = Values::NONE, $ttl = Values::NONE) {
-        return new UpdateDocumentOptions($data, $ttl);
+    public static function update(array $data = Values::ARRAY_NONE, int $ttl = Values::NONE, string $ifMatch = Values::NONE): UpdateDocumentOptions {
+        return new UpdateDocumentOptions($data, $ttl, $ifMatch);
     }
 }
 
 class CreateDocumentOptions extends Options {
     /**
-     * @param string $uniqueName Human-readable name for this document
-     * @param array $data JSON data to be stored in this document
-     * @param integer $ttl Time-to-live of this Document in seconds, defaults to no
-     *                     expiration.
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the Sync Document
+     * @param array $data A JSON string that represents an arbitrary, schema-less
+     *                    object that the Sync Document stores
+     * @param int $ttl How long, in seconds, before the Sync Document expires and
+     *                 is deleted
      */
-    public function __construct($uniqueName = Values::NONE, $data = Values::NONE, $ttl = Values::NONE) {
+    public function __construct(string $uniqueName = Values::NONE, array $data = Values::ARRAY_NONE, int $ttl = Values::NONE) {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['data'] = $data;
         $this->options['ttl'] = $ttl;
     }
 
     /**
-     * Human-readable name for this document
-     * 
-     * @param string $uniqueName Human-readable name for this document
+     * An application-defined string that uniquely identifies the Sync Document
+     *
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the Sync Document
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName(string $uniqueName): self {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
-     * JSON data to be stored in this document
-     * 
-     * @param array $data JSON data to be stored in this document
+     * A JSON string that represents an arbitrary, schema-less object that the Sync Document stores. Can be up to 16 KiB in length.
+     *
+     * @param array $data A JSON string that represents an arbitrary, schema-less
+     *                    object that the Sync Document stores
      * @return $this Fluent Builder
      */
-    public function setData($data) {
+    public function setData(array $data): self {
         $this->options['data'] = $data;
         return $this;
     }
 
     /**
-     * Time-to-live of this Document in seconds, defaults to no expiration. In the range [1, 31 536 000 (1 year)], or 0 for infinity.
-     * 
-     * @param integer $ttl Time-to-live of this Document in seconds, defaults to no
-     *                     expiration.
+     * How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Sync Document expires and is deleted (the Sync Document's time-to-live).
+     *
+     * @param int $ttl How long, in seconds, before the Sync Document expires and
+     *                 is deleted
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Sync.V1.CreateDocumentOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Sync.V1.CreateDocumentOptions ' . $options . ']';
     }
 }
 
 class UpdateDocumentOptions extends Options {
     /**
-     * @param array $data Contains an arbitrary JSON object to be stored in this
-     *                    Document.
-     * @param integer $ttl New time-to-live of this Document in seconds.
+     * @param array $data A JSON string that represents an arbitrary, schema-less
+     *                    object that the Sync Document stores
+     * @param int $ttl How long, in seconds, before the Document resource expires
+     *                 and is deleted
+     * @param string $ifMatch The If-Match HTTP request header
      */
-    public function __construct($data = Values::NONE, $ttl = Values::NONE) {
+    public function __construct(array $data = Values::ARRAY_NONE, int $ttl = Values::NONE, string $ifMatch = Values::NONE) {
         $this->options['data'] = $data;
         $this->options['ttl'] = $ttl;
+        $this->options['ifMatch'] = $ifMatch;
     }
 
     /**
-     * Contains an arbitrary JSON object to be stored in this Document. Serialized to string to respect HTTP form input, up to 16KB.
-     * 
-     * @param array $data Contains an arbitrary JSON object to be stored in this
-     *                    Document.
+     * A JSON string that represents an arbitrary, schema-less object that the Sync Document stores. Can be up to 16 KiB in length.
+     *
+     * @param array $data A JSON string that represents an arbitrary, schema-less
+     *                    object that the Sync Document stores
      * @return $this Fluent Builder
      */
-    public function setData($data) {
+    public function setData(array $data): self {
         $this->options['data'] = $data;
         return $this;
     }
 
     /**
-     * New time-to-live of this Document in seconds. In the range [1, 31 536 000 (1 year)], or 0 for infinity.
-     * 
-     * @param integer $ttl New time-to-live of this Document in seconds.
+     * How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Sync Document expires and is deleted (time-to-live).
+     *
+     * @param int $ttl How long, in seconds, before the Document resource expires
+     *                 and is deleted
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
+        return $this;
+    }
+
+    /**
+     * The If-Match HTTP request header
+     *
+     * @param string $ifMatch The If-Match HTTP request header
+     * @return $this Fluent Builder
+     */
+    public function setIfMatch(string $ifMatch): self {
+        $this->options['ifMatch'] = $ifMatch;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Sync.V1.UpdateDocumentOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Sync.V1.UpdateDocumentOptions ' . $options . ']';
     }
 }

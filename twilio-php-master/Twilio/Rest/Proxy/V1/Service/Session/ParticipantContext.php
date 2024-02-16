@@ -11,52 +11,47 @@ namespace Twilio\Rest\Proxy\V1\Service\Session;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
-use Twilio\Options;
+use Twilio\ListResource;
 use Twilio\Rest\Proxy\V1\Service\Session\Participant\MessageInteractionList;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
- * @property \Twilio\Rest\Proxy\V1\Service\Session\Participant\MessageInteractionList messageInteractions
+ *
+ * @property MessageInteractionList $messageInteractions
  * @method \Twilio\Rest\Proxy\V1\Service\Session\Participant\MessageInteractionContext messageInteractions(string $sid)
  */
 class ParticipantContext extends InstanceContext {
-    protected $_messageInteractions = null;
+    protected $_messageInteractions;
 
     /**
      * Initialize the ParticipantContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid Service Sid.
-     * @param string $sessionSid Session Sid.
-     * @param string $sid A string that uniquely identifies this Participant.
-     * @return \Twilio\Rest\Proxy\V1\Service\Session\ParticipantContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $serviceSid The SID of the parent Service of the resource to
+     *                           fetch
+     * @param string $sessionSid The SID of the parent Session of the resource to
+     *                           fetch
+     * @param string $sid The unique string that identifies the resource
      */
     public function __construct(Version $version, $serviceSid, $sessionSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'sessionSid' => $sessionSid, 'sid' => $sid, );
+        $this->solution = ['serviceSid' => $serviceSid, 'sessionSid' => $sessionSid, 'sid' => $sid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Sessions/' . rawurlencode($sessionSid) . '/Participants/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/Sessions/' . \rawurlencode($sessionSid) . '/Participants/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a ParticipantInstance
-     * 
+     * Fetch the ParticipantInstance
+     *
      * @return ParticipantInstance Fetched ParticipantInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): ParticipantInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new ParticipantInstance(
             $this->version,
@@ -68,54 +63,19 @@ class ParticipantContext extends InstanceContext {
     }
 
     /**
-     * Deletes the ParticipantInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the ParticipantInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
-    }
-
-    /**
-     * Update the ParticipantInstance
-     * 
-     * @param array|Options $options Optional Arguments
-     * @return ParticipantInstance Updated ParticipantInstance
-     * @throws TwilioException When an HTTP error occurs.
-     */
-    public function update($options = array()) {
-        $options = new Values($options);
-
-        $data = Values::of(array(
-            'Identifier' => $options['identifier'],
-            'FriendlyName' => $options['friendlyName'],
-            'ProxyIdentifier' => $options['proxyIdentifier'],
-            'ProxyIdentifierSid' => $options['proxyIdentifierSid'],
-        ));
-
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
-
-        return new ParticipantInstance(
-            $this->version,
-            $payload,
-            $this->solution['serviceSid'],
-            $this->solution['sessionSid'],
-            $this->solution['sid']
-        );
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
      * Access the messageInteractions
-     * 
-     * @return \Twilio\Rest\Proxy\V1\Service\Session\Participant\MessageInteractionList 
      */
-    protected function getMessageInteractions() {
+    protected function getMessageInteractions(): MessageInteractionList {
         if (!$this->_messageInteractions) {
             $this->_messageInteractions = new MessageInteractionList(
                 $this->version,
@@ -130,14 +90,14 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
-     * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * @return ListResource The requested subresource
+     * @throws TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get(string $name): ListResource {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -146,16 +106,16 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -163,14 +123,14 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Proxy.V1.ParticipantContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Proxy.V1.ParticipantContext ' . \implode(' ', $context) . ']';
     }
 }

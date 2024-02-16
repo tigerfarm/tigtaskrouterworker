@@ -14,69 +14,67 @@ use Twilio\Values;
 
 abstract class MessageOptions {
     /**
-     * @param string $from The identity of the message's author. Defaults to system
-     *                     if not specified.
-     * @param string $attributes The optional attributes metadata field you can use
-     *                           to store any data you wish.
-     * @param \DateTime $dateCreated The ISO8601 time specifying the datetime the
-     *                               Message should be set as being created.
-     * @param \DateTime $dateUpdated The ISO8601 time specifying the datetime the
-     *                               Message should be set as having been last
-     *                               updated.
-     * @param string $lastUpdatedBy Specify the Identity of the User that last
-     *                              updated the Message
-     * @param string $body The optional message body string.
-     * @param string $mediaSid The Media Sid to be attached to this Message.
+     * @param string $from The from
+     * @param string $attributes The attributes
+     * @param \DateTime $dateCreated The date_created
+     * @param \DateTime $dateUpdated The date_updated
+     * @param string $lastUpdatedBy The last_updated_by
+     * @param string $body The body
+     * @param string $mediaSid The media_sid
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      * @return CreateMessageOptions Options builder
      */
-    public static function create($from = Values::NONE, $attributes = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE, $lastUpdatedBy = Values::NONE, $body = Values::NONE, $mediaSid = Values::NONE) {
-        return new CreateMessageOptions($from, $attributes, $dateCreated, $dateUpdated, $lastUpdatedBy, $body, $mediaSid);
+    public static function create(string $from = Values::NONE, string $attributes = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $lastUpdatedBy = Values::NONE, string $body = Values::NONE, string $mediaSid = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE): CreateMessageOptions {
+        return new CreateMessageOptions($from, $attributes, $dateCreated, $dateUpdated, $lastUpdatedBy, $body, $mediaSid, $xTwilioWebhookEnabled);
     }
 
     /**
-     * @param string $order Specifies sorting order for messages list, possible
-     *                      values are: `asc` or `desc`.
+     * @param string $order The order
      * @return ReadMessageOptions Options builder
      */
-    public static function read($order = Values::NONE) {
+    public static function read(string $order = Values::NONE): ReadMessageOptions {
         return new ReadMessageOptions($order);
     }
 
     /**
-     * @param string $body The message body string.
-     * @param string $attributes The attributes metadata field you can use to store
-     *                           any data you wish.
-     * @param \DateTime $dateCreated The ISO8601 time specifying the datetime the
-     *                               Message should be set as being created.
-     * @param \DateTime $dateUpdated The ISO8601 time specifying the datetime the
-     *                               Message should be set as having been last
-     *                               updated.
-     * @param string $lastUpdatedBy Specify the Identity of the User that last
-     *                              updated the Message
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     * @return DeleteMessageOptions Options builder
+     */
+    public static function delete(string $xTwilioWebhookEnabled = Values::NONE): DeleteMessageOptions {
+        return new DeleteMessageOptions($xTwilioWebhookEnabled);
+    }
+
+    /**
+     * @param string $body The body
+     * @param string $attributes The attributes
+     * @param \DateTime $dateCreated The date_created
+     * @param \DateTime $dateUpdated The date_updated
+     * @param string $lastUpdatedBy The last_updated_by
+     * @param string $from The from
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      * @return UpdateMessageOptions Options builder
      */
-    public static function update($body = Values::NONE, $attributes = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE, $lastUpdatedBy = Values::NONE) {
-        return new UpdateMessageOptions($body, $attributes, $dateCreated, $dateUpdated, $lastUpdatedBy);
+    public static function update(string $body = Values::NONE, string $attributes = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $lastUpdatedBy = Values::NONE, string $from = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE): UpdateMessageOptions {
+        return new UpdateMessageOptions($body, $attributes, $dateCreated, $dateUpdated, $lastUpdatedBy, $from, $xTwilioWebhookEnabled);
     }
 }
 
 class CreateMessageOptions extends Options {
     /**
-     * @param string $from The identity of the message's author. Defaults to system
-     *                     if not specified.
-     * @param string $attributes The optional attributes metadata field you can use
-     *                           to store any data you wish.
-     * @param \DateTime $dateCreated The ISO8601 time specifying the datetime the
-     *                               Message should be set as being created.
-     * @param \DateTime $dateUpdated The ISO8601 time specifying the datetime the
-     *                               Message should be set as having been last
-     *                               updated.
-     * @param string $lastUpdatedBy Specify the Identity of the User that last
-     *                              updated the Message
-     * @param string $body The optional message body string.
-     * @param string $mediaSid The Media Sid to be attached to this Message.
+     * @param string $from The from
+     * @param string $attributes The attributes
+     * @param \DateTime $dateCreated The date_created
+     * @param \DateTime $dateUpdated The date_updated
+     * @param string $lastUpdatedBy The last_updated_by
+     * @param string $body The body
+     * @param string $mediaSid The media_sid
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      */
-    public function __construct($from = Values::NONE, $attributes = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE, $lastUpdatedBy = Values::NONE, $body = Values::NONE, $mediaSid = Values::NONE) {
+    public function __construct(string $from = Values::NONE, string $attributes = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $lastUpdatedBy = Values::NONE, string $body = Values::NONE, string $mediaSid = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE) {
         $this->options['from'] = $from;
         $this->options['attributes'] = $attributes;
         $this->options['dateCreated'] = $dateCreated;
@@ -84,237 +82,277 @@ class CreateMessageOptions extends Options {
         $this->options['lastUpdatedBy'] = $lastUpdatedBy;
         $this->options['body'] = $body;
         $this->options['mediaSid'] = $mediaSid;
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
     }
 
     /**
-     * The [identity](https://www.twilio.com/docs/api/chat/guides/identity) of the message's author. Defaults to `system` if not specified.
-     * 
-     * @param string $from The identity of the message's author. Defaults to system
-     *                     if not specified.
+     * The from
+     *
+     * @param string $from The from
      * @return $this Fluent Builder
      */
-    public function setFrom($from) {
+    public function setFrom(string $from): self {
         $this->options['from'] = $from;
         return $this;
     }
 
     /**
-     * A metadata field you can use to store any data you wish.  The string value must contain structurally valid JSON if specified.
-     * 
-     * @param string $attributes The optional attributes metadata field you can use
-     *                           to store any data you wish.
+     * The attributes
+     *
+     * @param string $attributes The attributes
      * @return $this Fluent Builder
      */
-    public function setAttributes($attributes) {
+    public function setAttributes(string $attributes): self {
         $this->options['attributes'] = $attributes;
         return $this;
     }
 
     /**
-     * The ISO8601 time specifying the datetime the Message should be set as being created. Will be set to the current time by the Chat service if not specified.  Note that this should only be used in cases where a Chat's history is being recreated from a backup/separate source.
-     * 
-     * @param \DateTime $dateCreated The ISO8601 time specifying the datetime the
-     *                               Message should be set as being created.
+     * The date_created
+     *
+     * @param \DateTime $dateCreated The date_created
      * @return $this Fluent Builder
      */
-    public function setDateCreated($dateCreated) {
+    public function setDateCreated(\DateTime $dateCreated): self {
         $this->options['dateCreated'] = $dateCreated;
         return $this;
     }
 
     /**
-     * The ISO8601 time specifying the datetime the Message should be set as having been last updated. Will be set to the `null` by the Chat service if not specified.  Note that this should only be used in cases where a Chat's history is being recreated from a backup/separate source  and where a Message was previously updated.
-     * 
-     * @param \DateTime $dateUpdated The ISO8601 time specifying the datetime the
-     *                               Message should be set as having been last
-     *                               updated.
+     * The date_updated
+     *
+     * @param \DateTime $dateUpdated The date_updated
      * @return $this Fluent Builder
      */
-    public function setDateUpdated($dateUpdated) {
+    public function setDateUpdated(\DateTime $dateUpdated): self {
         $this->options['dateUpdated'] = $dateUpdated;
         return $this;
     }
 
     /**
-     * Specify the Identity of the User that last updated the Message (if relevant)
-     * 
-     * @param string $lastUpdatedBy Specify the Identity of the User that last
-     *                              updated the Message
+     * The last_updated_by
+     *
+     * @param string $lastUpdatedBy The last_updated_by
      * @return $this Fluent Builder
      */
-    public function setLastUpdatedBy($lastUpdatedBy) {
+    public function setLastUpdatedBy(string $lastUpdatedBy): self {
         $this->options['lastUpdatedBy'] = $lastUpdatedBy;
         return $this;
     }
 
     /**
-     * A string message to send to this channel. You can also send structured data by serializing it into a string. May be empty string or `null`, will be set as empty string as a result in this cases.
-     * 
-     * @param string $body The optional message body string.
+     * The body
+     *
+     * @param string $body The body
      * @return $this Fluent Builder
      */
-    public function setBody($body) {
+    public function setBody(string $body): self {
         $this->options['body'] = $body;
         return $this;
     }
 
     /**
-     * The [Media](https://www.twilio.com/docs/api/chat/rest/media) Sid to be attached to this Message.
-     * 
-     * @param string $mediaSid The Media Sid to be attached to this Message.
+     * The media_sid
+     *
+     * @param string $mediaSid The media_sid
      * @return $this Fluent Builder
      */
-    public function setMediaSid($mediaSid) {
+    public function setMediaSid(string $mediaSid): self {
         $this->options['mediaSid'] = $mediaSid;
+        return $this;
+    }
+
+    /**
+     * The X-Twilio-Webhook-Enabled HTTP request header
+     *
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     * @return $this Fluent Builder
+     */
+    public function setXTwilioWebhookEnabled(string $xTwilioWebhookEnabled): self {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.CreateMessageOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.CreateMessageOptions ' . $options . ']';
     }
 }
 
 class ReadMessageOptions extends Options {
     /**
-     * @param string $order Specifies sorting order for messages list, possible
-     *                      values are: `asc` or `desc`.
+     * @param string $order The order
      */
-    public function __construct($order = Values::NONE) {
+    public function __construct(string $order = Values::NONE) {
         $this->options['order'] = $order;
     }
 
     /**
-     * Specifies sorting order for messages list, possible values are: `asc` or `desc`. If no value is specified, then `asc` is used as the default.
-     * 
-     * @param string $order Specifies sorting order for messages list, possible
-     *                      values are: `asc` or `desc`.
+     * The order
+     *
+     * @param string $order The order
      * @return $this Fluent Builder
      */
-    public function setOrder($order) {
+    public function setOrder(string $order): self {
         $this->options['order'] = $order;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.ReadMessageOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.ReadMessageOptions ' . $options . ']';
+    }
+}
+
+class DeleteMessageOptions extends Options {
+    /**
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     */
+    public function __construct(string $xTwilioWebhookEnabled = Values::NONE) {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
+    }
+
+    /**
+     * The X-Twilio-Webhook-Enabled HTTP request header
+     *
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     * @return $this Fluent Builder
+     */
+    public function setXTwilioWebhookEnabled(string $xTwilioWebhookEnabled): self {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
+        return $this;
+    }
+
+    /**
+     * Provide a friendly representation
+     *
+     * @return string Machine friendly representation
+     */
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.DeleteMessageOptions ' . $options . ']';
     }
 }
 
 class UpdateMessageOptions extends Options {
     /**
-     * @param string $body The message body string.
-     * @param string $attributes The attributes metadata field you can use to store
-     *                           any data you wish.
-     * @param \DateTime $dateCreated The ISO8601 time specifying the datetime the
-     *                               Message should be set as being created.
-     * @param \DateTime $dateUpdated The ISO8601 time specifying the datetime the
-     *                               Message should be set as having been last
-     *                               updated.
-     * @param string $lastUpdatedBy Specify the Identity of the User that last
-     *                              updated the Message
+     * @param string $body The body
+     * @param string $attributes The attributes
+     * @param \DateTime $dateCreated The date_created
+     * @param \DateTime $dateUpdated The date_updated
+     * @param string $lastUpdatedBy The last_updated_by
+     * @param string $from The from
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      */
-    public function __construct($body = Values::NONE, $attributes = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE, $lastUpdatedBy = Values::NONE) {
+    public function __construct(string $body = Values::NONE, string $attributes = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $lastUpdatedBy = Values::NONE, string $from = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE) {
         $this->options['body'] = $body;
         $this->options['attributes'] = $attributes;
         $this->options['dateCreated'] = $dateCreated;
         $this->options['dateUpdated'] = $dateUpdated;
         $this->options['lastUpdatedBy'] = $lastUpdatedBy;
+        $this->options['from'] = $from;
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
     }
 
     /**
-     * The message body string. You can also send structured data by serializing it into a string. May be updated to empty string or `null`, will be set as empty string as a result in this cases.
-     * 
-     * @param string $body The message body string.
+     * The body
+     *
+     * @param string $body The body
      * @return $this Fluent Builder
      */
-    public function setBody($body) {
+    public function setBody(string $body): self {
         $this->options['body'] = $body;
         return $this;
     }
 
     /**
-     * The attributes metadata field you can use to store any data you wish.  The string value must contain structurally valid JSON if specified.
-     * 
-     * @param string $attributes The attributes metadata field you can use to store
-     *                           any data you wish.
+     * The attributes
+     *
+     * @param string $attributes The attributes
      * @return $this Fluent Builder
      */
-    public function setAttributes($attributes) {
+    public function setAttributes(string $attributes): self {
         $this->options['attributes'] = $attributes;
         return $this;
     }
 
     /**
-     * The ISO8601 time specifying the datetime the Message should be set as being created.
-     * 
-     * @param \DateTime $dateCreated The ISO8601 time specifying the datetime the
-     *                               Message should be set as being created.
+     * The date_created
+     *
+     * @param \DateTime $dateCreated The date_created
      * @return $this Fluent Builder
      */
-    public function setDateCreated($dateCreated) {
+    public function setDateCreated(\DateTime $dateCreated): self {
         $this->options['dateCreated'] = $dateCreated;
         return $this;
     }
 
     /**
-     * The ISO8601 time specifying the datetime the Message should be set as having been last updated.
-     * 
-     * @param \DateTime $dateUpdated The ISO8601 time specifying the datetime the
-     *                               Message should be set as having been last
-     *                               updated.
+     * The date_updated
+     *
+     * @param \DateTime $dateUpdated The date_updated
      * @return $this Fluent Builder
      */
-    public function setDateUpdated($dateUpdated) {
+    public function setDateUpdated(\DateTime $dateUpdated): self {
         $this->options['dateUpdated'] = $dateUpdated;
         return $this;
     }
 
     /**
-     * Specify the Identity of the User that last updated the Message (if relevant)
-     * 
-     * @param string $lastUpdatedBy Specify the Identity of the User that last
-     *                              updated the Message
+     * The last_updated_by
+     *
+     * @param string $lastUpdatedBy The last_updated_by
      * @return $this Fluent Builder
      */
-    public function setLastUpdatedBy($lastUpdatedBy) {
+    public function setLastUpdatedBy(string $lastUpdatedBy): self {
         $this->options['lastUpdatedBy'] = $lastUpdatedBy;
+        return $this;
+    }
+
+    /**
+     * The from
+     *
+     * @param string $from The from
+     * @return $this Fluent Builder
+     */
+    public function setFrom(string $from): self {
+        $this->options['from'] = $from;
+        return $this;
+    }
+
+    /**
+     * The X-Twilio-Webhook-Enabled HTTP request header
+     *
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     * @return $this Fluent Builder
+     */
+    public function setXTwilioWebhookEnabled(string $xTwilioWebhookEnabled): self {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.UpdateMessageOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.UpdateMessageOptions ' . $options . ']';
     }
 }

@@ -12,24 +12,24 @@ namespace Twilio\Rest\Taskrouter\V1\Workspace;
 use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Serialize;
+use Twilio\Stream;
 use Twilio\Values;
 use Twilio\Version;
 
 class EventList extends ListResource {
     /**
      * Construct the EventList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The unique ID of the Workspace
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\EventList 
+     * @param string $workspaceSid The SID of the Workspace that contains the Event
      */
-    public function __construct(Version $version, $workspaceSid) {
+    public function __construct(Version $version, string $workspaceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('workspaceSid' => $workspaceSid, );
+        $this->solution = ['workspaceSid' => $workspaceSid, ];
 
-        $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Events';
+        $this->uri = '/Workspaces/' . \rawurlencode($workspaceSid) . '/Events';
     }
 
     /**
@@ -39,7 +39,7 @@ class EventList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. stream()
      *                   guarantees to never return more than limit.  Default is no
@@ -49,9 +49,9 @@ class EventList extends ListResource {
      *                        page_size is defined but a limit is defined, stream()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
-     * @return \Twilio\Stream stream of results
+     * @return Stream stream of results
      */
-    public function stream($options = array(), $limit = null, $pageSize = null) {
+    public function stream(array $options = [], int $limit = null, $pageSize = null): Stream {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($options, $limits['pageSize']);
@@ -63,7 +63,7 @@ class EventList extends ListResource {
      * Reads EventInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. read()
      *                   guarantees to never return more than limit.  Default is no
@@ -75,23 +75,24 @@ class EventList extends ListResource {
      *                        efficient page size, i.e. min(limit, 1000)
      * @return EventInstance[] Array of results
      */
-    public function read($options = array(), $limit = null, $pageSize = null) {
-        return iterator_to_array($this->stream($options, $limit, $pageSize), false);
+    public function read(array $options = [], int $limit = null, $pageSize = null): array {
+        return \iterator_to_array($this->stream($options, $limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of EventInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param mixed $pageSize Number of records to return, defaults to 50
      * @param string $pageToken PageToken provided by the API
      * @param mixed $pageNumber Page Number, this value is simply for client state
-     * @return \Twilio\Page Page of EventInstance
+     * @return EventPage Page of EventInstance
      */
-    public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
+    public function page(array $options = [], $pageSize = Values::NONE, string $pageToken = Values::NONE, $pageNumber = Values::NONE): EventPage {
         $options = new Values($options);
-        $params = Values::of(array(
+
+        $params = Values::of([
             'EndDate' => Serialize::iso8601DateTime($options['endDate']),
             'EventType' => $options['eventType'],
             'Minutes' => $options['minutes'],
@@ -101,16 +102,14 @@ class EventList extends ListResource {
             'TaskSid' => $options['taskSid'],
             'WorkerSid' => $options['workerSid'],
             'WorkflowSid' => $options['workflowSid'],
+            'TaskChannel' => $options['taskChannel'],
+            'Sid' => $options['sid'],
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
-        ));
+        ]);
 
-        $response = $this->version->page(
-            'GET',
-            $this->uri,
-            $params
-        );
+        $response = $this->version->page('GET', $this->uri, $params);
 
         return new EventPage($this->version, $response, $this->solution);
     }
@@ -118,11 +117,11 @@ class EventList extends ListResource {
     /**
      * Retrieve a specific page of EventInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
-     * @return \Twilio\Page Page of EventInstance
+     * @return EventPage Page of EventInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage(string $targetUrl): EventPage {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -133,20 +132,19 @@ class EventList extends ListResource {
 
     /**
      * Constructs a EventContext
-     * 
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\EventContext 
+     *
+     * @param string $sid The SID of the resource to fetch
      */
-    public function getContext($sid) {
+    public function getContext(string $sid): EventContext {
         return new EventContext($this->version, $this->solution['workspaceSid'], $sid);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Taskrouter.V1.EventList]';
     }
 }

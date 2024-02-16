@@ -14,25 +14,33 @@ use Twilio\Values;
 
 abstract class RecordOptions {
     /**
-     * @param string $category Only include usage of a given category
-     * @param \DateTime $startDate Filter by start date
-     * @param \DateTime $endDate Filter by end date
-     * @param boolean $includeSubaccounts The include_subaccounts
+     * @param string $category The usage category of the UsageRecord resources to
+     *                         read
+     * @param \DateTime $startDate Only include usage that has occurred on or after
+     *                             this date
+     * @param \DateTime $endDate Only include usage that occurred on or before this
+     *                           date
+     * @param bool $includeSubaccounts Whether to include usage from the master
+     *                                 account and all its subaccounts
      * @return ReadRecordOptions Options builder
      */
-    public static function read($category = Values::NONE, $startDate = Values::NONE, $endDate = Values::NONE, $includeSubaccounts = Values::NONE) {
+    public static function read(string $category = Values::NONE, \DateTime $startDate = Values::NONE, \DateTime $endDate = Values::NONE, bool $includeSubaccounts = Values::NONE): ReadRecordOptions {
         return new ReadRecordOptions($category, $startDate, $endDate, $includeSubaccounts);
     }
 }
 
 class ReadRecordOptions extends Options {
     /**
-     * @param string $category Only include usage of a given category
-     * @param \DateTime $startDate Filter by start date
-     * @param \DateTime $endDate Filter by end date
-     * @param boolean $includeSubaccounts The include_subaccounts
+     * @param string $category The usage category of the UsageRecord resources to
+     *                         read
+     * @param \DateTime $startDate Only include usage that has occurred on or after
+     *                             this date
+     * @param \DateTime $endDate Only include usage that occurred on or before this
+     *                           date
+     * @param bool $includeSubaccounts Whether to include usage from the master
+     *                                 account and all its subaccounts
      */
-    public function __construct($category = Values::NONE, $startDate = Values::NONE, $endDate = Values::NONE, $includeSubaccounts = Values::NONE) {
+    public function __construct(string $category = Values::NONE, \DateTime $startDate = Values::NONE, \DateTime $endDate = Values::NONE, bool $includeSubaccounts = Values::NONE) {
         $this->options['category'] = $category;
         $this->options['startDate'] = $startDate;
         $this->options['endDate'] = $endDate;
@@ -40,61 +48,60 @@ class ReadRecordOptions extends Options {
     }
 
     /**
-     * Only include usage of this [usage category](https://www.twilio.com/docs/api/rest/usage-records#usage-categories).
-     * 
-     * @param string $category Only include usage of a given category
+     * The [usage category](https://www.twilio.com/docs/usage/api/usage-record#usage-categories) of the UsageRecord resources to read. Only UsageRecord resources in the specified category are retrieved.
+     *
+     * @param string $category The usage category of the UsageRecord resources to
+     *                         read
      * @return $this Fluent Builder
      */
-    public function setCategory($category) {
+    public function setCategory(string $category): self {
         $this->options['category'] = $category;
         return $this;
     }
 
     /**
-     * Only include usage that has occurred on or after this date.  Format is YYYY-MM-DD.  All dates are in GMT.  As a convenience, you can also specify offsets to today.  For example, `StartDate=-30days` will make `StartDate` be 30 days before today.
-     * 
-     * @param \DateTime $startDate Filter by start date
+     * Only include usage that has occurred on or after this date. Specify the date in GMT and format as `YYYY-MM-DD`. You can also specify offsets from the current date, such as: `-30days`, which will set the start date to be 30 days before the current date.
+     *
+     * @param \DateTime $startDate Only include usage that has occurred on or after
+     *                             this date
      * @return $this Fluent Builder
      */
-    public function setStartDate($startDate) {
+    public function setStartDate(\DateTime $startDate): self {
         $this->options['startDate'] = $startDate;
         return $this;
     }
 
     /**
-     * Only include usage that has occurred on or before this date.  Format is YYYY-MM-DD.  All dates are in GMT.  As a convenience, you can also specify offsets to today.  For example, `EndDate=+30days` will make `EndDate` be 30 days from today.
-     * 
-     * @param \DateTime $endDate Filter by end date
+     * Only include usage that occurred on or before this date. Specify the date in GMT and format as `YYYY-MM-DD`.  You can also specify offsets from the current date, such as: `+30days`, which will set the end date to 30 days from the current date.
+     *
+     * @param \DateTime $endDate Only include usage that occurred on or before this
+     *                           date
      * @return $this Fluent Builder
      */
-    public function setEndDate($endDate) {
+    public function setEndDate(\DateTime $endDate): self {
         $this->options['endDate'] = $endDate;
         return $this;
     }
 
     /**
-     * The include_subaccounts
-     * 
-     * @param boolean $includeSubaccounts The include_subaccounts
+     * Whether to include usage from the master account and all its subaccounts. Can be: `true` (the default) to include usage from the master account and all subaccounts or `false` to retrieve usage from only the specified account.
+     *
+     * @param bool $includeSubaccounts Whether to include usage from the master
+     *                                 account and all its subaccounts
      * @return $this Fluent Builder
      */
-    public function setIncludeSubaccounts($includeSubaccounts) {
+    public function setIncludeSubaccounts(bool $includeSubaccounts): self {
         $this->options['includeSubaccounts'] = $includeSubaccounts;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Api.V2010.ReadRecordOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Api.V2010.ReadRecordOptions ' . $options . ']';
     }
 }

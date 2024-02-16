@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Messaging\V1\Service;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
@@ -19,35 +20,29 @@ use Twilio\Version;
 class AlphaSenderContext extends InstanceContext {
     /**
      * Initialize the AlphaSenderContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Messaging\V1\Service\AlphaSenderContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $serviceSid The SID of the Messaging Service to fetch the
+     *                           resource from
+     * @param string $sid The SID that identifies the resource to fetch
      */
     public function __construct(Version $version, $serviceSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid, );
+        $this->solution = ['serviceSid' => $serviceSid, 'sid' => $sid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/AlphaSenders/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/AlphaSenders/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a AlphaSenderInstance
-     * 
+     * Fetch the AlphaSenderInstance
+     *
      * @return AlphaSenderInstance Fetched AlphaSenderInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): AlphaSenderInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new AlphaSenderInstance(
             $this->version,
@@ -58,25 +53,25 @@ class AlphaSenderContext extends InstanceContext {
     }
 
     /**
-     * Deletes the AlphaSenderInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the AlphaSenderInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Messaging.V1.AlphaSenderContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Messaging.V1.AlphaSenderContext ' . \implode(' ', $context) . ']';
     }
 }

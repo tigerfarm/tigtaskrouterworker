@@ -14,212 +14,238 @@ use Twilio\TwiML\TwiML;
 class Dial extends TwiML {
     /**
      * Dial constructor.
-     * 
+     *
      * @param string $number Phone number to dial
      * @param array $attributes Optional attributes
      */
-    public function __construct($number, $attributes = array()) {
+    public function __construct($number = null, $attributes = []) {
         parent::__construct('Dial', $number, $attributes);
     }
 
     /**
      * Add Client child.
-     * 
-     * @param string $name Client name
+     *
+     * @param string $identity Client identity
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Client Child element.
      */
-    public function client($name, $attributes = array()) {
-        return $this->nest(new Voice\Client($name, $attributes));
+    public function client($identity = null, $attributes = []): Client {
+        return $this->nest(new Client($identity, $attributes));
     }
 
     /**
      * Add Conference child.
-     * 
+     *
      * @param string $name Conference name
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Conference Child element.
      */
-    public function conference($name, $attributes = array()) {
-        return $this->nest(new Voice\Conference($name, $attributes));
+    public function conference($name, $attributes = []): Conference {
+        return $this->nest(new Conference($name, $attributes));
     }
 
     /**
      * Add Number child.
-     * 
-     * @param phoneNumber $phoneNumber Phone Number to dial
+     *
+     * @param string $phoneNumber Phone Number to dial
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Number Child element.
      */
-    public function number($phoneNumber, $attributes = array()) {
-        return $this->nest(new Voice\Number($phoneNumber, $attributes));
+    public function number($phoneNumber, $attributes = []): Number {
+        return $this->nest(new Number($phoneNumber, $attributes));
     }
 
     /**
      * Add Queue child.
-     * 
+     *
      * @param string $name Queue name
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Queue Child element.
      */
-    public function queue($name, $attributes = array()) {
-        return $this->nest(new Voice\Queue($name, $attributes));
+    public function queue($name, $attributes = []): Queue {
+        return $this->nest(new Queue($name, $attributes));
     }
 
     /**
      * Add Sim child.
-     * 
-     * @param sid $simSid SIM SID
-     * @return TwiML Child element.
+     *
+     * @param string $simSid SIM SID
+     * @return Sim Child element.
      */
-    public function sim($simSid) {
-        return $this->nest(new Voice\Sim($simSid));
+    public function sim($simSid): Sim {
+        return $this->nest(new Sim($simSid));
     }
 
     /**
      * Add Sip child.
-     * 
-     * @param url $sipUrl SIP URL
+     *
+     * @param string $sipUrl SIP URL
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Sip Child element.
      */
-    public function sip($sipUrl, $attributes = array()) {
-        return $this->nest(new Voice\Sip($sipUrl, $attributes));
+    public function sip($sipUrl, $attributes = []): Sip {
+        return $this->nest(new Sip($sipUrl, $attributes));
     }
 
     /**
      * Add Action attribute.
-     * 
-     * @param url $action Action URL
-     * @return TwiML $this.
+     *
+     * @param string $action Action URL
      */
-    public function setAction($action) {
+    public function setAction($action): self {
         return $this->setAttribute('action', $action);
     }
 
     /**
      * Add Method attribute.
-     * 
-     * @param httpMethod $method Action URL method
-     * @return TwiML $this.
+     *
+     * @param string $method Action URL method
      */
-    public function setMethod($method) {
+    public function setMethod($method): self {
         return $this->setAttribute('method', $method);
     }
 
     /**
      * Add Timeout attribute.
-     * 
-     * @param integer $timeout Time to wait for answer
-     * @return TwiML $this.
+     *
+     * @param int $timeout Time to wait for answer
      */
-    public function setTimeout($timeout) {
+    public function setTimeout($timeout): self {
         return $this->setAttribute('timeout', $timeout);
     }
 
     /**
      * Add HangupOnStar attribute.
-     * 
-     * @param boolean $hangupOnStar Hangup call on star press
-     * @return TwiML $this.
+     *
+     * @param bool $hangupOnStar Hangup call on star press
      */
-    public function setHangupOnStar($hangupOnStar) {
+    public function setHangupOnStar($hangupOnStar): self {
         return $this->setAttribute('hangupOnStar', $hangupOnStar);
     }
 
     /**
      * Add TimeLimit attribute.
-     * 
-     * @param integer $timeLimit Max time length
-     * @return TwiML $this.
+     *
+     * @param int $timeLimit Max time length
      */
-    public function setTimeLimit($timeLimit) {
+    public function setTimeLimit($timeLimit): self {
         return $this->setAttribute('timeLimit', $timeLimit);
     }
 
     /**
      * Add CallerId attribute.
-     * 
+     *
      * @param string $callerId Caller ID to display
-     * @return TwiML $this.
      */
-    public function setCallerId($callerId) {
+    public function setCallerId($callerId): self {
         return $this->setAttribute('callerId', $callerId);
     }
 
     /**
      * Add Record attribute.
-     * 
-     * @param dial:Enum:Record $record Record the call
-     * @return TwiML $this.
+     *
+     * @param string $record Record the call
      */
-    public function setRecord($record) {
+    public function setRecord($record): self {
         return $this->setAttribute('record', $record);
     }
 
     /**
      * Add Trim attribute.
-     * 
-     * @param dial:Enum:Trim $trim Trim the recording
-     * @return TwiML $this.
+     *
+     * @param string $trim Trim the recording
      */
-    public function setTrim($trim) {
+    public function setTrim($trim): self {
         return $this->setAttribute('trim', $trim);
     }
 
     /**
      * Add RecordingStatusCallback attribute.
-     * 
-     * @param url $recordingStatusCallback Recording status callback URL
-     * @return TwiML $this.
+     *
+     * @param string $recordingStatusCallback Recording status callback URL
      */
-    public function setRecordingStatusCallback($recordingStatusCallback) {
+    public function setRecordingStatusCallback($recordingStatusCallback): self {
         return $this->setAttribute('recordingStatusCallback', $recordingStatusCallback);
     }
 
     /**
      * Add RecordingStatusCallbackMethod attribute.
-     * 
-     * @param httpMethod $recordingStatusCallbackMethod Recording status callback
-     *                                                  URL method
-     * @return TwiML $this.
+     *
+     * @param string $recordingStatusCallbackMethod Recording status callback URL
+     *                                              method
      */
-    public function setRecordingStatusCallbackMethod($recordingStatusCallbackMethod) {
+    public function setRecordingStatusCallbackMethod($recordingStatusCallbackMethod): self {
         return $this->setAttribute('recordingStatusCallbackMethod', $recordingStatusCallbackMethod);
     }
 
     /**
      * Add RecordingStatusCallbackEvent attribute.
-     * 
-     * @param dial:Enum:RecordingEvent $recordingStatusCallbackEvent Recording
-     *                                                               status
-     *                                                               callback events
-     * @return TwiML $this.
+     *
+     * @param string[] $recordingStatusCallbackEvent Recording status callback
+     *                                               events
      */
-    public function setRecordingStatusCallbackEvent($recordingStatusCallbackEvent) {
+    public function setRecordingStatusCallbackEvent($recordingStatusCallbackEvent): self {
         return $this->setAttribute('recordingStatusCallbackEvent', $recordingStatusCallbackEvent);
     }
 
     /**
      * Add AnswerOnBridge attribute.
-     * 
-     * @param boolean $answerOnBridge Preserve the ringing behavior of the inbound
-     *                                call until the Dialed call picks up
-     * @return TwiML $this.
+     *
+     * @param bool $answerOnBridge Preserve the ringing behavior of the inbound
+     *                             call until the Dialed call picks up
      */
-    public function setAnswerOnBridge($answerOnBridge) {
+    public function setAnswerOnBridge($answerOnBridge): self {
         return $this->setAttribute('answerOnBridge', $answerOnBridge);
     }
 
     /**
      * Add RingTone attribute.
-     * 
-     * @param dial:Enum:RingTone $ringTone Ringtone allows you to override the
-     *                                     ringback tone that Twilio will play back
-     *                                     to the caller while executing the Dial
-     * @return TwiML $this.
+     *
+     * @param string $ringTone Ringtone allows you to override the ringback tone
+     *                         that Twilio will play back to the caller while
+     *                         executing the Dial
      */
-    public function setRingTone($ringTone) {
+    public function setRingTone($ringTone): self {
         return $this->setAttribute('ringTone', $ringTone);
+    }
+
+    /**
+     * Add RecordingTrack attribute.
+     *
+     * @param string $recordingTrack To indicate which audio track should be
+     *                               recorded
+     */
+    public function setRecordingTrack($recordingTrack): self {
+        return $this->setAttribute('recordingTrack', $recordingTrack);
+    }
+
+    /**
+     * Add Sequential attribute.
+     *
+     * @param bool $sequential Used to determine if child TwiML nouns should be
+     *                         dialed in order, one after the other (sequential) or
+     *                         dial all at once (parallel). Default is false,
+     *                         parallel
+     */
+    public function setSequential($sequential): self {
+        return $this->setAttribute('sequential', $sequential);
+    }
+
+    /**
+     * Add ReferUrl attribute.
+     *
+     * @param string $referUrl Webhook that will receive future SIP REFER requests
+     */
+    public function setReferUrl($referUrl): self {
+        return $this->setAttribute('referUrl', $referUrl);
+    }
+
+    /**
+     * Add ReferMethod attribute.
+     *
+     * @param string $referMethod The HTTP method to use for the refer Webhook
+     */
+    public function setReferMethod($referMethod): self {
+        return $this->setAttribute('referMethod', $referMethod);
     }
 }

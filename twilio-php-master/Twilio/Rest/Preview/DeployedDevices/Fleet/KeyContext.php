@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Preview\DeployedDevices\Fleet;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Options;
 use Twilio\Values;
@@ -20,35 +21,28 @@ use Twilio\Version;
 class KeyContext extends InstanceContext {
     /**
      * Initialize the KeyContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param string $fleetSid The fleet_sid
      * @param string $sid A string that uniquely identifies the Key.
-     * @return \Twilio\Rest\Preview\DeployedDevices\Fleet\KeyContext 
      */
     public function __construct(Version $version, $fleetSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('fleetSid' => $fleetSid, 'sid' => $sid, );
+        $this->solution = ['fleetSid' => $fleetSid, 'sid' => $sid, ];
 
-        $this->uri = '/Fleets/' . rawurlencode($fleetSid) . '/Keys/' . rawurlencode($sid) . '';
+        $this->uri = '/Fleets/' . \rawurlencode($fleetSid) . '/Keys/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a KeyInstance
-     * 
+     * Fetch the KeyInstance
+     *
      * @return KeyInstance Fetched KeyInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): KeyInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new KeyInstance(
             $this->version,
@@ -59,36 +53,31 @@ class KeyContext extends InstanceContext {
     }
 
     /**
-     * Deletes the KeyInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the KeyInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
      * Update the KeyInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return KeyInstance Updated KeyInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): KeyInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'FriendlyName' => $options['friendlyName'],
             'DeviceSid' => $options['deviceSid'],
-        ));
+        ]);
 
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->update('POST', $this->uri, [], $data);
 
         return new KeyInstance(
             $this->version,
@@ -100,14 +89,14 @@ class KeyContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.DeployedDevices.KeyContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.DeployedDevices.KeyContext ' . \implode(' ', $context) . ']';
     }
 }

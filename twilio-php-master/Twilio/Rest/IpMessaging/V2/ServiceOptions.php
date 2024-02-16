@@ -14,137 +14,107 @@ use Twilio\Values;
 
 abstract class ServiceOptions {
     /**
-     * @param string $friendlyName Human-readable name for this service instance
+     * @param string $friendlyName The friendly_name
      * @param string $defaultServiceRoleSid The default_service_role_sid
-     * @param string $defaultChannelRoleSid Channel role assigned on channel join
-     * @param string $defaultChannelCreatorRoleSid Channel role assigned to creator
-     *                                             of channel when joining for
-     *                                             first time
-     * @param boolean $readStatusEnabled true if the member read status feature is
-     *                                   enabled, false if not.
-     * @param boolean $reachabilityEnabled true if the reachability feature should
-     *                                     be enabled.
-     * @param integer $typingIndicatorTimeout The duration in seconds indicating
-     *                                        the timeout after "started typing"
-     *                                        event when client should assume that
-     *                                        user is not typing anymore even if no
-     *                                        "ended typing" message received
-     * @param integer $consumptionReportInterval The consumption_report_interval
-     * @param boolean $notificationsNewMessageEnabled The
-     *                                                notifications.new_message.enabled
+     * @param string $defaultChannelRoleSid The default_channel_role_sid
+     * @param string $defaultChannelCreatorRoleSid The
+     *                                             default_channel_creator_role_sid
+     * @param bool $readStatusEnabled The read_status_enabled
+     * @param bool $reachabilityEnabled The reachability_enabled
+     * @param int $typingIndicatorTimeout The typing_indicator_timeout
+     * @param int $consumptionReportInterval The consumption_report_interval
+     * @param bool $notificationsNewMessageEnabled The
+     *                                             notifications.new_message.enabled
      * @param string $notificationsNewMessageTemplate The
      *                                                notifications.new_message.template
      * @param string $notificationsNewMessageSound The
      *                                             notifications.new_message.sound
-     * @param boolean $notificationsNewMessageBadgeCountEnabled The
-     *                                                          notifications.new_message.badge_count_enabled
-     * @param boolean $notificationsAddedToChannelEnabled The
-     *                                                    notifications.added_to_channel.enabled
+     * @param bool $notificationsNewMessageBadgeCountEnabled The
+     *                                                       notifications.new_message.badge_count_enabled
+     * @param bool $notificationsAddedToChannelEnabled The
+     *                                                 notifications.added_to_channel.enabled
      * @param string $notificationsAddedToChannelTemplate The
      *                                                    notifications.added_to_channel.template
      * @param string $notificationsAddedToChannelSound The
      *                                                 notifications.added_to_channel.sound
-     * @param boolean $notificationsRemovedFromChannelEnabled The
-     *                                                        notifications.removed_from_channel.enabled
+     * @param bool $notificationsRemovedFromChannelEnabled The
+     *                                                     notifications.removed_from_channel.enabled
      * @param string $notificationsRemovedFromChannelTemplate The
      *                                                        notifications.removed_from_channel.template
      * @param string $notificationsRemovedFromChannelSound The
      *                                                     notifications.removed_from_channel.sound
-     * @param boolean $notificationsInvitedToChannelEnabled The
-     *                                                      notifications.invited_to_channel.enabled
+     * @param bool $notificationsInvitedToChannelEnabled The
+     *                                                   notifications.invited_to_channel.enabled
      * @param string $notificationsInvitedToChannelTemplate The
      *                                                      notifications.invited_to_channel.template
      * @param string $notificationsInvitedToChannelSound The
      *                                                   notifications.invited_to_channel.sound
-     * @param string $preWebhookUrl The webhook URL for PRE-Event webhooks.
-     * @param string $postWebhookUrl The webhook URL for POST-Event webhooks.
-     * @param string $webhookMethod The webhook request format to use.
-     * @param string $webhookFilters The list of WebHook events that are enabled
-     *                               for this Service instance.
-     * @param integer $limitsChannelMembers The maximum number of Members that can
-     *                                      be added to Channels within this
-     *                                      Service.
-     * @param integer $limitsUserChannels The maximum number of Channels Users can
-     *                                    be a Member of within this Service.
+     * @param string $preWebhookUrl The pre_webhook_url
+     * @param string $postWebhookUrl The post_webhook_url
+     * @param string $webhookMethod The webhook_method
+     * @param string[] $webhookFilters The webhook_filters
+     * @param int $limitsChannelMembers The limits.channel_members
+     * @param int $limitsUserChannels The limits.user_channels
      * @param string $mediaCompatibilityMessage The media.compatibility_message
-     * @param integer $preWebhookRetryCount Count of times webhook will be retried
-     *                                      in case of timeout or 429/503/504 HTTP
-     *                                      responses.
-     * @param integer $postWebhookRetryCount Count of times webhook will be retried
-     *                                       in case of timeout or 429/503/504 HTTP
-     *                                       responses.
-     * @param boolean $notificationsLogEnabled The notifications.log_enabled
+     * @param int $preWebhookRetryCount The pre_webhook_retry_count
+     * @param int $postWebhookRetryCount The post_webhook_retry_count
+     * @param bool $notificationsLogEnabled The notifications.log_enabled
      * @return UpdateServiceOptions Options builder
      */
-    public static function update($friendlyName = Values::NONE, $defaultServiceRoleSid = Values::NONE, $defaultChannelRoleSid = Values::NONE, $defaultChannelCreatorRoleSid = Values::NONE, $readStatusEnabled = Values::NONE, $reachabilityEnabled = Values::NONE, $typingIndicatorTimeout = Values::NONE, $consumptionReportInterval = Values::NONE, $notificationsNewMessageEnabled = Values::NONE, $notificationsNewMessageTemplate = Values::NONE, $notificationsNewMessageSound = Values::NONE, $notificationsNewMessageBadgeCountEnabled = Values::NONE, $notificationsAddedToChannelEnabled = Values::NONE, $notificationsAddedToChannelTemplate = Values::NONE, $notificationsAddedToChannelSound = Values::NONE, $notificationsRemovedFromChannelEnabled = Values::NONE, $notificationsRemovedFromChannelTemplate = Values::NONE, $notificationsRemovedFromChannelSound = Values::NONE, $notificationsInvitedToChannelEnabled = Values::NONE, $notificationsInvitedToChannelTemplate = Values::NONE, $notificationsInvitedToChannelSound = Values::NONE, $preWebhookUrl = Values::NONE, $postWebhookUrl = Values::NONE, $webhookMethod = Values::NONE, $webhookFilters = Values::NONE, $limitsChannelMembers = Values::NONE, $limitsUserChannels = Values::NONE, $mediaCompatibilityMessage = Values::NONE, $preWebhookRetryCount = Values::NONE, $postWebhookRetryCount = Values::NONE, $notificationsLogEnabled = Values::NONE) {
+    public static function update(string $friendlyName = Values::NONE, string $defaultServiceRoleSid = Values::NONE, string $defaultChannelRoleSid = Values::NONE, string $defaultChannelCreatorRoleSid = Values::NONE, bool $readStatusEnabled = Values::NONE, bool $reachabilityEnabled = Values::NONE, int $typingIndicatorTimeout = Values::NONE, int $consumptionReportInterval = Values::NONE, bool $notificationsNewMessageEnabled = Values::NONE, string $notificationsNewMessageTemplate = Values::NONE, string $notificationsNewMessageSound = Values::NONE, bool $notificationsNewMessageBadgeCountEnabled = Values::NONE, bool $notificationsAddedToChannelEnabled = Values::NONE, string $notificationsAddedToChannelTemplate = Values::NONE, string $notificationsAddedToChannelSound = Values::NONE, bool $notificationsRemovedFromChannelEnabled = Values::NONE, string $notificationsRemovedFromChannelTemplate = Values::NONE, string $notificationsRemovedFromChannelSound = Values::NONE, bool $notificationsInvitedToChannelEnabled = Values::NONE, string $notificationsInvitedToChannelTemplate = Values::NONE, string $notificationsInvitedToChannelSound = Values::NONE, string $preWebhookUrl = Values::NONE, string $postWebhookUrl = Values::NONE, string $webhookMethod = Values::NONE, array $webhookFilters = Values::ARRAY_NONE, int $limitsChannelMembers = Values::NONE, int $limitsUserChannels = Values::NONE, string $mediaCompatibilityMessage = Values::NONE, int $preWebhookRetryCount = Values::NONE, int $postWebhookRetryCount = Values::NONE, bool $notificationsLogEnabled = Values::NONE): UpdateServiceOptions {
         return new UpdateServiceOptions($friendlyName, $defaultServiceRoleSid, $defaultChannelRoleSid, $defaultChannelCreatorRoleSid, $readStatusEnabled, $reachabilityEnabled, $typingIndicatorTimeout, $consumptionReportInterval, $notificationsNewMessageEnabled, $notificationsNewMessageTemplate, $notificationsNewMessageSound, $notificationsNewMessageBadgeCountEnabled, $notificationsAddedToChannelEnabled, $notificationsAddedToChannelTemplate, $notificationsAddedToChannelSound, $notificationsRemovedFromChannelEnabled, $notificationsRemovedFromChannelTemplate, $notificationsRemovedFromChannelSound, $notificationsInvitedToChannelEnabled, $notificationsInvitedToChannelTemplate, $notificationsInvitedToChannelSound, $preWebhookUrl, $postWebhookUrl, $webhookMethod, $webhookFilters, $limitsChannelMembers, $limitsUserChannels, $mediaCompatibilityMessage, $preWebhookRetryCount, $postWebhookRetryCount, $notificationsLogEnabled);
     }
 }
 
 class UpdateServiceOptions extends Options {
     /**
-     * @param string $friendlyName Human-readable name for this service instance
+     * @param string $friendlyName The friendly_name
      * @param string $defaultServiceRoleSid The default_service_role_sid
-     * @param string $defaultChannelRoleSid Channel role assigned on channel join
-     * @param string $defaultChannelCreatorRoleSid Channel role assigned to creator
-     *                                             of channel when joining for
-     *                                             first time
-     * @param boolean $readStatusEnabled true if the member read status feature is
-     *                                   enabled, false if not.
-     * @param boolean $reachabilityEnabled true if the reachability feature should
-     *                                     be enabled.
-     * @param integer $typingIndicatorTimeout The duration in seconds indicating
-     *                                        the timeout after "started typing"
-     *                                        event when client should assume that
-     *                                        user is not typing anymore even if no
-     *                                        "ended typing" message received
-     * @param integer $consumptionReportInterval The consumption_report_interval
-     * @param boolean $notificationsNewMessageEnabled The
-     *                                                notifications.new_message.enabled
+     * @param string $defaultChannelRoleSid The default_channel_role_sid
+     * @param string $defaultChannelCreatorRoleSid The
+     *                                             default_channel_creator_role_sid
+     * @param bool $readStatusEnabled The read_status_enabled
+     * @param bool $reachabilityEnabled The reachability_enabled
+     * @param int $typingIndicatorTimeout The typing_indicator_timeout
+     * @param int $consumptionReportInterval The consumption_report_interval
+     * @param bool $notificationsNewMessageEnabled The
+     *                                             notifications.new_message.enabled
      * @param string $notificationsNewMessageTemplate The
      *                                                notifications.new_message.template
      * @param string $notificationsNewMessageSound The
      *                                             notifications.new_message.sound
-     * @param boolean $notificationsNewMessageBadgeCountEnabled The
-     *                                                          notifications.new_message.badge_count_enabled
-     * @param boolean $notificationsAddedToChannelEnabled The
-     *                                                    notifications.added_to_channel.enabled
+     * @param bool $notificationsNewMessageBadgeCountEnabled The
+     *                                                       notifications.new_message.badge_count_enabled
+     * @param bool $notificationsAddedToChannelEnabled The
+     *                                                 notifications.added_to_channel.enabled
      * @param string $notificationsAddedToChannelTemplate The
      *                                                    notifications.added_to_channel.template
      * @param string $notificationsAddedToChannelSound The
      *                                                 notifications.added_to_channel.sound
-     * @param boolean $notificationsRemovedFromChannelEnabled The
-     *                                                        notifications.removed_from_channel.enabled
+     * @param bool $notificationsRemovedFromChannelEnabled The
+     *                                                     notifications.removed_from_channel.enabled
      * @param string $notificationsRemovedFromChannelTemplate The
      *                                                        notifications.removed_from_channel.template
      * @param string $notificationsRemovedFromChannelSound The
      *                                                     notifications.removed_from_channel.sound
-     * @param boolean $notificationsInvitedToChannelEnabled The
-     *                                                      notifications.invited_to_channel.enabled
+     * @param bool $notificationsInvitedToChannelEnabled The
+     *                                                   notifications.invited_to_channel.enabled
      * @param string $notificationsInvitedToChannelTemplate The
      *                                                      notifications.invited_to_channel.template
      * @param string $notificationsInvitedToChannelSound The
      *                                                   notifications.invited_to_channel.sound
-     * @param string $preWebhookUrl The webhook URL for PRE-Event webhooks.
-     * @param string $postWebhookUrl The webhook URL for POST-Event webhooks.
-     * @param string $webhookMethod The webhook request format to use.
-     * @param string $webhookFilters The list of WebHook events that are enabled
-     *                               for this Service instance.
-     * @param integer $limitsChannelMembers The maximum number of Members that can
-     *                                      be added to Channels within this
-     *                                      Service.
-     * @param integer $limitsUserChannels The maximum number of Channels Users can
-     *                                    be a Member of within this Service.
+     * @param string $preWebhookUrl The pre_webhook_url
+     * @param string $postWebhookUrl The post_webhook_url
+     * @param string $webhookMethod The webhook_method
+     * @param string[] $webhookFilters The webhook_filters
+     * @param int $limitsChannelMembers The limits.channel_members
+     * @param int $limitsUserChannels The limits.user_channels
      * @param string $mediaCompatibilityMessage The media.compatibility_message
-     * @param integer $preWebhookRetryCount Count of times webhook will be retried
-     *                                      in case of timeout or 429/503/504 HTTP
-     *                                      responses.
-     * @param integer $postWebhookRetryCount Count of times webhook will be retried
-     *                                       in case of timeout or 429/503/504 HTTP
-     *                                       responses.
-     * @param boolean $notificationsLogEnabled The notifications.log_enabled
+     * @param int $preWebhookRetryCount The pre_webhook_retry_count
+     * @param int $postWebhookRetryCount The post_webhook_retry_count
+     * @param bool $notificationsLogEnabled The notifications.log_enabled
      */
-    public function __construct($friendlyName = Values::NONE, $defaultServiceRoleSid = Values::NONE, $defaultChannelRoleSid = Values::NONE, $defaultChannelCreatorRoleSid = Values::NONE, $readStatusEnabled = Values::NONE, $reachabilityEnabled = Values::NONE, $typingIndicatorTimeout = Values::NONE, $consumptionReportInterval = Values::NONE, $notificationsNewMessageEnabled = Values::NONE, $notificationsNewMessageTemplate = Values::NONE, $notificationsNewMessageSound = Values::NONE, $notificationsNewMessageBadgeCountEnabled = Values::NONE, $notificationsAddedToChannelEnabled = Values::NONE, $notificationsAddedToChannelTemplate = Values::NONE, $notificationsAddedToChannelSound = Values::NONE, $notificationsRemovedFromChannelEnabled = Values::NONE, $notificationsRemovedFromChannelTemplate = Values::NONE, $notificationsRemovedFromChannelSound = Values::NONE, $notificationsInvitedToChannelEnabled = Values::NONE, $notificationsInvitedToChannelTemplate = Values::NONE, $notificationsInvitedToChannelSound = Values::NONE, $preWebhookUrl = Values::NONE, $postWebhookUrl = Values::NONE, $webhookMethod = Values::NONE, $webhookFilters = Values::NONE, $limitsChannelMembers = Values::NONE, $limitsUserChannels = Values::NONE, $mediaCompatibilityMessage = Values::NONE, $preWebhookRetryCount = Values::NONE, $postWebhookRetryCount = Values::NONE, $notificationsLogEnabled = Values::NONE) {
+    public function __construct(string $friendlyName = Values::NONE, string $defaultServiceRoleSid = Values::NONE, string $defaultChannelRoleSid = Values::NONE, string $defaultChannelCreatorRoleSid = Values::NONE, bool $readStatusEnabled = Values::NONE, bool $reachabilityEnabled = Values::NONE, int $typingIndicatorTimeout = Values::NONE, int $consumptionReportInterval = Values::NONE, bool $notificationsNewMessageEnabled = Values::NONE, string $notificationsNewMessageTemplate = Values::NONE, string $notificationsNewMessageSound = Values::NONE, bool $notificationsNewMessageBadgeCountEnabled = Values::NONE, bool $notificationsAddedToChannelEnabled = Values::NONE, string $notificationsAddedToChannelTemplate = Values::NONE, string $notificationsAddedToChannelSound = Values::NONE, bool $notificationsRemovedFromChannelEnabled = Values::NONE, string $notificationsRemovedFromChannelTemplate = Values::NONE, string $notificationsRemovedFromChannelSound = Values::NONE, bool $notificationsInvitedToChannelEnabled = Values::NONE, string $notificationsInvitedToChannelTemplate = Values::NONE, string $notificationsInvitedToChannelSound = Values::NONE, string $preWebhookUrl = Values::NONE, string $postWebhookUrl = Values::NONE, string $webhookMethod = Values::NONE, array $webhookFilters = Values::ARRAY_NONE, int $limitsChannelMembers = Values::NONE, int $limitsUserChannels = Values::NONE, string $mediaCompatibilityMessage = Values::NONE, int $preWebhookRetryCount = Values::NONE, int $postWebhookRetryCount = Values::NONE, bool $notificationsLogEnabled = Values::NONE) {
         $this->options['friendlyName'] = $friendlyName;
         $this->options['defaultServiceRoleSid'] = $defaultServiceRoleSid;
         $this->options['defaultChannelRoleSid'] = $defaultChannelRoleSid;
@@ -179,387 +149,367 @@ class UpdateServiceOptions extends Options {
     }
 
     /**
-     * Human-readable name for this service instance
-     * 
-     * @param string $friendlyName Human-readable name for this service instance
+     * The friendly_name
+     *
+     * @param string $friendlyName The friendly_name
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName(string $friendlyName): self {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * The default_service_role_sid
-     * 
+     *
      * @param string $defaultServiceRoleSid The default_service_role_sid
      * @return $this Fluent Builder
      */
-    public function setDefaultServiceRoleSid($defaultServiceRoleSid) {
+    public function setDefaultServiceRoleSid(string $defaultServiceRoleSid): self {
         $this->options['defaultServiceRoleSid'] = $defaultServiceRoleSid;
         return $this;
     }
 
     /**
-     * Channel role assigned on channel join (see [Roles](https://www.twilio.com/docs/chat/api/roles) data model for the details)
-     * 
-     * @param string $defaultChannelRoleSid Channel role assigned on channel join
+     * The default_channel_role_sid
+     *
+     * @param string $defaultChannelRoleSid The default_channel_role_sid
      * @return $this Fluent Builder
      */
-    public function setDefaultChannelRoleSid($defaultChannelRoleSid) {
+    public function setDefaultChannelRoleSid(string $defaultChannelRoleSid): self {
         $this->options['defaultChannelRoleSid'] = $defaultChannelRoleSid;
         return $this;
     }
 
     /**
-     * Channel role assigned to creator of channel when joining for first time
-     * 
-     * @param string $defaultChannelCreatorRoleSid Channel role assigned to creator
-     *                                             of channel when joining for
-     *                                             first time
+     * The default_channel_creator_role_sid
+     *
+     * @param string $defaultChannelCreatorRoleSid The
+     *                                             default_channel_creator_role_sid
      * @return $this Fluent Builder
      */
-    public function setDefaultChannelCreatorRoleSid($defaultChannelCreatorRoleSid) {
+    public function setDefaultChannelCreatorRoleSid(string $defaultChannelCreatorRoleSid): self {
         $this->options['defaultChannelCreatorRoleSid'] = $defaultChannelCreatorRoleSid;
         return $this;
     }
 
     /**
-     * `true` if the member read status feature is enabled, `false` if not.  Defaults to `true`.
-     * 
-     * @param boolean $readStatusEnabled true if the member read status feature is
-     *                                   enabled, false if not.
+     * The read_status_enabled
+     *
+     * @param bool $readStatusEnabled The read_status_enabled
      * @return $this Fluent Builder
      */
-    public function setReadStatusEnabled($readStatusEnabled) {
+    public function setReadStatusEnabled(bool $readStatusEnabled): self {
         $this->options['readStatusEnabled'] = $readStatusEnabled;
         return $this;
     }
 
     /**
-     * `true` if the reachability feature should be enabled.  Defaults to `false`
-     * 
-     * @param boolean $reachabilityEnabled true if the reachability feature should
-     *                                     be enabled.
+     * The reachability_enabled
+     *
+     * @param bool $reachabilityEnabled The reachability_enabled
      * @return $this Fluent Builder
      */
-    public function setReachabilityEnabled($reachabilityEnabled) {
+    public function setReachabilityEnabled(bool $reachabilityEnabled): self {
         $this->options['reachabilityEnabled'] = $reachabilityEnabled;
         return $this;
     }
 
     /**
-     * The duration in seconds indicating the timeout after "started typing" event when client should assume that user is not typing anymore even if no "ended typing" message received
-     * 
-     * @param integer $typingIndicatorTimeout The duration in seconds indicating
-     *                                        the timeout after "started typing"
-     *                                        event when client should assume that
-     *                                        user is not typing anymore even if no
-     *                                        "ended typing" message received
+     * The typing_indicator_timeout
+     *
+     * @param int $typingIndicatorTimeout The typing_indicator_timeout
      * @return $this Fluent Builder
      */
-    public function setTypingIndicatorTimeout($typingIndicatorTimeout) {
+    public function setTypingIndicatorTimeout(int $typingIndicatorTimeout): self {
         $this->options['typingIndicatorTimeout'] = $typingIndicatorTimeout;
         return $this;
     }
 
     /**
      * The consumption_report_interval
-     * 
-     * @param integer $consumptionReportInterval The consumption_report_interval
+     *
+     * @param int $consumptionReportInterval The consumption_report_interval
      * @return $this Fluent Builder
      */
-    public function setConsumptionReportInterval($consumptionReportInterval) {
+    public function setConsumptionReportInterval(int $consumptionReportInterval): self {
         $this->options['consumptionReportInterval'] = $consumptionReportInterval;
         return $this;
     }
 
     /**
      * The notifications.new_message.enabled
-     * 
-     * @param boolean $notificationsNewMessageEnabled The
-     *                                                notifications.new_message.enabled
+     *
+     * @param bool $notificationsNewMessageEnabled The
+     *                                             notifications.new_message.enabled
      * @return $this Fluent Builder
      */
-    public function setNotificationsNewMessageEnabled($notificationsNewMessageEnabled) {
+    public function setNotificationsNewMessageEnabled(bool $notificationsNewMessageEnabled): self {
         $this->options['notificationsNewMessageEnabled'] = $notificationsNewMessageEnabled;
         return $this;
     }
 
     /**
      * The notifications.new_message.template
-     * 
+     *
      * @param string $notificationsNewMessageTemplate The
      *                                                notifications.new_message.template
      * @return $this Fluent Builder
      */
-    public function setNotificationsNewMessageTemplate($notificationsNewMessageTemplate) {
+    public function setNotificationsNewMessageTemplate(string $notificationsNewMessageTemplate): self {
         $this->options['notificationsNewMessageTemplate'] = $notificationsNewMessageTemplate;
         return $this;
     }
 
     /**
      * The notifications.new_message.sound
-     * 
+     *
      * @param string $notificationsNewMessageSound The
      *                                             notifications.new_message.sound
      * @return $this Fluent Builder
      */
-    public function setNotificationsNewMessageSound($notificationsNewMessageSound) {
+    public function setNotificationsNewMessageSound(string $notificationsNewMessageSound): self {
         $this->options['notificationsNewMessageSound'] = $notificationsNewMessageSound;
         return $this;
     }
 
     /**
      * The notifications.new_message.badge_count_enabled
-     * 
-     * @param boolean $notificationsNewMessageBadgeCountEnabled The
-     *                                                          notifications.new_message.badge_count_enabled
+     *
+     * @param bool $notificationsNewMessageBadgeCountEnabled The
+     *                                                       notifications.new_message.badge_count_enabled
      * @return $this Fluent Builder
      */
-    public function setNotificationsNewMessageBadgeCountEnabled($notificationsNewMessageBadgeCountEnabled) {
+    public function setNotificationsNewMessageBadgeCountEnabled(bool $notificationsNewMessageBadgeCountEnabled): self {
         $this->options['notificationsNewMessageBadgeCountEnabled'] = $notificationsNewMessageBadgeCountEnabled;
         return $this;
     }
 
     /**
      * The notifications.added_to_channel.enabled
-     * 
-     * @param boolean $notificationsAddedToChannelEnabled The
-     *                                                    notifications.added_to_channel.enabled
+     *
+     * @param bool $notificationsAddedToChannelEnabled The
+     *                                                 notifications.added_to_channel.enabled
      * @return $this Fluent Builder
      */
-    public function setNotificationsAddedToChannelEnabled($notificationsAddedToChannelEnabled) {
+    public function setNotificationsAddedToChannelEnabled(bool $notificationsAddedToChannelEnabled): self {
         $this->options['notificationsAddedToChannelEnabled'] = $notificationsAddedToChannelEnabled;
         return $this;
     }
 
     /**
      * The notifications.added_to_channel.template
-     * 
+     *
      * @param string $notificationsAddedToChannelTemplate The
      *                                                    notifications.added_to_channel.template
      * @return $this Fluent Builder
      */
-    public function setNotificationsAddedToChannelTemplate($notificationsAddedToChannelTemplate) {
+    public function setNotificationsAddedToChannelTemplate(string $notificationsAddedToChannelTemplate): self {
         $this->options['notificationsAddedToChannelTemplate'] = $notificationsAddedToChannelTemplate;
         return $this;
     }
 
     /**
      * The notifications.added_to_channel.sound
-     * 
+     *
      * @param string $notificationsAddedToChannelSound The
      *                                                 notifications.added_to_channel.sound
      * @return $this Fluent Builder
      */
-    public function setNotificationsAddedToChannelSound($notificationsAddedToChannelSound) {
+    public function setNotificationsAddedToChannelSound(string $notificationsAddedToChannelSound): self {
         $this->options['notificationsAddedToChannelSound'] = $notificationsAddedToChannelSound;
         return $this;
     }
 
     /**
      * The notifications.removed_from_channel.enabled
-     * 
-     * @param boolean $notificationsRemovedFromChannelEnabled The
-     *                                                        notifications.removed_from_channel.enabled
+     *
+     * @param bool $notificationsRemovedFromChannelEnabled The
+     *                                                     notifications.removed_from_channel.enabled
      * @return $this Fluent Builder
      */
-    public function setNotificationsRemovedFromChannelEnabled($notificationsRemovedFromChannelEnabled) {
+    public function setNotificationsRemovedFromChannelEnabled(bool $notificationsRemovedFromChannelEnabled): self {
         $this->options['notificationsRemovedFromChannelEnabled'] = $notificationsRemovedFromChannelEnabled;
         return $this;
     }
 
     /**
      * The notifications.removed_from_channel.template
-     * 
+     *
      * @param string $notificationsRemovedFromChannelTemplate The
      *                                                        notifications.removed_from_channel.template
      * @return $this Fluent Builder
      */
-    public function setNotificationsRemovedFromChannelTemplate($notificationsRemovedFromChannelTemplate) {
+    public function setNotificationsRemovedFromChannelTemplate(string $notificationsRemovedFromChannelTemplate): self {
         $this->options['notificationsRemovedFromChannelTemplate'] = $notificationsRemovedFromChannelTemplate;
         return $this;
     }
 
     /**
      * The notifications.removed_from_channel.sound
-     * 
+     *
      * @param string $notificationsRemovedFromChannelSound The
      *                                                     notifications.removed_from_channel.sound
      * @return $this Fluent Builder
      */
-    public function setNotificationsRemovedFromChannelSound($notificationsRemovedFromChannelSound) {
+    public function setNotificationsRemovedFromChannelSound(string $notificationsRemovedFromChannelSound): self {
         $this->options['notificationsRemovedFromChannelSound'] = $notificationsRemovedFromChannelSound;
         return $this;
     }
 
     /**
      * The notifications.invited_to_channel.enabled
-     * 
-     * @param boolean $notificationsInvitedToChannelEnabled The
-     *                                                      notifications.invited_to_channel.enabled
+     *
+     * @param bool $notificationsInvitedToChannelEnabled The
+     *                                                   notifications.invited_to_channel.enabled
      * @return $this Fluent Builder
      */
-    public function setNotificationsInvitedToChannelEnabled($notificationsInvitedToChannelEnabled) {
+    public function setNotificationsInvitedToChannelEnabled(bool $notificationsInvitedToChannelEnabled): self {
         $this->options['notificationsInvitedToChannelEnabled'] = $notificationsInvitedToChannelEnabled;
         return $this;
     }
 
     /**
      * The notifications.invited_to_channel.template
-     * 
+     *
      * @param string $notificationsInvitedToChannelTemplate The
      *                                                      notifications.invited_to_channel.template
      * @return $this Fluent Builder
      */
-    public function setNotificationsInvitedToChannelTemplate($notificationsInvitedToChannelTemplate) {
+    public function setNotificationsInvitedToChannelTemplate(string $notificationsInvitedToChannelTemplate): self {
         $this->options['notificationsInvitedToChannelTemplate'] = $notificationsInvitedToChannelTemplate;
         return $this;
     }
 
     /**
      * The notifications.invited_to_channel.sound
-     * 
+     *
      * @param string $notificationsInvitedToChannelSound The
      *                                                   notifications.invited_to_channel.sound
      * @return $this Fluent Builder
      */
-    public function setNotificationsInvitedToChannelSound($notificationsInvitedToChannelSound) {
+    public function setNotificationsInvitedToChannelSound(string $notificationsInvitedToChannelSound): self {
         $this->options['notificationsInvitedToChannelSound'] = $notificationsInvitedToChannelSound;
         return $this;
     }
 
     /**
-     * The webhook URL for PRE-Event webhooks. See [Webhook Events](https://www.twilio.com/docs/chat/webhook-events) for more details.
-     * 
-     * @param string $preWebhookUrl The webhook URL for PRE-Event webhooks.
+     * The pre_webhook_url
+     *
+     * @param string $preWebhookUrl The pre_webhook_url
      * @return $this Fluent Builder
      */
-    public function setPreWebhookUrl($preWebhookUrl) {
+    public function setPreWebhookUrl(string $preWebhookUrl): self {
         $this->options['preWebhookUrl'] = $preWebhookUrl;
         return $this;
     }
 
     /**
-     * The webhook URL for POST-Event webhooks. See [Webhook Events](https://www.twilio.com/docs/chat/webhook-events) for more details.
-     * 
-     * @param string $postWebhookUrl The webhook URL for POST-Event webhooks.
+     * The post_webhook_url
+     *
+     * @param string $postWebhookUrl The post_webhook_url
      * @return $this Fluent Builder
      */
-    public function setPostWebhookUrl($postWebhookUrl) {
+    public function setPostWebhookUrl(string $postWebhookUrl): self {
         $this->options['postWebhookUrl'] = $postWebhookUrl;
         return $this;
     }
 
     /**
-     * The webhook request format to use.  Must be POST or GET. See [Webhook Events](https://www.twilio.com/docs/chat/webhook-events) for more details.
-     * 
-     * @param string $webhookMethod The webhook request format to use.
+     * The webhook_method
+     *
+     * @param string $webhookMethod The webhook_method
      * @return $this Fluent Builder
      */
-    public function setWebhookMethod($webhookMethod) {
+    public function setWebhookMethod(string $webhookMethod): self {
         $this->options['webhookMethod'] = $webhookMethod;
         return $this;
     }
 
     /**
-     * The list of WebHook events that are enabled for this Service instance. See [Webhook Events](https://www.twilio.com/docs/chat/webhook-events) for more details.
-     * 
-     * @param string $webhookFilters The list of WebHook events that are enabled
-     *                               for this Service instance.
+     * The webhook_filters
+     *
+     * @param string[] $webhookFilters The webhook_filters
      * @return $this Fluent Builder
      */
-    public function setWebhookFilters($webhookFilters) {
+    public function setWebhookFilters(array $webhookFilters): self {
         $this->options['webhookFilters'] = $webhookFilters;
         return $this;
     }
 
     /**
-     * The maximum number of Members that can be added to Channels within this Service.  The maximum allowed value is 1,000
-     * 
-     * @param integer $limitsChannelMembers The maximum number of Members that can
-     *                                      be added to Channels within this
-     *                                      Service.
+     * The limits.channel_members
+     *
+     * @param int $limitsChannelMembers The limits.channel_members
      * @return $this Fluent Builder
      */
-    public function setLimitsChannelMembers($limitsChannelMembers) {
+    public function setLimitsChannelMembers(int $limitsChannelMembers): self {
         $this->options['limitsChannelMembers'] = $limitsChannelMembers;
         return $this;
     }
 
     /**
-     * The maximum number of Channels Users can be a Member of within this Service.  The maximum value allowed is 1,000
-     * 
-     * @param integer $limitsUserChannels The maximum number of Channels Users can
-     *                                    be a Member of within this Service.
+     * The limits.user_channels
+     *
+     * @param int $limitsUserChannels The limits.user_channels
      * @return $this Fluent Builder
      */
-    public function setLimitsUserChannels($limitsUserChannels) {
+    public function setLimitsUserChannels(int $limitsUserChannels): self {
         $this->options['limitsUserChannels'] = $limitsUserChannels;
         return $this;
     }
 
     /**
      * The media.compatibility_message
-     * 
+     *
      * @param string $mediaCompatibilityMessage The media.compatibility_message
      * @return $this Fluent Builder
      */
-    public function setMediaCompatibilityMessage($mediaCompatibilityMessage) {
+    public function setMediaCompatibilityMessage(string $mediaCompatibilityMessage): self {
         $this->options['mediaCompatibilityMessage'] = $mediaCompatibilityMessage;
         return $this;
     }
 
     /**
-     * Count of times webhook will be retried in case of timeout (5 seconds) or 429/503/504 HTTP responses. Default retry count is 0 times.
-     * 
-     * @param integer $preWebhookRetryCount Count of times webhook will be retried
-     *                                      in case of timeout or 429/503/504 HTTP
-     *                                      responses.
+     * The pre_webhook_retry_count
+     *
+     * @param int $preWebhookRetryCount The pre_webhook_retry_count
      * @return $this Fluent Builder
      */
-    public function setPreWebhookRetryCount($preWebhookRetryCount) {
+    public function setPreWebhookRetryCount(int $preWebhookRetryCount): self {
         $this->options['preWebhookRetryCount'] = $preWebhookRetryCount;
         return $this;
     }
 
     /**
-     * Count of times webhook will be retried in case of timeout (5 seconds) or 429/503/504 HTTP responses. Default retry count is 0 times.
-     * 
-     * @param integer $postWebhookRetryCount Count of times webhook will be retried
-     *                                       in case of timeout or 429/503/504 HTTP
-     *                                       responses.
+     * The post_webhook_retry_count
+     *
+     * @param int $postWebhookRetryCount The post_webhook_retry_count
      * @return $this Fluent Builder
      */
-    public function setPostWebhookRetryCount($postWebhookRetryCount) {
+    public function setPostWebhookRetryCount(int $postWebhookRetryCount): self {
         $this->options['postWebhookRetryCount'] = $postWebhookRetryCount;
         return $this;
     }
 
     /**
      * The notifications.log_enabled
-     * 
-     * @param boolean $notificationsLogEnabled The notifications.log_enabled
+     *
+     * @param bool $notificationsLogEnabled The notifications.log_enabled
      * @return $this Fluent Builder
      */
-    public function setNotificationsLogEnabled($notificationsLogEnabled) {
+    public function setNotificationsLogEnabled(bool $notificationsLogEnabled): self {
         $this->options['notificationsLogEnabled'] = $notificationsLogEnabled;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.UpdateServiceOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.UpdateServiceOptions ' . $options . ']';
     }
 }

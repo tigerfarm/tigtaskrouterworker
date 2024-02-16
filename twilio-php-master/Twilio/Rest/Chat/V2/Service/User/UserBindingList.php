@@ -12,25 +12,26 @@ namespace Twilio\Rest\Chat\V2\Service\User;
 use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Serialize;
+use Twilio\Stream;
 use Twilio\Values;
 use Twilio\Version;
 
 class UserBindingList extends ListResource {
     /**
      * Construct the UserBindingList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $userSid The user_sid
-     * @return \Twilio\Rest\Chat\V2\Service\User\UserBindingList 
+     * @param string $serviceSid The SID of the Service that the resource is
+     *                           associated with
+     * @param string $userSid The SID of the User with the binding
      */
-    public function __construct(Version $version, $serviceSid, $userSid) {
+    public function __construct(Version $version, string $serviceSid, string $userSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'userSid' => $userSid, );
+        $this->solution = ['serviceSid' => $serviceSid, 'userSid' => $userSid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Users/' . rawurlencode($userSid) . '/Bindings';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/Users/' . \rawurlencode($userSid) . '/Bindings';
     }
 
     /**
@@ -40,7 +41,7 @@ class UserBindingList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. stream()
      *                   guarantees to never return more than limit.  Default is no
@@ -50,9 +51,9 @@ class UserBindingList extends ListResource {
      *                        page_size is defined but a limit is defined, stream()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
-     * @return \Twilio\Stream stream of results
+     * @return Stream stream of results
      */
-    public function stream($options = array(), $limit = null, $pageSize = null) {
+    public function stream(array $options = [], int $limit = null, $pageSize = null): Stream {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($options, $limits['pageSize']);
@@ -64,7 +65,7 @@ class UserBindingList extends ListResource {
      * Reads UserBindingInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. read()
      *                   guarantees to never return more than limit.  Default is no
@@ -76,34 +77,31 @@ class UserBindingList extends ListResource {
      *                        efficient page size, i.e. min(limit, 1000)
      * @return UserBindingInstance[] Array of results
      */
-    public function read($options = array(), $limit = null, $pageSize = null) {
-        return iterator_to_array($this->stream($options, $limit, $pageSize), false);
+    public function read(array $options = [], int $limit = null, $pageSize = null): array {
+        return \iterator_to_array($this->stream($options, $limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of UserBindingInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param mixed $pageSize Number of records to return, defaults to 50
      * @param string $pageToken PageToken provided by the API
      * @param mixed $pageNumber Page Number, this value is simply for client state
-     * @return \Twilio\Page Page of UserBindingInstance
+     * @return UserBindingPage Page of UserBindingInstance
      */
-    public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
+    public function page(array $options = [], $pageSize = Values::NONE, string $pageToken = Values::NONE, $pageNumber = Values::NONE): UserBindingPage {
         $options = new Values($options);
-        $params = Values::of(array(
+
+        $params = Values::of([
             'BindingType' => Serialize::map($options['bindingType'], function($e) { return $e; }),
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
-        ));
+        ]);
 
-        $response = $this->version->page(
-            'GET',
-            $this->uri,
-            $params
-        );
+        $response = $this->version->page('GET', $this->uri, $params);
 
         return new UserBindingPage($this->version, $response, $this->solution);
     }
@@ -111,11 +109,11 @@ class UserBindingList extends ListResource {
     /**
      * Retrieve a specific page of UserBindingInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
-     * @return \Twilio\Page Page of UserBindingInstance
+     * @return UserBindingPage Page of UserBindingInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage(string $targetUrl): UserBindingPage {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -126,11 +124,10 @@ class UserBindingList extends ListResource {
 
     /**
      * Constructs a UserBindingContext
-     * 
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Chat\V2\Service\User\UserBindingContext 
+     *
+     * @param string $sid The SID of the User Binding resource to fetch
      */
-    public function getContext($sid) {
+    public function getContext(string $sid): UserBindingContext {
         return new UserBindingContext(
             $this->version,
             $this->solution['serviceSid'],
@@ -141,10 +138,10 @@ class UserBindingList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Chat.V2.UserBindingList]';
     }
 }

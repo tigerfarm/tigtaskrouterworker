@@ -14,20 +14,19 @@ use Twilio\TwiML\TwiML;
 class Reject extends TwiML {
     /**
      * Reject constructor.
-     * 
+     *
      * @param array $attributes Optional attributes
      */
-    public function __construct($attributes = array()) {
-        parent::__construct('Reject', $attributes);
+    public function __construct($attributes = []) {
+        parent::__construct('Reject', null, $attributes);
     }
 
     /**
      * Add Reason attribute.
-     * 
-     * @param reject:Enum:Reason $reason Rejection reason
-     * @return TwiML $this.
+     *
+     * @param string $reason Rejection reason
      */
-    public function setReason($reason) {
+    public function setReason($reason): self {
         return $this->setAttribute('reason', $reason);
     }
 }

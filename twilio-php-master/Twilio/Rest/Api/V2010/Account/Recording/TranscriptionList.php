@@ -10,25 +10,26 @@
 namespace Twilio\Rest\Api\V2010\Account\Recording;
 
 use Twilio\ListResource;
+use Twilio\Stream;
 use Twilio\Values;
 use Twilio\Version;
 
 class TranscriptionList extends ListResource {
     /**
      * Construct the TranscriptionList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
-     * @param string $recordingSid The recording_sid
-     * @return \Twilio\Rest\Api\V2010\Account\Recording\TranscriptionList 
+     * @param string $accountSid The SID of the Account that created the resource
+     * @param string $recordingSid The SID that identifies the transcription's
+     *                             recording
      */
-    public function __construct(Version $version, $accountSid, $recordingSid) {
+    public function __construct(Version $version, string $accountSid, string $recordingSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, 'recordingSid' => $recordingSid, );
+        $this->solution = ['accountSid' => $accountSid, 'recordingSid' => $recordingSid, ];
 
-        $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Recordings/' . rawurlencode($recordingSid) . '/Transcriptions.json';
+        $this->uri = '/Accounts/' . \rawurlencode($accountSid) . '/Recordings/' . \rawurlencode($recordingSid) . '/Transcriptions.json';
     }
 
     /**
@@ -38,7 +39,7 @@ class TranscriptionList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
+     *
      * @param int $limit Upper limit for the number of records to return. stream()
      *                   guarantees to never return more than limit.  Default is no
      *                   limit
@@ -47,9 +48,9 @@ class TranscriptionList extends ListResource {
      *                        page_size is defined but a limit is defined, stream()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
-     * @return \Twilio\Stream stream of results
+     * @return Stream stream of results
      */
-    public function stream($limit = null, $pageSize = null) {
+    public function stream(int $limit = null, $pageSize = null): Stream {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($limits['pageSize']);
@@ -61,7 +62,7 @@ class TranscriptionList extends ListResource {
      * Reads TranscriptionInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
+     *
      * @param int $limit Upper limit for the number of records to return. read()
      *                   guarantees to never return more than limit.  Default is no
      *                   limit
@@ -72,31 +73,23 @@ class TranscriptionList extends ListResource {
      *                        efficient page size, i.e. min(limit, 1000)
      * @return TranscriptionInstance[] Array of results
      */
-    public function read($limit = null, $pageSize = null) {
-        return iterator_to_array($this->stream($limit, $pageSize), false);
+    public function read(int $limit = null, $pageSize = null): array {
+        return \iterator_to_array($this->stream($limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of TranscriptionInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param mixed $pageSize Number of records to return, defaults to 50
      * @param string $pageToken PageToken provided by the API
      * @param mixed $pageNumber Page Number, this value is simply for client state
-     * @return \Twilio\Page Page of TranscriptionInstance
+     * @return TranscriptionPage Page of TranscriptionInstance
      */
-    public function page($pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
-        $params = Values::of(array(
-            'PageToken' => $pageToken,
-            'Page' => $pageNumber,
-            'PageSize' => $pageSize,
-        ));
+    public function page($pageSize = Values::NONE, string $pageToken = Values::NONE, $pageNumber = Values::NONE): TranscriptionPage {
+        $params = Values::of(['PageToken' => $pageToken, 'Page' => $pageNumber, 'PageSize' => $pageSize, ]);
 
-        $response = $this->version->page(
-            'GET',
-            $this->uri,
-            $params
-        );
+        $response = $this->version->page('GET', $this->uri, $params);
 
         return new TranscriptionPage($this->version, $response, $this->solution);
     }
@@ -104,11 +97,11 @@ class TranscriptionList extends ListResource {
     /**
      * Retrieve a specific page of TranscriptionInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
-     * @return \Twilio\Page Page of TranscriptionInstance
+     * @return TranscriptionPage Page of TranscriptionInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage(string $targetUrl): TranscriptionPage {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -119,11 +112,10 @@ class TranscriptionList extends ListResource {
 
     /**
      * Constructs a TranscriptionContext
-     * 
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Api\V2010\Account\Recording\TranscriptionContext 
+     *
+     * @param string $sid The unique string that identifies the resource
      */
-    public function getContext($sid) {
+    public function getContext(string $sid): TranscriptionContext {
         return new TranscriptionContext(
             $this->version,
             $this->solution['accountSid'],
@@ -134,10 +126,10 @@ class TranscriptionList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Api.V2010.TranscriptionList]';
     }
 }

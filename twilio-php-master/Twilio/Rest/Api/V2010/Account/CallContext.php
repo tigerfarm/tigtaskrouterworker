@@ -11,67 +11,73 @@ namespace Twilio\Rest\Api\V2010\Account;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
+use Twilio\ListResource;
 use Twilio\Options;
+use Twilio\Rest\Api\V2010\Account\Call\EventList;
 use Twilio\Rest\Api\V2010\Account\Call\FeedbackList;
 use Twilio\Rest\Api\V2010\Account\Call\NotificationList;
+use Twilio\Rest\Api\V2010\Account\Call\PaymentList;
 use Twilio\Rest\Api\V2010\Account\Call\RecordingList;
+use Twilio\Rest\Api\V2010\Account\Call\SiprecList;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\Api\V2010\Account\Call\RecordingList recordings
- * @property \Twilio\Rest\Api\V2010\Account\Call\NotificationList notifications
- * @property \Twilio\Rest\Api\V2010\Account\Call\FeedbackList feedback
+ * @property RecordingList $recordings
+ * @property NotificationList $notifications
+ * @property FeedbackList $feedback
+ * @property EventList $events
+ * @property PaymentList $payments
+ * @property SiprecList $siprec
  * @method \Twilio\Rest\Api\V2010\Account\Call\RecordingContext recordings(string $sid)
  * @method \Twilio\Rest\Api\V2010\Account\Call\NotificationContext notifications(string $sid)
  * @method \Twilio\Rest\Api\V2010\Account\Call\FeedbackContext feedback()
+ * @method \Twilio\Rest\Api\V2010\Account\Call\PaymentContext payments(string $sid)
+ * @method \Twilio\Rest\Api\V2010\Account\Call\SiprecContext siprec(string $sid)
  */
 class CallContext extends InstanceContext {
-    protected $_recordings = null;
-    protected $_notifications = null;
-    protected $_feedback = null;
+    protected $_recordings;
+    protected $_notifications;
+    protected $_feedback;
+    protected $_events;
+    protected $_payments;
+    protected $_siprec;
 
     /**
      * Initialize the CallContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
-     * @param string $sid Call Sid that uniquely identifies the Call to fetch
-     * @return \Twilio\Rest\Api\V2010\Account\CallContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $accountSid The SID of the Account that created the
+     *                           resource(s) to fetch
+     * @param string $sid The SID of the Call resource to fetch
      */
     public function __construct(Version $version, $accountSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid, );
+        $this->solution = ['accountSid' => $accountSid, 'sid' => $sid, ];
 
-        $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Calls/' . rawurlencode($sid) . '.json';
+        $this->uri = '/Accounts/' . \rawurlencode($accountSid) . '/Calls/' . \rawurlencode($sid) . '.json';
     }
 
     /**
-     * Deletes the CallInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the CallInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
-     * Fetch a CallInstance
-     * 
+     * Fetch the CallInstance
+     *
      * @return CallInstance Fetched CallInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): CallInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new CallInstance(
             $this->version,
@@ -83,15 +89,15 @@ class CallContext extends InstanceContext {
 
     /**
      * Update the CallInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return CallInstance Updated CallInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): CallInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'Url' => $options['url'],
             'Method' => $options['method'],
             'Status' => $options['status'],
@@ -99,14 +105,11 @@ class CallContext extends InstanceContext {
             'FallbackMethod' => $options['fallbackMethod'],
             'StatusCallback' => $options['statusCallback'],
             'StatusCallbackMethod' => $options['statusCallbackMethod'],
-        ));
+            'Twiml' => $options['twiml'],
+            'TimeLimit' => $options['timeLimit'],
+        ]);
 
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->update('POST', $this->uri, [], $data);
 
         return new CallInstance(
             $this->version,
@@ -118,10 +121,8 @@ class CallContext extends InstanceContext {
 
     /**
      * Access the recordings
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Call\RecordingList 
      */
-    protected function getRecordings() {
+    protected function getRecordings(): RecordingList {
         if (!$this->_recordings) {
             $this->_recordings = new RecordingList(
                 $this->version,
@@ -135,10 +136,8 @@ class CallContext extends InstanceContext {
 
     /**
      * Access the notifications
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Call\NotificationList 
      */
-    protected function getNotifications() {
+    protected function getNotifications(): NotificationList {
         if (!$this->_notifications) {
             $this->_notifications = new NotificationList(
                 $this->version,
@@ -152,10 +151,8 @@ class CallContext extends InstanceContext {
 
     /**
      * Access the feedback
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Call\FeedbackList 
      */
-    protected function getFeedback() {
+    protected function getFeedback(): FeedbackList {
         if (!$this->_feedback) {
             $this->_feedback = new FeedbackList(
                 $this->version,
@@ -168,15 +165,60 @@ class CallContext extends InstanceContext {
     }
 
     /**
-     * Magic getter to lazy load subresources
-     * 
-     * @param string $name Subresource to return
-     * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * Access the events
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    protected function getEvents(): EventList {
+        if (!$this->_events) {
+            $this->_events = new EventList(
+                $this->version,
+                $this->solution['accountSid'],
+                $this->solution['sid']
+            );
+        }
+
+        return $this->_events;
+    }
+
+    /**
+     * Access the payments
+     */
+    protected function getPayments(): PaymentList {
+        if (!$this->_payments) {
+            $this->_payments = new PaymentList(
+                $this->version,
+                $this->solution['accountSid'],
+                $this->solution['sid']
+            );
+        }
+
+        return $this->_payments;
+    }
+
+    /**
+     * Access the siprec
+     */
+    protected function getSiprec(): SiprecList {
+        if (!$this->_siprec) {
+            $this->_siprec = new SiprecList(
+                $this->version,
+                $this->solution['accountSid'],
+                $this->solution['sid']
+            );
+        }
+
+        return $this->_siprec;
+    }
+
+    /**
+     * Magic getter to lazy load subresources
+     *
+     * @param string $name Subresource to return
+     * @return ListResource The requested subresource
+     * @throws TwilioException For unknown subresources
+     */
+    public function __get(string $name): ListResource {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -185,16 +227,16 @@ class CallContext extends InstanceContext {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -202,14 +244,14 @@ class CallContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.CallContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.CallContext ' . \implode(' ', $context) . ']';
     }
 }

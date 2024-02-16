@@ -14,45 +14,40 @@ use Twilio\Values;
 
 abstract class TokenOptions {
     /**
-     * @param integer $ttl The duration in seconds the credentials are valid
+     * @param int $ttl The duration in seconds the credentials are valid
      * @return CreateTokenOptions Options builder
      */
-    public static function create($ttl = Values::NONE) {
+    public static function create(int $ttl = Values::NONE): CreateTokenOptions {
         return new CreateTokenOptions($ttl);
     }
 }
 
 class CreateTokenOptions extends Options {
     /**
-     * @param integer $ttl The duration in seconds the credentials are valid
+     * @param int $ttl The duration in seconds the credentials are valid
      */
-    public function __construct($ttl = Values::NONE) {
+    public function __construct(int $ttl = Values::NONE) {
         $this->options['ttl'] = $ttl;
     }
 
     /**
-     * The duration in seconds for which the generated credentials are valid, the default value is 86400 (24 hours).
-     * 
-     * @param integer $ttl The duration in seconds the credentials are valid
+     * The duration in seconds for which the generated credentials are valid. The default value is 86400 (24 hours).
+     *
+     * @param int $ttl The duration in seconds the credentials are valid
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Api.V2010.CreateTokenOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Api.V2010.CreateTokenOptions ' . $options . ']';
     }
 }

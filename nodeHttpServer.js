@@ -31,7 +31,7 @@ http.createServer(function (request, response) {
             console.log("+ generateTrToken, tokenPassword=" + query.tokenPassword + ' clientid=' + query.clientid);
             const exec = require('child_process').exec;
             const theProgramName = uri;
-            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.tokenPassword + " " + query.clientid;
+            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.clientid + " " + query.tokenPassword;
             exec(theProgram, (error, stdout, stderr) => {
                 theResponse = `${stdout}`;
                 console.log('+ theResponse: ' + theResponse);

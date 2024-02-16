@@ -14,19 +14,23 @@ use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Messaging\V1;
 
 /**
- * @property \Twilio\Rest\Messaging\V1 v1
- * @property \Twilio\Rest\Messaging\V1\ServiceList services
+ * @property \Twilio\Rest\Messaging\V1 $v1
+ * @property \Twilio\Rest\Messaging\V1\BrandRegistrationList $brandRegistrations
+ * @property \Twilio\Rest\Messaging\V1\DeactivationsList $deactivations
+ * @property \Twilio\Rest\Messaging\V1\ExternalCampaignList $externalCampaign
+ * @property \Twilio\Rest\Messaging\V1\ServiceList $services
+ * @property \Twilio\Rest\Messaging\V1\UsecaseList $usecases
+ * @method \Twilio\Rest\Messaging\V1\BrandRegistrationContext brandRegistrations(string $sid)
+ * @method \Twilio\Rest\Messaging\V1\DeactivationsContext deactivations()
  * @method \Twilio\Rest\Messaging\V1\ServiceContext services(string $sid)
  */
 class Messaging extends Domain {
-    protected $_v1 = null;
+    protected $_v1;
 
     /**
      * Construct the Messaging Domain
-     * 
-     * @param \Twilio\Rest\Client $client Twilio\Rest\Client to communicate with
-     *                                    Twilio
-     * @return \Twilio\Rest\Messaging Domain for Messaging
+     *
+     * @param Client $client Client to communicate with Twilio
      */
     public function __construct(Client $client) {
         parent::__construct($client);
@@ -35,9 +39,9 @@ class Messaging extends Domain {
     }
 
     /**
-     * @return \Twilio\Rest\Messaging\V1 Version v1 of messaging
+     * @return V1 Version v1 of messaging
      */
-    protected function getV1() {
+    protected function getV1(): V1 {
         if (!$this->_v1) {
             $this->_v1 = new V1($this);
         }
@@ -46,14 +50,14 @@ class Messaging extends Domain {
 
     /**
      * Magic getter to lazy load version
-     * 
+     *
      * @param string $name Version to return
      * @return \Twilio\Version The requested version
-     * @throws \Twilio\Exceptions\TwilioException For unknown versions
+     * @throws TwilioException For unknown versions
      */
-    public function __get($name) {
-        $method = 'get' . ucfirst($name);
-        if (method_exists($this, $method)) {
+    public function __get(string $name) {
+        $method = 'get' . \ucfirst($name);
+        if (\method_exists($this, $method)) {
             return $this->$method();
         }
 
@@ -62,42 +66,65 @@ class Messaging extends Domain {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
      * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
-        $method = 'context' . ucfirst($name);
-        if (method_exists($this, $method)) {
-            return call_user_func_array(array($this, $method), $arguments);
+    public function __call(string $name, array $arguments) {
+        $method = 'context' . \ucfirst($name);
+        if (\method_exists($this, $method)) {
+            return \call_user_func_array([$this, $method], $arguments);
         }
 
         throw new TwilioException('Unknown context ' . $name);
     }
 
+    protected function getBrandRegistrations(): \Twilio\Rest\Messaging\V1\BrandRegistrationList {
+        return $this->v1->brandRegistrations;
+    }
+
     /**
-     * @return \Twilio\Rest\Messaging\V1\ServiceList 
+     * @param string $sid The SID that identifies the resource to fetch
      */
-    protected function getServices() {
+    protected function contextBrandRegistrations(string $sid): \Twilio\Rest\Messaging\V1\BrandRegistrationContext {
+        return $this->v1->brandRegistrations($sid);
+    }
+
+    protected function getDeactivations(): \Twilio\Rest\Messaging\V1\DeactivationsList {
+        return $this->v1->deactivations;
+    }
+
+    protected function contextDeactivations(): \Twilio\Rest\Messaging\V1\DeactivationsContext {
+        return $this->v1->deactivations();
+    }
+
+    protected function getExternalCampaign(): \Twilio\Rest\Messaging\V1\ExternalCampaignList {
+        return $this->v1->externalCampaign;
+    }
+
+    protected function getServices(): \Twilio\Rest\Messaging\V1\ServiceList {
         return $this->v1->services;
     }
 
     /**
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Messaging\V1\ServiceContext 
+     * @param string $sid The SID that identifies the resource to fetch
      */
-    protected function contextServices($sid) {
+    protected function contextServices(string $sid): \Twilio\Rest\Messaging\V1\ServiceContext {
         return $this->v1->services($sid);
+    }
+
+    protected function getUsecases(): \Twilio\Rest\Messaging\V1\UsecaseList {
+        return $this->v1->usecases;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Messaging]';
     }
 }

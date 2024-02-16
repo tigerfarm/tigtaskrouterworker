@@ -14,20 +14,19 @@ use Twilio\TwiML\TwiML;
 class Pause extends TwiML {
     /**
      * Pause constructor.
-     * 
+     *
      * @param array $attributes Optional attributes
      */
-    public function __construct($attributes = array()) {
-        parent::__construct('Pause', $attributes);
+    public function __construct($attributes = []) {
+        parent::__construct('Pause', null, $attributes);
     }
 
     /**
      * Add Length attribute.
-     * 
-     * @param integer $length Length in seconds to pause
-     * @return TwiML $this.
+     *
+     * @param int $length Length in seconds to pause
      */
-    public function setLength($length) {
+    public function setLength($length): self {
         return $this->setAttribute('length', $length);
     }
 }

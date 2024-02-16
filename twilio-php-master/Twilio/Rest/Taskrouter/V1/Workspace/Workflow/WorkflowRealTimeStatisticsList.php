@@ -15,25 +15,25 @@ use Twilio\Version;
 class WorkflowRealTimeStatisticsList extends ListResource {
     /**
      * Construct the WorkflowRealTimeStatisticsList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
-     * @param string $workflowSid The workflow_sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Workflow\WorkflowRealTimeStatisticsList 
+     * @param string $workspaceSid The SID of the Workspace that contains the
+     *                             Workflow.
+     * @param string $workflowSid Returns the list of Tasks that are being
+     *                            controlled by the Workflow with the specified SID
+     *                            value
      */
-    public function __construct(Version $version, $workspaceSid, $workflowSid) {
+    public function __construct(Version $version, string $workspaceSid, string $workflowSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('workspaceSid' => $workspaceSid, 'workflowSid' => $workflowSid, );
+        $this->solution = ['workspaceSid' => $workspaceSid, 'workflowSid' => $workflowSid, ];
     }
 
     /**
      * Constructs a WorkflowRealTimeStatisticsContext
-     * 
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Workflow\WorkflowRealTimeStatisticsContext 
      */
-    public function getContext() {
+    public function getContext(): WorkflowRealTimeStatisticsContext {
         return new WorkflowRealTimeStatisticsContext(
             $this->version,
             $this->solution['workspaceSid'],
@@ -43,10 +43,10 @@ class WorkflowRealTimeStatisticsList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Taskrouter.V1.WorkflowRealTimeStatisticsList]';
     }
 }

@@ -16,38 +16,39 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property string apiVersion
- * @property string category
- * @property string count
- * @property string countUnit
- * @property string description
- * @property \DateTime endDate
- * @property string price
- * @property string priceUnit
- * @property \DateTime startDate
- * @property array subresourceUris
- * @property string uri
- * @property string usage
- * @property string usageUnit
+ * @property string $accountSid
+ * @property string $apiVersion
+ * @property string $asOf
+ * @property string $category
+ * @property string $count
+ * @property string $countUnit
+ * @property string $description
+ * @property \DateTime $endDate
+ * @property string $price
+ * @property string $priceUnit
+ * @property \DateTime $startDate
+ * @property array $subresourceUris
+ * @property string $uri
+ * @property string $usage
+ * @property string $usageUnit
  */
 class LastMonthInstance extends InstanceResource {
     /**
      * Initialize the LastMonthInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
      * @param string $accountSid A 34 character string that uniquely identifies
      *                           this resource.
-     * @return \Twilio\Rest\Api\V2010\Account\Usage\Record\LastMonthInstance 
      */
-    public function __construct(Version $version, array $payload, $accountSid) {
+    public function __construct(Version $version, array $payload, string $accountSid) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'apiVersion' => Values::array_get($payload, 'api_version'),
+            'asOf' => Values::array_get($payload, 'as_of'),
             'category' => Values::array_get($payload, 'category'),
             'count' => Values::array_get($payload, 'count'),
             'countUnit' => Values::array_get($payload, 'count_unit'),
@@ -60,25 +61,25 @@ class LastMonthInstance extends InstanceResource {
             'uri' => Values::array_get($payload, 'uri'),
             'usage' => Values::array_get($payload, 'usage'),
             'usageUnit' => Values::array_get($payload, 'usage_unit'),
-        );
+        ];
 
-        $this->solution = array('accountSid' => $accountSid, );
+        $this->solution = ['accountSid' => $accountSid, ];
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -87,10 +88,10 @@ class LastMonthInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Api.V2010.LastMonthInstance]';
     }
 }

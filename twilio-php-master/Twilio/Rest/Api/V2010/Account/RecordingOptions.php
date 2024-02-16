@@ -14,27 +14,33 @@ use Twilio\Values;
 
 abstract class RecordingOptions {
     /**
-     * @param string $dateCreatedBefore Filter by date created
-     * @param string $dateCreated Filter by date created
-     * @param string $dateCreatedAfter Filter by date created
-     * @param string $callSid Filter by call_sid
-     * @param string $conferenceSid The conference_sid
+     * @param string $dateCreatedBefore Only include recordings that were created
+     *                                  on this date
+     * @param string $dateCreated Only include recordings that were created on this
+     *                            date
+     * @param string $dateCreatedAfter Only include recordings that were created on
+     *                                 this date
+     * @param string $callSid The Call SID of the resources to read
+     * @param string $conferenceSid Read by unique Conference SID for the recording
      * @return ReadRecordingOptions Options builder
      */
-    public static function read($dateCreatedBefore = Values::NONE, $dateCreated = Values::NONE, $dateCreatedAfter = Values::NONE, $callSid = Values::NONE, $conferenceSid = Values::NONE) {
+    public static function read(string $dateCreatedBefore = Values::NONE, string $dateCreated = Values::NONE, string $dateCreatedAfter = Values::NONE, string $callSid = Values::NONE, string $conferenceSid = Values::NONE): ReadRecordingOptions {
         return new ReadRecordingOptions($dateCreatedBefore, $dateCreated, $dateCreatedAfter, $callSid, $conferenceSid);
     }
 }
 
 class ReadRecordingOptions extends Options {
     /**
-     * @param string $dateCreatedBefore Filter by date created
-     * @param string $dateCreated Filter by date created
-     * @param string $dateCreatedAfter Filter by date created
-     * @param string $callSid Filter by call_sid
-     * @param string $conferenceSid The conference_sid
+     * @param string $dateCreatedBefore Only include recordings that were created
+     *                                  on this date
+     * @param string $dateCreated Only include recordings that were created on this
+     *                            date
+     * @param string $dateCreatedAfter Only include recordings that were created on
+     *                                 this date
+     * @param string $callSid The Call SID of the resources to read
+     * @param string $conferenceSid Read by unique Conference SID for the recording
      */
-    public function __construct($dateCreatedBefore = Values::NONE, $dateCreated = Values::NONE, $dateCreatedAfter = Values::NONE, $callSid = Values::NONE, $conferenceSid = Values::NONE) {
+    public function __construct(string $dateCreatedBefore = Values::NONE, string $dateCreated = Values::NONE, string $dateCreatedAfter = Values::NONE, string $callSid = Values::NONE, string $conferenceSid = Values::NONE) {
         $this->options['dateCreatedBefore'] = $dateCreatedBefore;
         $this->options['dateCreated'] = $dateCreated;
         $this->options['dateCreatedAfter'] = $dateCreatedAfter;
@@ -43,72 +49,70 @@ class ReadRecordingOptions extends Options {
     }
 
     /**
-     * Only show recordings created on the given date. Should be formatted as `YYYY-MM-DD`. You can also specify inequality, such as `DateCreated<=YYYY-MM-DD` for recordings generated at or before midnight on a date, and `DateCreated>=YYYY-MM-DD` for recordings generated at or after midnight on a date.
-     * 
-     * @param string $dateCreatedBefore Filter by date created
+     * Only include recordings that were created on this date. Specify a date as `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read recordings that were created on this date. You can also specify an inequality, such as `DateCreated<=YYYY-MM-DD`, to read recordings that were created on or before midnight of this date, and `DateCreated>=YYYY-MM-DD` to read recordings that were created on or after midnight of this date.
+     *
+     * @param string $dateCreatedBefore Only include recordings that were created
+     *                                  on this date
      * @return $this Fluent Builder
      */
-    public function setDateCreatedBefore($dateCreatedBefore) {
+    public function setDateCreatedBefore(string $dateCreatedBefore): self {
         $this->options['dateCreatedBefore'] = $dateCreatedBefore;
         return $this;
     }
 
     /**
-     * Only show recordings created on the given date. Should be formatted as `YYYY-MM-DD`. You can also specify inequality, such as `DateCreated<=YYYY-MM-DD` for recordings generated at or before midnight on a date, and `DateCreated>=YYYY-MM-DD` for recordings generated at or after midnight on a date.
-     * 
-     * @param string $dateCreated Filter by date created
+     * Only include recordings that were created on this date. Specify a date as `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read recordings that were created on this date. You can also specify an inequality, such as `DateCreated<=YYYY-MM-DD`, to read recordings that were created on or before midnight of this date, and `DateCreated>=YYYY-MM-DD` to read recordings that were created on or after midnight of this date.
+     *
+     * @param string $dateCreated Only include recordings that were created on this
+     *                            date
      * @return $this Fluent Builder
      */
-    public function setDateCreated($dateCreated) {
+    public function setDateCreated(string $dateCreated): self {
         $this->options['dateCreated'] = $dateCreated;
         return $this;
     }
 
     /**
-     * Only show recordings created on the given date. Should be formatted as `YYYY-MM-DD`. You can also specify inequality, such as `DateCreated<=YYYY-MM-DD` for recordings generated at or before midnight on a date, and `DateCreated>=YYYY-MM-DD` for recordings generated at or after midnight on a date.
-     * 
-     * @param string $dateCreatedAfter Filter by date created
+     * Only include recordings that were created on this date. Specify a date as `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read recordings that were created on this date. You can also specify an inequality, such as `DateCreated<=YYYY-MM-DD`, to read recordings that were created on or before midnight of this date, and `DateCreated>=YYYY-MM-DD` to read recordings that were created on or after midnight of this date.
+     *
+     * @param string $dateCreatedAfter Only include recordings that were created on
+     *                                 this date
      * @return $this Fluent Builder
      */
-    public function setDateCreatedAfter($dateCreatedAfter) {
+    public function setDateCreatedAfter(string $dateCreatedAfter): self {
         $this->options['dateCreatedAfter'] = $dateCreatedAfter;
         return $this;
     }
 
     /**
-     * Only show recordings made during the call given by the indicated sid
-     * 
-     * @param string $callSid Filter by call_sid
+     * The [Call](https://www.twilio.com/docs/voice/api/call-resource) SID of the resources to read.
+     *
+     * @param string $callSid The Call SID of the resources to read
      * @return $this Fluent Builder
      */
-    public function setCallSid($callSid) {
+    public function setCallSid(string $callSid): self {
         $this->options['callSid'] = $callSid;
         return $this;
     }
 
     /**
-     * The conference_sid
-     * 
-     * @param string $conferenceSid The conference_sid
+     * The Conference SID that identifies the conference associated with the recording to read.
+     *
+     * @param string $conferenceSid Read by unique Conference SID for the recording
      * @return $this Fluent Builder
      */
-    public function setConferenceSid($conferenceSid) {
+    public function setConferenceSid(string $conferenceSid): self {
         $this->options['conferenceSid'] = $conferenceSid;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Api.V2010.ReadRecordingOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Api.V2010.ReadRecordingOptions ' . $options . ']';
     }
 }

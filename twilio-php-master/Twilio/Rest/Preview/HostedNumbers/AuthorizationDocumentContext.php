@@ -11,6 +11,7 @@ namespace Twilio\Rest\Preview\HostedNumbers;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
+use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Rest\Preview\HostedNumbers\AuthorizationDocument\DependentHostedNumberOrderList;
 use Twilio\Serialize;
@@ -19,80 +20,68 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
- * @property \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocument\DependentHostedNumberOrderList dependentHostedNumberOrders
+ *
+ * @property DependentHostedNumberOrderList $dependentHostedNumberOrders
  */
 class AuthorizationDocumentContext extends InstanceContext {
-    protected $_dependentHostedNumberOrders = null;
+    protected $_dependentHostedNumberOrders;
 
     /**
      * Initialize the AuthorizationDocumentContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param string $sid AuthorizationDocument sid.
-     * @return \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocumentContext 
      */
     public function __construct(Version $version, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = ['sid' => $sid, ];
 
-        $this->uri = '/AuthorizationDocuments/' . rawurlencode($sid) . '';
+        $this->uri = '/AuthorizationDocuments/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a AuthorizationDocumentInstance
-     * 
+     * Fetch the AuthorizationDocumentInstance
+     *
      * @return AuthorizationDocumentInstance Fetched AuthorizationDocumentInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): AuthorizationDocumentInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new AuthorizationDocumentInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
      * Update the AuthorizationDocumentInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return AuthorizationDocumentInstance Updated AuthorizationDocumentInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): AuthorizationDocumentInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'HostedNumberOrderSids' => Serialize::map($options['hostedNumberOrderSids'], function($e) { return $e; }),
             'AddressSid' => $options['addressSid'],
             'Email' => $options['email'],
             'CcEmails' => Serialize::map($options['ccEmails'], function($e) { return $e; }),
             'Status' => $options['status'],
-        ));
+            'ContactTitle' => $options['contactTitle'],
+            'ContactPhoneNumber' => $options['contactPhoneNumber'],
+        ]);
 
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->update('POST', $this->uri, [], $data);
 
         return new AuthorizationDocumentInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
      * Access the dependentHostedNumberOrders
-     * 
-     * @return \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocument\DependentHostedNumberOrderList 
      */
-    protected function getDependentHostedNumberOrders() {
+    protected function getDependentHostedNumberOrders(): DependentHostedNumberOrderList {
         if (!$this->_dependentHostedNumberOrders) {
             $this->_dependentHostedNumberOrders = new DependentHostedNumberOrderList(
                 $this->version,
@@ -105,14 +94,14 @@ class AuthorizationDocumentContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
-     * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * @return ListResource The requested subresource
+     * @throws TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get(string $name): ListResource {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -121,16 +110,16 @@ class AuthorizationDocumentContext extends InstanceContext {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -138,14 +127,14 @@ class AuthorizationDocumentContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.HostedNumbers.AuthorizationDocumentContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.HostedNumbers.AuthorizationDocumentContext ' . \implode(' ', $context) . ']';
     }
 }

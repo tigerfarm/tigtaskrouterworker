@@ -18,36 +18,36 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
- * @property string accountSid
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property array results
- * @property string language
- * @property string modelBuildSid
- * @property string query
- * @property string sampleSid
- * @property string assistantSid
- * @property string sid
- * @property string status
- * @property string url
- * @property string sourceChannel
+ *
+ * @property string $accountSid
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property array $results
+ * @property string $language
+ * @property string $modelBuildSid
+ * @property string $query
+ * @property string $sampleSid
+ * @property string $assistantSid
+ * @property string $sid
+ * @property string $status
+ * @property string $url
+ * @property string $sourceChannel
  */
 class QueryInstance extends InstanceResource {
     /**
      * Initialize the QueryInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
      * @param string $assistantSid The unique ID of the parent Assistant.
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Preview\Understand\Assistant\QueryInstance 
+     * @param string $sid A 34 character string that uniquely identifies this
+     *                    resource.
      */
-    public function __construct(Version $version, array $payload, $assistantSid, $sid = null) {
+    public function __construct(Version $version, array $payload, string $assistantSid, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
             'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
@@ -61,20 +61,18 @@ class QueryInstance extends InstanceResource {
             'status' => Values::array_get($payload, 'status'),
             'url' => Values::array_get($payload, 'url'),
             'sourceChannel' => Values::array_get($payload, 'source_channel'),
-        );
+        ];
 
-        $this->solution = array('assistantSid' => $assistantSid, 'sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['assistantSid' => $assistantSid, 'sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Preview\Understand\Assistant\QueryContext Context for
-     *                                                                this
-     *                                                                QueryInstance
+     *
+     * @return QueryContext Context for this QueryInstance
      */
-    protected function proxy() {
+    protected function proxy(): QueryContext {
         if (!$this->context) {
             $this->context = new QueryContext(
                 $this->version,
@@ -87,50 +85,50 @@ class QueryInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a QueryInstance
-     * 
+     * Fetch the QueryInstance
+     *
      * @return QueryInstance Fetched QueryInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): QueryInstance {
         return $this->proxy()->fetch();
     }
 
     /**
      * Update the QueryInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return QueryInstance Updated QueryInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): QueryInstance {
         return $this->proxy()->update($options);
     }
 
     /**
-     * Deletes the QueryInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the QueryInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -139,14 +137,14 @@ class QueryInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Understand.QueryInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Understand.QueryInstance ' . \implode(' ', $context) . ']';
     }
 }

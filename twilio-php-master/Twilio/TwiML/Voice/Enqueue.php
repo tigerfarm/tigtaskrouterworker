@@ -14,72 +14,67 @@ use Twilio\TwiML\TwiML;
 class Enqueue extends TwiML {
     /**
      * Enqueue constructor.
-     * 
+     *
      * @param string $name Friendly name
      * @param array $attributes Optional attributes
      */
-    public function __construct($name = null, $attributes = array()) {
+    public function __construct($name = null, $attributes = []) {
         parent::__construct('Enqueue', $name, $attributes);
     }
 
     /**
      * Add Task child.
-     * 
+     *
      * @param string $body TaskRouter task attributes
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Task Child element.
      */
-    public function task($body, $attributes = array()) {
-        return $this->nest(new Voice\Task($body, $attributes));
+    public function task($body, $attributes = []): Task {
+        return $this->nest(new Task($body, $attributes));
     }
 
     /**
      * Add Action attribute.
-     * 
-     * @param url $action Action URL
-     * @return TwiML $this.
+     *
+     * @param string $action Action URL
      */
-    public function setAction($action) {
+    public function setAction($action): self {
         return $this->setAttribute('action', $action);
     }
 
     /**
      * Add Method attribute.
-     * 
-     * @param httpMethod $method Action URL method
-     * @return TwiML $this.
+     *
+     * @param string $method Action URL method
      */
-    public function setMethod($method) {
+    public function setMethod($method): self {
         return $this->setAttribute('method', $method);
     }
 
     /**
      * Add WaitUrl attribute.
-     * 
-     * @param url $waitUrl Wait URL
-     * @return TwiML $this.
+     *
+     * @param string $waitUrl Wait URL
      */
-    public function setWaitUrl($waitUrl) {
+    public function setWaitUrl($waitUrl): self {
         return $this->setAttribute('waitUrl', $waitUrl);
     }
 
     /**
      * Add WaitUrlMethod attribute.
-     * 
-     * @param httpMethod $waitUrlMethod Wait URL method
-     * @return TwiML $this.
+     *
+     * @param string $waitUrlMethod Wait URL method
      */
-    public function setWaitUrlMethod($waitUrlMethod) {
+    public function setWaitUrlMethod($waitUrlMethod): self {
         return $this->setAttribute('waitUrlMethod', $waitUrlMethod);
     }
 
     /**
      * Add WorkflowSid attribute.
-     * 
+     *
      * @param string $workflowSid TaskRouter Workflow SID
-     * @return TwiML $this.
      */
-    public function setWorkflowSid($workflowSid) {
+    public function setWorkflowSid($workflowSid): self {
         return $this->setAttribute('workflowSid', $workflowSid);
     }
 }

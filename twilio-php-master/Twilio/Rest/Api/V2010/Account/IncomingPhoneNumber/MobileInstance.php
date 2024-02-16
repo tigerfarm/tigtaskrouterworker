@@ -16,49 +16,54 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property string addressSid
- * @property string addressRequirements
- * @property string apiVersion
- * @property boolean beta
- * @property string capabilities
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property string friendlyName
- * @property string identitySid
- * @property string phoneNumber
- * @property string origin
- * @property string sid
- * @property string smsApplicationSid
- * @property string smsFallbackMethod
- * @property string smsFallbackUrl
- * @property string smsMethod
- * @property string smsUrl
- * @property string statusCallback
- * @property string statusCallbackMethod
- * @property string trunkSid
- * @property string uri
- * @property string voiceApplicationSid
- * @property boolean voiceCallerIdLookup
- * @property string voiceFallbackMethod
- * @property string voiceFallbackUrl
- * @property string voiceMethod
- * @property string voiceUrl
+ * @property string $accountSid
+ * @property string $addressSid
+ * @property string $addressRequirements
+ * @property string $apiVersion
+ * @property bool $beta
+ * @property string $capabilities
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property string $friendlyName
+ * @property string $identitySid
+ * @property string $phoneNumber
+ * @property string $origin
+ * @property string $sid
+ * @property string $smsApplicationSid
+ * @property string $smsFallbackMethod
+ * @property string $smsFallbackUrl
+ * @property string $smsMethod
+ * @property string $smsUrl
+ * @property string $statusCallback
+ * @property string $statusCallbackMethod
+ * @property string $trunkSid
+ * @property string $uri
+ * @property string $voiceReceiveMode
+ * @property string $voiceApplicationSid
+ * @property bool $voiceCallerIdLookup
+ * @property string $voiceFallbackMethod
+ * @property string $voiceFallbackUrl
+ * @property string $voiceMethod
+ * @property string $voiceUrl
+ * @property string $emergencyStatus
+ * @property string $emergencyAddressSid
+ * @property string $emergencyAddressStatus
+ * @property string $bundleSid
+ * @property string $status
  */
 class MobileInstance extends InstanceResource {
     /**
      * Initialize the MobileInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $accountSid The unique sid that identifies this account
-     * @return \Twilio\Rest\Api\V2010\Account\IncomingPhoneNumber\MobileInstance 
+     * @param string $accountSid The SID of the Account that created the resource
      */
-    public function __construct(Version $version, array $payload, $accountSid) {
+    public function __construct(Version $version, array $payload, string $accountSid) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'addressSid' => Values::array_get($payload, 'address_sid'),
             'addressRequirements' => Values::array_get($payload, 'address_requirements'),
@@ -81,31 +86,37 @@ class MobileInstance extends InstanceResource {
             'statusCallbackMethod' => Values::array_get($payload, 'status_callback_method'),
             'trunkSid' => Values::array_get($payload, 'trunk_sid'),
             'uri' => Values::array_get($payload, 'uri'),
+            'voiceReceiveMode' => Values::array_get($payload, 'voice_receive_mode'),
             'voiceApplicationSid' => Values::array_get($payload, 'voice_application_sid'),
             'voiceCallerIdLookup' => Values::array_get($payload, 'voice_caller_id_lookup'),
             'voiceFallbackMethod' => Values::array_get($payload, 'voice_fallback_method'),
             'voiceFallbackUrl' => Values::array_get($payload, 'voice_fallback_url'),
             'voiceMethod' => Values::array_get($payload, 'voice_method'),
             'voiceUrl' => Values::array_get($payload, 'voice_url'),
-        );
+            'emergencyStatus' => Values::array_get($payload, 'emergency_status'),
+            'emergencyAddressSid' => Values::array_get($payload, 'emergency_address_sid'),
+            'emergencyAddressStatus' => Values::array_get($payload, 'emergency_address_status'),
+            'bundleSid' => Values::array_get($payload, 'bundle_sid'),
+            'status' => Values::array_get($payload, 'status'),
+        ];
 
-        $this->solution = array('accountSid' => $accountSid, );
+        $this->solution = ['accountSid' => $accountSid, ];
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -114,10 +125,10 @@ class MobileInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Api.V2010.MobileInstance]';
     }
 }

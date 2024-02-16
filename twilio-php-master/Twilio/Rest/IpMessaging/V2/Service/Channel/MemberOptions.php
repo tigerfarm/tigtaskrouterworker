@@ -15,266 +15,330 @@ use Twilio\Values;
 abstract class MemberOptions {
     /**
      * @param string $roleSid The role_sid
-     * @param integer $lastConsumedMessageIndex The last_consumed_message_index
+     * @param int $lastConsumedMessageIndex The last_consumed_message_index
      * @param \DateTime $lastConsumptionTimestamp The last_consumption_timestamp
      * @param \DateTime $dateCreated The date_created
      * @param \DateTime $dateUpdated The date_updated
+     * @param string $attributes The attributes
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      * @return CreateMemberOptions Options builder
      */
-    public static function create($roleSid = Values::NONE, $lastConsumedMessageIndex = Values::NONE, $lastConsumptionTimestamp = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE) {
-        return new CreateMemberOptions($roleSid, $lastConsumedMessageIndex, $lastConsumptionTimestamp, $dateCreated, $dateUpdated);
+    public static function create(string $roleSid = Values::NONE, int $lastConsumedMessageIndex = Values::NONE, \DateTime $lastConsumptionTimestamp = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $attributes = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE): CreateMemberOptions {
+        return new CreateMemberOptions($roleSid, $lastConsumedMessageIndex, $lastConsumptionTimestamp, $dateCreated, $dateUpdated, $attributes, $xTwilioWebhookEnabled);
     }
 
     /**
-     * @param string $identity The identity
+     * @param string[] $identity The identity
      * @return ReadMemberOptions Options builder
      */
-    public static function read($identity = Values::NONE) {
+    public static function read(array $identity = Values::ARRAY_NONE): ReadMemberOptions {
         return new ReadMemberOptions($identity);
     }
 
     /**
-     * @param string $roleSid The role to be assigned to this member.
-     * @param integer $lastConsumedMessageIndex Optional field used to specify the
-     *                                          last consumed Message index for the
-     *                                          Channel for this Member.
-     * @param \DateTime $lastConsumptionTimestamp Optional ISO8601 time indicating
-     *                                            the last datetime the Member
-     *                                            consumed a Message in the Channel.
-     * @param \DateTime $dateCreated The optional ISO8601 time specifying the
-     *                               datetime the Members should be set as being
-     *                               created.
-     * @param \DateTime $dateUpdated The optional ISO8601 time specifying the
-     *                               datetime the Member should be set as having
-     *                               been last updated.
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     * @return DeleteMemberOptions Options builder
+     */
+    public static function delete(string $xTwilioWebhookEnabled = Values::NONE): DeleteMemberOptions {
+        return new DeleteMemberOptions($xTwilioWebhookEnabled);
+    }
+
+    /**
+     * @param string $roleSid The role_sid
+     * @param int $lastConsumedMessageIndex The last_consumed_message_index
+     * @param \DateTime $lastConsumptionTimestamp The last_consumption_timestamp
+     * @param \DateTime $dateCreated The date_created
+     * @param \DateTime $dateUpdated The date_updated
+     * @param string $attributes The attributes
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      * @return UpdateMemberOptions Options builder
      */
-    public static function update($roleSid = Values::NONE, $lastConsumedMessageIndex = Values::NONE, $lastConsumptionTimestamp = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE) {
-        return new UpdateMemberOptions($roleSid, $lastConsumedMessageIndex, $lastConsumptionTimestamp, $dateCreated, $dateUpdated);
+    public static function update(string $roleSid = Values::NONE, int $lastConsumedMessageIndex = Values::NONE, \DateTime $lastConsumptionTimestamp = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $attributes = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE): UpdateMemberOptions {
+        return new UpdateMemberOptions($roleSid, $lastConsumedMessageIndex, $lastConsumptionTimestamp, $dateCreated, $dateUpdated, $attributes, $xTwilioWebhookEnabled);
     }
 }
 
 class CreateMemberOptions extends Options {
     /**
      * @param string $roleSid The role_sid
-     * @param integer $lastConsumedMessageIndex The last_consumed_message_index
+     * @param int $lastConsumedMessageIndex The last_consumed_message_index
      * @param \DateTime $lastConsumptionTimestamp The last_consumption_timestamp
      * @param \DateTime $dateCreated The date_created
      * @param \DateTime $dateUpdated The date_updated
+     * @param string $attributes The attributes
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      */
-    public function __construct($roleSid = Values::NONE, $lastConsumedMessageIndex = Values::NONE, $lastConsumptionTimestamp = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE) {
+    public function __construct(string $roleSid = Values::NONE, int $lastConsumedMessageIndex = Values::NONE, \DateTime $lastConsumptionTimestamp = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $attributes = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE) {
         $this->options['roleSid'] = $roleSid;
         $this->options['lastConsumedMessageIndex'] = $lastConsumedMessageIndex;
         $this->options['lastConsumptionTimestamp'] = $lastConsumptionTimestamp;
         $this->options['dateCreated'] = $dateCreated;
         $this->options['dateUpdated'] = $dateUpdated;
+        $this->options['attributes'] = $attributes;
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
     }
 
     /**
      * The role_sid
-     * 
+     *
      * @param string $roleSid The role_sid
      * @return $this Fluent Builder
      */
-    public function setRoleSid($roleSid) {
+    public function setRoleSid(string $roleSid): self {
         $this->options['roleSid'] = $roleSid;
         return $this;
     }
 
     /**
      * The last_consumed_message_index
-     * 
-     * @param integer $lastConsumedMessageIndex The last_consumed_message_index
+     *
+     * @param int $lastConsumedMessageIndex The last_consumed_message_index
      * @return $this Fluent Builder
      */
-    public function setLastConsumedMessageIndex($lastConsumedMessageIndex) {
+    public function setLastConsumedMessageIndex(int $lastConsumedMessageIndex): self {
         $this->options['lastConsumedMessageIndex'] = $lastConsumedMessageIndex;
         return $this;
     }
 
     /**
      * The last_consumption_timestamp
-     * 
+     *
      * @param \DateTime $lastConsumptionTimestamp The last_consumption_timestamp
      * @return $this Fluent Builder
      */
-    public function setLastConsumptionTimestamp($lastConsumptionTimestamp) {
+    public function setLastConsumptionTimestamp(\DateTime $lastConsumptionTimestamp): self {
         $this->options['lastConsumptionTimestamp'] = $lastConsumptionTimestamp;
         return $this;
     }
 
     /**
      * The date_created
-     * 
+     *
      * @param \DateTime $dateCreated The date_created
      * @return $this Fluent Builder
      */
-    public function setDateCreated($dateCreated) {
+    public function setDateCreated(\DateTime $dateCreated): self {
         $this->options['dateCreated'] = $dateCreated;
         return $this;
     }
 
     /**
      * The date_updated
-     * 
+     *
      * @param \DateTime $dateUpdated The date_updated
      * @return $this Fluent Builder
      */
-    public function setDateUpdated($dateUpdated) {
+    public function setDateUpdated(\DateTime $dateUpdated): self {
         $this->options['dateUpdated'] = $dateUpdated;
         return $this;
     }
 
     /**
+     * The attributes
+     *
+     * @param string $attributes The attributes
+     * @return $this Fluent Builder
+     */
+    public function setAttributes(string $attributes): self {
+        $this->options['attributes'] = $attributes;
+        return $this;
+    }
+
+    /**
+     * The X-Twilio-Webhook-Enabled HTTP request header
+     *
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     * @return $this Fluent Builder
+     */
+    public function setXTwilioWebhookEnabled(string $xTwilioWebhookEnabled): self {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
+        return $this;
+    }
+
+    /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.CreateMemberOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.CreateMemberOptions ' . $options . ']';
     }
 }
 
 class ReadMemberOptions extends Options {
     /**
-     * @param string $identity The identity
+     * @param string[] $identity The identity
      */
-    public function __construct($identity = Values::NONE) {
+    public function __construct(array $identity = Values::ARRAY_NONE) {
         $this->options['identity'] = $identity;
     }
 
     /**
      * The identity
-     * 
-     * @param string $identity The identity
+     *
+     * @param string[] $identity The identity
      * @return $this Fluent Builder
      */
-    public function setIdentity($identity) {
+    public function setIdentity(array $identity): self {
         $this->options['identity'] = $identity;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.ReadMemberOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.ReadMemberOptions ' . $options . ']';
     }
 }
 
-class UpdateMemberOptions extends Options {
+class DeleteMemberOptions extends Options {
     /**
-     * @param string $roleSid The role to be assigned to this member.
-     * @param integer $lastConsumedMessageIndex Optional field used to specify the
-     *                                          last consumed Message index for the
-     *                                          Channel for this Member.
-     * @param \DateTime $lastConsumptionTimestamp Optional ISO8601 time indicating
-     *                                            the last datetime the Member
-     *                                            consumed a Message in the Channel.
-     * @param \DateTime $dateCreated The optional ISO8601 time specifying the
-     *                               datetime the Members should be set as being
-     *                               created.
-     * @param \DateTime $dateUpdated The optional ISO8601 time specifying the
-     *                               datetime the Member should be set as having
-     *                               been last updated.
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      */
-    public function __construct($roleSid = Values::NONE, $lastConsumedMessageIndex = Values::NONE, $lastConsumptionTimestamp = Values::NONE, $dateCreated = Values::NONE, $dateUpdated = Values::NONE) {
-        $this->options['roleSid'] = $roleSid;
-        $this->options['lastConsumedMessageIndex'] = $lastConsumedMessageIndex;
-        $this->options['lastConsumptionTimestamp'] = $lastConsumptionTimestamp;
-        $this->options['dateCreated'] = $dateCreated;
-        $this->options['dateUpdated'] = $dateUpdated;
+    public function __construct(string $xTwilioWebhookEnabled = Values::NONE) {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
     }
 
     /**
-     * The role to be assigned to this member. Defaults to the roles specified on the [Service](https://www.twilio.com/docs/api/chat/rest/services).
-     * 
-     * @param string $roleSid The role to be assigned to this member.
+     * The X-Twilio-Webhook-Enabled HTTP request header
+     *
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
      * @return $this Fluent Builder
      */
-    public function setRoleSid($roleSid) {
-        $this->options['roleSid'] = $roleSid;
-        return $this;
-    }
-
-    /**
-     * Optional field used to specify the last consumed Message index for the Channel for this Member.
-     * 
-     * @param integer $lastConsumedMessageIndex Optional field used to specify the
-     *                                          last consumed Message index for the
-     *                                          Channel for this Member.
-     * @return $this Fluent Builder
-     */
-    public function setLastConsumedMessageIndex($lastConsumedMessageIndex) {
-        $this->options['lastConsumedMessageIndex'] = $lastConsumedMessageIndex;
-        return $this;
-    }
-
-    /**
-     * Optional ISO8601 time indicating the last datetime the Member consumed a Message in the Channel.
-     * 
-     * @param \DateTime $lastConsumptionTimestamp Optional ISO8601 time indicating
-     *                                            the last datetime the Member
-     *                                            consumed a Message in the Channel.
-     * @return $this Fluent Builder
-     */
-    public function setLastConsumptionTimestamp($lastConsumptionTimestamp) {
-        $this->options['lastConsumptionTimestamp'] = $lastConsumptionTimestamp;
-        return $this;
-    }
-
-    /**
-     * The optional ISO8601 time specifying the datetime the Members should be set as being created.
-     * 
-     * @param \DateTime $dateCreated The optional ISO8601 time specifying the
-     *                               datetime the Members should be set as being
-     *                               created.
-     * @return $this Fluent Builder
-     */
-    public function setDateCreated($dateCreated) {
-        $this->options['dateCreated'] = $dateCreated;
-        return $this;
-    }
-
-    /**
-     * The optional ISO8601 time specifying the datetime the Member should be set as having been last updated.
-     * 
-     * @param \DateTime $dateUpdated The optional ISO8601 time specifying the
-     *                               datetime the Member should be set as having
-     *                               been last updated.
-     * @return $this Fluent Builder
-     */
-    public function setDateUpdated($dateUpdated) {
-        $this->options['dateUpdated'] = $dateUpdated;
+    public function setXTwilioWebhookEnabled(string $xTwilioWebhookEnabled): self {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.UpdateMemberOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.DeleteMemberOptions ' . $options . ']';
+    }
+}
+
+class UpdateMemberOptions extends Options {
+    /**
+     * @param string $roleSid The role_sid
+     * @param int $lastConsumedMessageIndex The last_consumed_message_index
+     * @param \DateTime $lastConsumptionTimestamp The last_consumption_timestamp
+     * @param \DateTime $dateCreated The date_created
+     * @param \DateTime $dateUpdated The date_updated
+     * @param string $attributes The attributes
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     */
+    public function __construct(string $roleSid = Values::NONE, int $lastConsumedMessageIndex = Values::NONE, \DateTime $lastConsumptionTimestamp = Values::NONE, \DateTime $dateCreated = Values::NONE, \DateTime $dateUpdated = Values::NONE, string $attributes = Values::NONE, string $xTwilioWebhookEnabled = Values::NONE) {
+        $this->options['roleSid'] = $roleSid;
+        $this->options['lastConsumedMessageIndex'] = $lastConsumedMessageIndex;
+        $this->options['lastConsumptionTimestamp'] = $lastConsumptionTimestamp;
+        $this->options['dateCreated'] = $dateCreated;
+        $this->options['dateUpdated'] = $dateUpdated;
+        $this->options['attributes'] = $attributes;
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
+    }
+
+    /**
+     * The role_sid
+     *
+     * @param string $roleSid The role_sid
+     * @return $this Fluent Builder
+     */
+    public function setRoleSid(string $roleSid): self {
+        $this->options['roleSid'] = $roleSid;
+        return $this;
+    }
+
+    /**
+     * The last_consumed_message_index
+     *
+     * @param int $lastConsumedMessageIndex The last_consumed_message_index
+     * @return $this Fluent Builder
+     */
+    public function setLastConsumedMessageIndex(int $lastConsumedMessageIndex): self {
+        $this->options['lastConsumedMessageIndex'] = $lastConsumedMessageIndex;
+        return $this;
+    }
+
+    /**
+     * The last_consumption_timestamp
+     *
+     * @param \DateTime $lastConsumptionTimestamp The last_consumption_timestamp
+     * @return $this Fluent Builder
+     */
+    public function setLastConsumptionTimestamp(\DateTime $lastConsumptionTimestamp): self {
+        $this->options['lastConsumptionTimestamp'] = $lastConsumptionTimestamp;
+        return $this;
+    }
+
+    /**
+     * The date_created
+     *
+     * @param \DateTime $dateCreated The date_created
+     * @return $this Fluent Builder
+     */
+    public function setDateCreated(\DateTime $dateCreated): self {
+        $this->options['dateCreated'] = $dateCreated;
+        return $this;
+    }
+
+    /**
+     * The date_updated
+     *
+     * @param \DateTime $dateUpdated The date_updated
+     * @return $this Fluent Builder
+     */
+    public function setDateUpdated(\DateTime $dateUpdated): self {
+        $this->options['dateUpdated'] = $dateUpdated;
+        return $this;
+    }
+
+    /**
+     * The attributes
+     *
+     * @param string $attributes The attributes
+     * @return $this Fluent Builder
+     */
+    public function setAttributes(string $attributes): self {
+        $this->options['attributes'] = $attributes;
+        return $this;
+    }
+
+    /**
+     * The X-Twilio-Webhook-Enabled HTTP request header
+     *
+     * @param string $xTwilioWebhookEnabled The X-Twilio-Webhook-Enabled HTTP
+     *                                      request header
+     * @return $this Fluent Builder
+     */
+    public function setXTwilioWebhookEnabled(string $xTwilioWebhookEnabled): self {
+        $this->options['xTwilioWebhookEnabled'] = $xTwilioWebhookEnabled;
+        return $this;
+    }
+
+    /**
+     * Provide a friendly representation
+     *
+     * @return string Machine friendly representation
+     */
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.UpdateMemberOptions ' . $options . ']';
     }
 }

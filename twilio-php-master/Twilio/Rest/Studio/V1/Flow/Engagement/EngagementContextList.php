@@ -12,31 +12,25 @@ namespace Twilio\Rest\Studio\V1\Flow\Engagement;
 use Twilio\ListResource;
 use Twilio\Version;
 
-/**
- * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- */
 class EngagementContextList extends ListResource {
     /**
      * Construct the EngagementContextList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $flowSid The flow_sid
-     * @param string $engagementSid The engagement_sid
-     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\EngagementContextList 
+     * @param string $flowSid Flow SID
+     * @param string $engagementSid Engagement SID
      */
-    public function __construct(Version $version, $flowSid, $engagementSid) {
+    public function __construct(Version $version, string $flowSid, string $engagementSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('flowSid' => $flowSid, 'engagementSid' => $engagementSid, );
+        $this->solution = ['flowSid' => $flowSid, 'engagementSid' => $engagementSid, ];
     }
 
     /**
      * Constructs a EngagementContextContext
-     * 
-     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\EngagementContextContext 
      */
-    public function getContext() {
+    public function getContext(): EngagementContextContext {
         return new EngagementContextContext(
             $this->version,
             $this->solution['flowSid'],
@@ -46,10 +40,10 @@ class EngagementContextList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Studio.V1.EngagementContextList]';
     }
 }

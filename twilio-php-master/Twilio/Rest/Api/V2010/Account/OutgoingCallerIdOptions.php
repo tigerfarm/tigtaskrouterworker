@@ -14,102 +14,98 @@ use Twilio\Values;
 
 abstract class OutgoingCallerIdOptions {
     /**
-     * @param string $friendlyName A human readable description of the caller ID
+     * @param string $friendlyName A string to describe the resource
      * @return UpdateOutgoingCallerIdOptions Options builder
      */
-    public static function update($friendlyName = Values::NONE) {
+    public static function update(string $friendlyName = Values::NONE): UpdateOutgoingCallerIdOptions {
         return new UpdateOutgoingCallerIdOptions($friendlyName);
     }
 
     /**
-     * @param string $phoneNumber Filter by phone number
-     * @param string $friendlyName Filter by friendly name
+     * @param string $phoneNumber The phone number of the OutgoingCallerId
+     *                            resources to read
+     * @param string $friendlyName The string that identifies the OutgoingCallerId
+     *                             resources to read
      * @return ReadOutgoingCallerIdOptions Options builder
      */
-    public static function read($phoneNumber = Values::NONE, $friendlyName = Values::NONE) {
+    public static function read(string $phoneNumber = Values::NONE, string $friendlyName = Values::NONE): ReadOutgoingCallerIdOptions {
         return new ReadOutgoingCallerIdOptions($phoneNumber, $friendlyName);
     }
 }
 
 class UpdateOutgoingCallerIdOptions extends Options {
     /**
-     * @param string $friendlyName A human readable description of the caller ID
+     * @param string $friendlyName A string to describe the resource
      */
-    public function __construct($friendlyName = Values::NONE) {
+    public function __construct(string $friendlyName = Values::NONE) {
         $this->options['friendlyName'] = $friendlyName;
     }
 
     /**
-     * A human readable description of a Caller ID, with maximum length of 64 characters. Defaults to a nicely formatted version of the phone number.
-     * 
-     * @param string $friendlyName A human readable description of the caller ID
+     * A descriptive string that you create to describe the resource. It can be up to 64 characters long.
+     *
+     * @param string $friendlyName A string to describe the resource
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName(string $friendlyName): self {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Api.V2010.UpdateOutgoingCallerIdOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Api.V2010.UpdateOutgoingCallerIdOptions ' . $options . ']';
     }
 }
 
 class ReadOutgoingCallerIdOptions extends Options {
     /**
-     * @param string $phoneNumber Filter by phone number
-     * @param string $friendlyName Filter by friendly name
+     * @param string $phoneNumber The phone number of the OutgoingCallerId
+     *                            resources to read
+     * @param string $friendlyName The string that identifies the OutgoingCallerId
+     *                             resources to read
      */
-    public function __construct($phoneNumber = Values::NONE, $friendlyName = Values::NONE) {
+    public function __construct(string $phoneNumber = Values::NONE, string $friendlyName = Values::NONE) {
         $this->options['phoneNumber'] = $phoneNumber;
         $this->options['friendlyName'] = $friendlyName;
     }
 
     /**
-     * Only show the caller id resource that exactly matches this phone number.
-     * 
-     * @param string $phoneNumber Filter by phone number
+     * The phone number of the OutgoingCallerId resources to read.
+     *
+     * @param string $phoneNumber The phone number of the OutgoingCallerId
+     *                            resources to read
      * @return $this Fluent Builder
      */
-    public function setPhoneNumber($phoneNumber) {
+    public function setPhoneNumber(string $phoneNumber): self {
         $this->options['phoneNumber'] = $phoneNumber;
         return $this;
     }
 
     /**
-     * Only show the caller id resource that exactly matches this name.
-     * 
-     * @param string $friendlyName Filter by friendly name
+     * The string that identifies the OutgoingCallerId resources to read.
+     *
+     * @param string $friendlyName The string that identifies the OutgoingCallerId
+     *                             resources to read
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName(string $friendlyName): self {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Api.V2010.ReadOutgoingCallerIdOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Api.V2010.ReadOutgoingCallerIdOptions ' . $options . ']';
     }
 }

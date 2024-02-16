@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Notify\V1\Service;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
@@ -19,35 +20,28 @@ use Twilio\Version;
 class BindingContext extends InstanceContext {
     /**
      * Initialize the BindingContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Notify\V1\Service\BindingContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $serviceSid The SID of the Service to fetch the resource from
+     * @param string $sid The unique string that identifies the resource
      */
     public function __construct(Version $version, $serviceSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid, );
+        $this->solution = ['serviceSid' => $serviceSid, 'sid' => $sid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Bindings/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/Bindings/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a BindingInstance
-     * 
+     * Fetch the BindingInstance
+     *
      * @return BindingInstance Fetched BindingInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): BindingInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new BindingInstance(
             $this->version,
@@ -58,25 +52,25 @@ class BindingContext extends InstanceContext {
     }
 
     /**
-     * Deletes the BindingInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the BindingInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Notify.V1.BindingContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Notify.V1.BindingContext ' . \implode(' ', $context) . ']';
     }
 }

@@ -14,184 +14,207 @@ use Twilio\TwiML\TwiML;
 class Gather extends TwiML {
     /**
      * Gather constructor.
-     * 
+     *
      * @param array $attributes Optional attributes
      */
-    public function __construct($attributes = array()) {
-        parent::__construct('Gather', $attributes);
+    public function __construct($attributes = []) {
+        parent::__construct('Gather', null, $attributes);
     }
 
     /**
      * Add Say child.
-     * 
+     *
      * @param string $message Message to say
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Say Child element.
      */
-    public function say($message, $attributes = array()) {
-        return $this->nest(new Voice\Say($message, $attributes));
+    public function say($message, $attributes = []): Say {
+        return $this->nest(new Say($message, $attributes));
     }
 
     /**
      * Add Pause child.
-     * 
+     *
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Pause Child element.
      */
-    public function pause($attributes = array()) {
-        return $this->nest(new Voice\Pause($attributes));
+    public function pause($attributes = []): Pause {
+        return $this->nest(new Pause($attributes));
     }
 
     /**
      * Add Play child.
-     * 
-     * @param url $url Media URL
+     *
+     * @param string $url Media URL
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Play Child element.
      */
-    public function play($url = null, $attributes = array()) {
-        return $this->nest(new Voice\Play($url, $attributes));
+    public function play($url = null, $attributes = []): Play {
+        return $this->nest(new Play($url, $attributes));
     }
 
     /**
      * Add Input attribute.
-     * 
-     * @param gather:Enum:Input $input Input type Twilio should accept
-     * @return TwiML $this.
+     *
+     * @param string[] $input Input type Twilio should accept
      */
-    public function setInput($input) {
+    public function setInput($input): self {
         return $this->setAttribute('input', $input);
     }
 
     /**
      * Add Action attribute.
-     * 
-     * @param url $action Action URL
-     * @return TwiML $this.
+     *
+     * @param string $action Action URL
      */
-    public function setAction($action) {
+    public function setAction($action): self {
         return $this->setAttribute('action', $action);
     }
 
     /**
      * Add Method attribute.
-     * 
-     * @param httpMethod $method Action URL method
-     * @return TwiML $this.
+     *
+     * @param string $method Action URL method
      */
-    public function setMethod($method) {
+    public function setMethod($method): self {
         return $this->setAttribute('method', $method);
     }
 
     /**
      * Add Timeout attribute.
-     * 
-     * @param integer $timeout Time to wait to gather input
-     * @return TwiML $this.
+     *
+     * @param int $timeout Time to wait to gather input
      */
-    public function setTimeout($timeout) {
+    public function setTimeout($timeout): self {
         return $this->setAttribute('timeout', $timeout);
     }
 
     /**
      * Add SpeechTimeout attribute.
-     * 
+     *
      * @param string $speechTimeout Time to wait to gather speech input and it
      *                              should be either auto or a positive integer.
-     * @return TwiML $this.
      */
-    public function setSpeechTimeout($speechTimeout) {
+    public function setSpeechTimeout($speechTimeout): self {
         return $this->setAttribute('speechTimeout', $speechTimeout);
     }
 
     /**
      * Add MaxSpeechTime attribute.
-     * 
-     * @param integer $maxSpeechTime Max allowed time for speech input
-     * @return TwiML $this.
+     *
+     * @param int $maxSpeechTime Max allowed time for speech input
      */
-    public function setMaxSpeechTime($maxSpeechTime) {
+    public function setMaxSpeechTime($maxSpeechTime): self {
         return $this->setAttribute('maxSpeechTime', $maxSpeechTime);
     }
 
     /**
      * Add ProfanityFilter attribute.
-     * 
-     * @param boolean $profanityFilter Profanity Filter on speech
-     * @return TwiML $this.
+     *
+     * @param bool $profanityFilter Profanity Filter on speech
      */
-    public function setProfanityFilter($profanityFilter) {
+    public function setProfanityFilter($profanityFilter): self {
         return $this->setAttribute('profanityFilter', $profanityFilter);
     }
 
     /**
      * Add FinishOnKey attribute.
-     * 
+     *
      * @param string $finishOnKey Finish gather on key
-     * @return TwiML $this.
      */
-    public function setFinishOnKey($finishOnKey) {
+    public function setFinishOnKey($finishOnKey): self {
         return $this->setAttribute('finishOnKey', $finishOnKey);
     }
 
     /**
      * Add NumDigits attribute.
-     * 
-     * @param integer $numDigits Number of digits to collect
-     * @return TwiML $this.
+     *
+     * @param int $numDigits Number of digits to collect
      */
-    public function setNumDigits($numDigits) {
+    public function setNumDigits($numDigits): self {
         return $this->setAttribute('numDigits', $numDigits);
     }
 
     /**
      * Add PartialResultCallback attribute.
-     * 
-     * @param url $partialResultCallback Partial result callback URL
-     * @return TwiML $this.
+     *
+     * @param string $partialResultCallback Partial result callback URL
      */
-    public function setPartialResultCallback($partialResultCallback) {
+    public function setPartialResultCallback($partialResultCallback): self {
         return $this->setAttribute('partialResultCallback', $partialResultCallback);
     }
 
     /**
      * Add PartialResultCallbackMethod attribute.
-     * 
-     * @param httpMethod $partialResultCallbackMethod Partial result callback URL
-     *                                                method
-     * @return TwiML $this.
+     *
+     * @param string $partialResultCallbackMethod Partial result callback URL method
      */
-    public function setPartialResultCallbackMethod($partialResultCallbackMethod) {
+    public function setPartialResultCallbackMethod($partialResultCallbackMethod): self {
         return $this->setAttribute('partialResultCallbackMethod', $partialResultCallbackMethod);
     }
 
     /**
      * Add Language attribute.
-     * 
-     * @param gather:Enum:Language $language Language to use
-     * @return TwiML $this.
+     *
+     * @param string $language Language to use
      */
-    public function setLanguage($language) {
+    public function setLanguage($language): self {
         return $this->setAttribute('language', $language);
     }
 
     /**
      * Add Hints attribute.
-     * 
+     *
      * @param string $hints Speech recognition hints
-     * @return TwiML $this.
      */
-    public function setHints($hints) {
+    public function setHints($hints): self {
         return $this->setAttribute('hints', $hints);
     }
 
     /**
      * Add BargeIn attribute.
-     * 
-     * @param boolean $bargeIn Stop playing media upon speech
-     * @return TwiML $this.
+     *
+     * @param bool $bargeIn Stop playing media upon speech
      */
-    public function setBargeIn($bargeIn) {
+    public function setBargeIn($bargeIn): self {
         return $this->setAttribute('bargeIn', $bargeIn);
+    }
+
+    /**
+     * Add Debug attribute.
+     *
+     * @param bool $debug Allow debug for gather
+     */
+    public function setDebug($debug): self {
+        return $this->setAttribute('debug', $debug);
+    }
+
+    /**
+     * Add ActionOnEmptyResult attribute.
+     *
+     * @param bool $actionOnEmptyResult Force webhook to the action URL event if
+     *                                  there is no input
+     */
+    public function setActionOnEmptyResult($actionOnEmptyResult): self {
+        return $this->setAttribute('actionOnEmptyResult', $actionOnEmptyResult);
+    }
+
+    /**
+     * Add SpeechModel attribute.
+     *
+     * @param string $speechModel Specify the model that is best suited for your
+     *                            use case
+     */
+    public function setSpeechModel($speechModel): self {
+        return $this->setAttribute('speechModel', $speechModel);
+    }
+
+    /**
+     * Add Enhanced attribute.
+     *
+     * @param bool $enhanced Use enhanced speech model
+     */
+    public function setEnhanced($enhanced): self {
+        return $this->setAttribute('enhanced', $enhanced);
     }
 }

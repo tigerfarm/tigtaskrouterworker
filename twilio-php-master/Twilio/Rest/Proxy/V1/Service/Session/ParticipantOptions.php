@@ -17,204 +17,94 @@ use Twilio\Values;
  */
 abstract class ParticipantOptions {
     /**
-     * @param string $identifier The identifier
-     * @return ReadParticipantOptions Options builder
-     */
-    public static function read($identifier = Values::NONE) {
-        return new ReadParticipantOptions($identifier);
-    }
-
-    /**
-     * @param string $friendlyName A human readable description of this resource.
-     * @param string $proxyIdentifier The proxy phone number to use for this
-     *                                Participant.
-     * @param string $proxyIdentifierSid The proxy_identifier_sid
+     * @param string $friendlyName The string that you assigned to describe the
+     *                             participant
+     * @param string $proxyIdentifier The proxy phone number to use for the
+     *                                Participant
+     * @param string $proxyIdentifierSid The Proxy Identifier Sid
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
      * @return CreateParticipantOptions Options builder
      */
-    public static function create($friendlyName = Values::NONE, $proxyIdentifier = Values::NONE, $proxyIdentifierSid = Values::NONE) {
-        return new CreateParticipantOptions($friendlyName, $proxyIdentifier, $proxyIdentifierSid);
-    }
-
-    /**
-     * @param string $identifier The identifier
-     * @param string $friendlyName The friendly_name
-     * @param string $proxyIdentifier The proxy_identifier
-     * @param string $proxyIdentifierSid The proxy_identifier_sid
-     * @return UpdateParticipantOptions Options builder
-     */
-    public static function update($identifier = Values::NONE, $friendlyName = Values::NONE, $proxyIdentifier = Values::NONE, $proxyIdentifierSid = Values::NONE) {
-        return new UpdateParticipantOptions($identifier, $friendlyName, $proxyIdentifier, $proxyIdentifierSid);
-    }
-}
-
-class ReadParticipantOptions extends Options {
-    /**
-     * @param string $identifier The identifier
-     */
-    public function __construct($identifier = Values::NONE) {
-        $this->options['identifier'] = $identifier;
-    }
-
-    /**
-     * The identifier
-     * 
-     * @param string $identifier The identifier
-     * @return $this Fluent Builder
-     */
-    public function setIdentifier($identifier) {
-        $this->options['identifier'] = $identifier;
-        return $this;
-    }
-
-    /**
-     * Provide a friendly representation
-     * 
-     * @return string Machine friendly representation
-     */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Proxy.V1.ReadParticipantOptions ' . implode(' ', $options) . ']';
+    public static function create(string $friendlyName = Values::NONE, string $proxyIdentifier = Values::NONE, string $proxyIdentifierSid = Values::NONE, bool $failOnParticipantConflict = Values::NONE): CreateParticipantOptions {
+        return new CreateParticipantOptions($friendlyName, $proxyIdentifier, $proxyIdentifierSid, $failOnParticipantConflict);
     }
 }
 
 class CreateParticipantOptions extends Options {
     /**
-     * @param string $friendlyName A human readable description of this resource.
-     * @param string $proxyIdentifier The proxy phone number to use for this
-     *                                Participant.
-     * @param string $proxyIdentifierSid The proxy_identifier_sid
+     * @param string $friendlyName The string that you assigned to describe the
+     *                             participant
+     * @param string $proxyIdentifier The proxy phone number to use for the
+     *                                Participant
+     * @param string $proxyIdentifierSid The Proxy Identifier Sid
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
      */
-    public function __construct($friendlyName = Values::NONE, $proxyIdentifier = Values::NONE, $proxyIdentifierSid = Values::NONE) {
+    public function __construct(string $friendlyName = Values::NONE, string $proxyIdentifier = Values::NONE, string $proxyIdentifierSid = Values::NONE, bool $failOnParticipantConflict = Values::NONE) {
         $this->options['friendlyName'] = $friendlyName;
         $this->options['proxyIdentifier'] = $proxyIdentifier;
         $this->options['proxyIdentifierSid'] = $proxyIdentifierSid;
+        $this->options['failOnParticipantConflict'] = $failOnParticipantConflict;
     }
 
     /**
-     * A human readable description of this resource, up to 64 characters. Should not include PII.
-     * 
-     * @param string $friendlyName A human readable description of this resource.
+     * The string that you assigned to describe the participant. This value must be 255 characters or fewer. **This value should not have PII.**
+     *
+     * @param string $friendlyName The string that you assigned to describe the
+     *                             participant
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName(string $friendlyName): self {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
-     * The proxy phone number to use for this Participant. If not specified, Proxy will select a number from the pool.
-     * 
-     * @param string $proxyIdentifier The proxy phone number to use for this
-     *                                Participant.
+     * The proxy phone number to use for the Participant. If not specified, Proxy will select a number from the pool.
+     *
+     * @param string $proxyIdentifier The proxy phone number to use for the
+     *                                Participant
      * @return $this Fluent Builder
      */
-    public function setProxyIdentifier($proxyIdentifier) {
+    public function setProxyIdentifier(string $proxyIdentifier): self {
         $this->options['proxyIdentifier'] = $proxyIdentifier;
         return $this;
     }
 
     /**
-     * The proxy_identifier_sid
-     * 
-     * @param string $proxyIdentifierSid The proxy_identifier_sid
+     * The SID of the Proxy Identifier to assign to the Participant.
+     *
+     * @param string $proxyIdentifierSid The Proxy Identifier Sid
      * @return $this Fluent Builder
      */
-    public function setProxyIdentifierSid($proxyIdentifierSid) {
+    public function setProxyIdentifierSid(string $proxyIdentifierSid): self {
         $this->options['proxyIdentifierSid'] = $proxyIdentifierSid;
+        return $this;
+    }
+
+    /**
+     * [Experimental] For accounts with the ProxyAllowParticipantConflict account flag, setting to true enables per-request opt-in to allowing Proxy to reject a Participant create request that could cause the same Identifier/ProxyIdentifier pair to be active in multiple Sessions. Depending on the context, this could be a 409 error (Twilio error code 80623) or a 400 error (Twilio error code 80604). If not provided, requests will be allowed to succeed and a Debugger notification (80802) will be emitted. Having multiple, active Participants with the same Identifier/ProxyIdentifier pair causes calls and messages from affected Participants to be routed incorrectly. Please note, the default behavior for accounts without the ProxyAllowParticipantConflict flag is to reject the request as described.  This will eventually be the default for all accounts.
+     *
+     * @param bool $failOnParticipantConflict An experimental parameter to override
+     *                                        the ProxyAllowParticipantConflict
+     *                                        account flag on a per-request basis.
+     * @return $this Fluent Builder
+     */
+    public function setFailOnParticipantConflict(bool $failOnParticipantConflict): self {
+        $this->options['failOnParticipantConflict'] = $failOnParticipantConflict;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Proxy.V1.CreateParticipantOptions ' . implode(' ', $options) . ']';
-    }
-}
-
-class UpdateParticipantOptions extends Options {
-    /**
-     * @param string $identifier The identifier
-     * @param string $friendlyName The friendly_name
-     * @param string $proxyIdentifier The proxy_identifier
-     * @param string $proxyIdentifierSid The proxy_identifier_sid
-     */
-    public function __construct($identifier = Values::NONE, $friendlyName = Values::NONE, $proxyIdentifier = Values::NONE, $proxyIdentifierSid = Values::NONE) {
-        $this->options['identifier'] = $identifier;
-        $this->options['friendlyName'] = $friendlyName;
-        $this->options['proxyIdentifier'] = $proxyIdentifier;
-        $this->options['proxyIdentifierSid'] = $proxyIdentifierSid;
-    }
-
-    /**
-     * The identifier
-     * 
-     * @param string $identifier The identifier
-     * @return $this Fluent Builder
-     */
-    public function setIdentifier($identifier) {
-        $this->options['identifier'] = $identifier;
-        return $this;
-    }
-
-    /**
-     * The friendly_name
-     * 
-     * @param string $friendlyName The friendly_name
-     * @return $this Fluent Builder
-     */
-    public function setFriendlyName($friendlyName) {
-        $this->options['friendlyName'] = $friendlyName;
-        return $this;
-    }
-
-    /**
-     * The proxy_identifier
-     * 
-     * @param string $proxyIdentifier The proxy_identifier
-     * @return $this Fluent Builder
-     */
-    public function setProxyIdentifier($proxyIdentifier) {
-        $this->options['proxyIdentifier'] = $proxyIdentifier;
-        return $this;
-    }
-
-    /**
-     * The proxy_identifier_sid
-     * 
-     * @param string $proxyIdentifierSid The proxy_identifier_sid
-     * @return $this Fluent Builder
-     */
-    public function setProxyIdentifierSid($proxyIdentifierSid) {
-        $this->options['proxyIdentifierSid'] = $proxyIdentifierSid;
-        return $this;
-    }
-
-    /**
-     * Provide a friendly representation
-     * 
-     * @return string Machine friendly representation
-     */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Proxy.V1.UpdateParticipantOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Proxy.V1.CreateParticipantOptions ' . $options . ']';
     }
 }

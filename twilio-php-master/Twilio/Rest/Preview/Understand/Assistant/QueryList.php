@@ -9,8 +9,10 @@
 
 namespace Twilio\Rest\Preview\Understand\Assistant;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\ListResource;
 use Twilio\Options;
+use Twilio\Stream;
 use Twilio\Values;
 use Twilio\Version;
 
@@ -20,18 +22,17 @@ use Twilio\Version;
 class QueryList extends ListResource {
     /**
      * Construct the QueryList
-     * 
+     *
      * @param Version $version Version that contains the resource
      * @param string $assistantSid The unique ID of the parent Assistant.
-     * @return \Twilio\Rest\Preview\Understand\Assistant\QueryList 
      */
-    public function __construct(Version $version, $assistantSid) {
+    public function __construct(Version $version, string $assistantSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('assistantSid' => $assistantSid, );
+        $this->solution = ['assistantSid' => $assistantSid, ];
 
-        $this->uri = '/Assistants/' . rawurlencode($assistantSid) . '/Queries';
+        $this->uri = '/Assistants/' . \rawurlencode($assistantSid) . '/Queries';
     }
 
     /**
@@ -41,7 +42,7 @@ class QueryList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. stream()
      *                   guarantees to never return more than limit.  Default is no
@@ -51,9 +52,9 @@ class QueryList extends ListResource {
      *                        page_size is defined but a limit is defined, stream()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
-     * @return \Twilio\Stream stream of results
+     * @return Stream stream of results
      */
-    public function stream($options = array(), $limit = null, $pageSize = null) {
+    public function stream(array $options = [], int $limit = null, $pageSize = null): Stream {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($options, $limits['pageSize']);
@@ -65,7 +66,7 @@ class QueryList extends ListResource {
      * Reads QueryInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param int $limit Upper limit for the number of records to return. read()
      *                   guarantees to never return more than limit.  Default is no
@@ -77,36 +78,33 @@ class QueryList extends ListResource {
      *                        efficient page size, i.e. min(limit, 1000)
      * @return QueryInstance[] Array of results
      */
-    public function read($options = array(), $limit = null, $pageSize = null) {
-        return iterator_to_array($this->stream($options, $limit, $pageSize), false);
+    public function read(array $options = [], int $limit = null, $pageSize = null): array {
+        return \iterator_to_array($this->stream($options, $limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of QueryInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @param mixed $pageSize Number of records to return, defaults to 50
      * @param string $pageToken PageToken provided by the API
      * @param mixed $pageNumber Page Number, this value is simply for client state
-     * @return \Twilio\Page Page of QueryInstance
+     * @return QueryPage Page of QueryInstance
      */
-    public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
+    public function page(array $options = [], $pageSize = Values::NONE, string $pageToken = Values::NONE, $pageNumber = Values::NONE): QueryPage {
         $options = new Values($options);
-        $params = Values::of(array(
+
+        $params = Values::of([
             'Language' => $options['language'],
             'ModelBuild' => $options['modelBuild'],
             'Status' => $options['status'],
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
-        ));
+        ]);
 
-        $response = $this->version->page(
-            'GET',
-            $this->uri,
-            $params
-        );
+        $response = $this->version->page('GET', $this->uri, $params);
 
         return new QueryPage($this->version, $response, $this->solution);
     }
@@ -114,11 +112,11 @@ class QueryList extends ListResource {
     /**
      * Retrieve a specific page of QueryInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
-     * @return \Twilio\Page Page of QueryInstance
+     * @return QueryPage Page of QueryInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage(string $targetUrl): QueryPage {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -128,53 +126,48 @@ class QueryList extends ListResource {
     }
 
     /**
-     * Create a new QueryInstance
-     * 
+     * Create the QueryInstance
+     *
      * @param string $language An ISO language-country string of the sample.
      * @param string $query A user-provided string that uniquely identifies this
      *                      resource as an alternative to the sid. It can be up to
      *                      2048 characters long.
      * @param array|Options $options Optional Arguments
-     * @return QueryInstance Newly created QueryInstance
+     * @return QueryInstance Created QueryInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function create($language, $query, $options = array()) {
+    public function create(string $language, string $query, array $options = []): QueryInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'Language' => $language,
             'Query' => $query,
-            'Intents' => $options['intents'],
+            'Tasks' => $options['tasks'],
             'ModelBuild' => $options['modelBuild'],
             'Field' => $options['field'],
-        ));
+        ]);
 
-        $payload = $this->version->create(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->create('POST', $this->uri, [], $data);
 
         return new QueryInstance($this->version, $payload, $this->solution['assistantSid']);
     }
 
     /**
      * Constructs a QueryContext
-     * 
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Preview\Understand\Assistant\QueryContext 
+     *
+     * @param string $sid A 34 character string that uniquely identifies this
+     *                    resource.
      */
-    public function getContext($sid) {
+    public function getContext(string $sid): QueryContext {
         return new QueryContext($this->version, $this->solution['assistantSid'], $sid);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Preview.Understand.QueryList]';
     }
 }

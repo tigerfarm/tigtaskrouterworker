@@ -11,52 +11,51 @@ namespace Twilio\Rest\Video\V1\Room;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
+use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Rest\Video\V1\Room\Participant\PublishedTrackList;
+use Twilio\Rest\Video\V1\Room\Participant\SubscribeRulesList;
 use Twilio\Rest\Video\V1\Room\Participant\SubscribedTrackList;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\Video\V1\Room\Participant\PublishedTrackList publishedTracks
- * @property \Twilio\Rest\Video\V1\Room\Participant\SubscribedTrackList subscribedTracks
+ * @property PublishedTrackList $publishedTracks
+ * @property SubscribedTrackList $subscribedTracks
+ * @property SubscribeRulesList $subscribeRules
  * @method \Twilio\Rest\Video\V1\Room\Participant\PublishedTrackContext publishedTracks(string $sid)
+ * @method \Twilio\Rest\Video\V1\Room\Participant\SubscribedTrackContext subscribedTracks(string $sid)
  */
 class ParticipantContext extends InstanceContext {
-    protected $_publishedTracks = null;
-    protected $_subscribedTracks = null;
+    protected $_publishedTracks;
+    protected $_subscribedTracks;
+    protected $_subscribeRules;
 
     /**
      * Initialize the ParticipantContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $roomSid The room_sid
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Video\V1\Room\ParticipantContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $roomSid The SID of the room with the Participant resource to
+     *                        fetch
+     * @param string $sid The SID that identifies the resource to fetch
      */
     public function __construct(Version $version, $roomSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('roomSid' => $roomSid, 'sid' => $sid, );
+        $this->solution = ['roomSid' => $roomSid, 'sid' => $sid, ];
 
-        $this->uri = '/Rooms/' . rawurlencode($roomSid) . '/Participants/' . rawurlencode($sid) . '';
+        $this->uri = '/Rooms/' . \rawurlencode($roomSid) . '/Participants/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a ParticipantInstance
-     * 
+     * Fetch the ParticipantInstance
+     *
      * @return ParticipantInstance Fetched ParticipantInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): ParticipantInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new ParticipantInstance(
             $this->version,
@@ -68,22 +67,17 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Update the ParticipantInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return ParticipantInstance Updated ParticipantInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): ParticipantInstance {
         $options = new Values($options);
 
-        $data = Values::of(array('Status' => $options['status'], ));
+        $data = Values::of(['Status' => $options['status'], ]);
 
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->update('POST', $this->uri, [], $data);
 
         return new ParticipantInstance(
             $this->version,
@@ -95,10 +89,8 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Access the publishedTracks
-     * 
-     * @return \Twilio\Rest\Video\V1\Room\Participant\PublishedTrackList 
      */
-    protected function getPublishedTracks() {
+    protected function getPublishedTracks(): PublishedTrackList {
         if (!$this->_publishedTracks) {
             $this->_publishedTracks = new PublishedTrackList(
                 $this->version,
@@ -112,10 +104,8 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Access the subscribedTracks
-     * 
-     * @return \Twilio\Rest\Video\V1\Room\Participant\SubscribedTrackList 
      */
-    protected function getSubscribedTracks() {
+    protected function getSubscribedTracks(): SubscribedTrackList {
         if (!$this->_subscribedTracks) {
             $this->_subscribedTracks = new SubscribedTrackList(
                 $this->version,
@@ -128,15 +118,30 @@ class ParticipantContext extends InstanceContext {
     }
 
     /**
-     * Magic getter to lazy load subresources
-     * 
-     * @param string $name Subresource to return
-     * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * Access the subscribeRules
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    protected function getSubscribeRules(): SubscribeRulesList {
+        if (!$this->_subscribeRules) {
+            $this->_subscribeRules = new SubscribeRulesList(
+                $this->version,
+                $this->solution['roomSid'],
+                $this->solution['sid']
+            );
+        }
+
+        return $this->_subscribeRules;
+    }
+
+    /**
+     * Magic getter to lazy load subresources
+     *
+     * @param string $name Subresource to return
+     * @return ListResource The requested subresource
+     * @throws TwilioException For unknown subresources
+     */
+    public function __get(string $name): ListResource {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -145,16 +150,16 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -162,14 +167,14 @@ class ParticipantContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Video.V1.ParticipantContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Video.V1.ParticipantContext ' . \implode(' ', $context) . ']';
     }
 }

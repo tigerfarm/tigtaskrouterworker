@@ -14,81 +14,74 @@ use Twilio\TwiML\TwiML;
 class Sip extends TwiML {
     /**
      * Sip constructor.
-     * 
-     * @param url $sipUrl SIP URL
+     *
+     * @param string $sipUrl SIP URL
      * @param array $attributes Optional attributes
      */
-    public function __construct($sipUrl, $attributes = array()) {
+    public function __construct($sipUrl, $attributes = []) {
         parent::__construct('Sip', $sipUrl, $attributes);
     }
 
     /**
      * Add Username attribute.
-     * 
+     *
      * @param string $username SIP Username
-     * @return TwiML $this.
      */
-    public function setUsername($username) {
+    public function setUsername($username): self {
         return $this->setAttribute('username', $username);
     }
 
     /**
      * Add Password attribute.
-     * 
+     *
      * @param string $password SIP Password
-     * @return TwiML $this.
      */
-    public function setPassword($password) {
+    public function setPassword($password): self {
         return $this->setAttribute('password', $password);
     }
 
     /**
      * Add Url attribute.
-     * 
-     * @param url $url Action URL
-     * @return TwiML $this.
+     *
+     * @param string $url Action URL
      */
-    public function setUrl($url) {
+    public function setUrl($url): self {
         return $this->setAttribute('url', $url);
     }
 
     /**
      * Add Method attribute.
-     * 
-     * @param httpMethod $method Action URL method
-     * @return TwiML $this.
+     *
+     * @param string $method Action URL method
      */
-    public function setMethod($method) {
+    public function setMethod($method): self {
         return $this->setAttribute('method', $method);
     }
 
     /**
      * Add StatusCallbackEvent attribute.
-     * 
-     * @param sip:Enum:Event $statusCallbackEvent Status callback events
-     * @return TwiML $this.
+     *
+     * @param string[] $statusCallbackEvent Status callback events
      */
-    public function setStatusCallbackEvent($statusCallbackEvent) {
+    public function setStatusCallbackEvent($statusCallbackEvent): self {
         return $this->setAttribute('statusCallbackEvent', $statusCallbackEvent);
     }
 
     /**
      * Add StatusCallback attribute.
-     * 
-     * @param url $statusCallback Status callback URL
-     * @return TwiML $this.
+     *
+     * @param string $statusCallback Status callback URL
      */
-    public function setStatusCallback($statusCallback) {
+    public function setStatusCallback($statusCallback): self {
         return $this->setAttribute('statusCallback', $statusCallback);
     }
 
     /**
      * Add StatusCallbackMethod attribute.
-     * 
-     * @param httpMethod $statusCallbackMethod Status callback URL method
-     * @return TwiML $this.
+     *
+     * @param string $statusCallbackMethod Status callback URL method
      */
-    public function setStatusCallbackMethod($statusCallbackMethod) {
+    public function setStatusCallbackMethod($statusCallbackMethod): self {
         return $this->setAttribute('statusCallbackMethod', $statusCallbackMethod);
     }
 }

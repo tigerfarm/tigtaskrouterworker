@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL ^ E_DEPRECATED);
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -58,7 +59,7 @@ class SplClassLoader {
      *
      * @param string $sep The separator to use.
      */
-    public function setNamespaceSeparator($sep) {
+    public function setNamespaceSeparator($sep): void {
         $this->_namespaceSeparator = $sep;
     }
 
@@ -67,7 +68,7 @@ class SplClassLoader {
      *
      * @return string The separator to use.
      */
-    public function getNamespaceSeparator() {
+    public function getNamespaceSeparator(): string {
         return $this->_namespaceSeparator;
     }
 
@@ -76,7 +77,7 @@ class SplClassLoader {
      *
      * @param string $includePath
      */
-    public function setIncludePath($includePath) {
+    public function setIncludePath($includePath): void {
         $this->_includePath = $includePath;
     }
 
@@ -85,7 +86,7 @@ class SplClassLoader {
      *
      * @return string $includePath
      */
-    public function getIncludePath() {
+    public function getIncludePath(): string {
         return $this->_includePath;
     }
 
@@ -94,7 +95,7 @@ class SplClassLoader {
      *
      * @param string $fileExtension
      */
-    public function setFileExtension($fileExtension) {
+    public function setFileExtension($fileExtension): void {
         $this->_fileExtension = $fileExtension;
     }
 
@@ -103,22 +104,22 @@ class SplClassLoader {
      *
      * @return string $fileExtension
      */
-    public function getFileExtension() {
+    public function getFileExtension(): string {
         return $this->_fileExtension;
     }
 
     /**
      * Installs this class loader on the SPL autoload stack.
      */
-    public function register() {
-        spl_autoload_register(array($this, 'loadClass'));
+    public function register(): void {
+        \spl_autoload_register([$this, 'loadClass']);
     }
 
     /**
      * Uninstalls this class loader from the SPL autoloader stack.
      */
-    public function unregister() {
-        spl_autoload_unregister(array($this, 'loadClass'));
+    public function unregister(): void {
+        \spl_autoload_unregister([$this, 'loadClass']);
     }
 
     /**
@@ -127,20 +128,20 @@ class SplClassLoader {
      * @param string $className The name of the class to load.
      * @return void
      */
-    public function loadClass($className) {
-        if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator))) {
+    public function loadClass($className): void {
+        if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === \substr($className, 0, \strlen($this->_namespace . $this->_namespaceSeparator))) {
             $fileName = '';
             $namespace = '';
-            if (false !== ($lastNsPos = strripos($className, $this->_namespaceSeparator))) {
-                $namespace = substr($className, 0, $lastNsPos);
-                $className = substr($className, $lastNsPos + 1);
-                $fileName = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            if (false !== ($lastNsPos = \strripos($className, $this->_namespaceSeparator))) {
+                $namespace = \substr($className, 0, $lastNsPos);
+                $className = \substr($className, $lastNsPos + 1);
+                $fileName = \str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             }
-            $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
+            $fileName .= \str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
             require ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
         }
     }
 }
 
-$twilioClassLoader = new SplClassLoader('Twilio', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..'));
+$twilioClassLoader = new SplClassLoader('Twilio', \realpath(__DIR__ . DIRECTORY_SEPARATOR . '..'));
 $twilioClassLoader->register();

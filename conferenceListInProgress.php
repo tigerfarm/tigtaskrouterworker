@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 use Twilio\Rest\Client;
-$twilio = new Client(getenv("ACCOUNT_SID"), getenv('AUTH_TOKEN'));
+$twilio = new Client(getenv("TR_ACCOUNT_SID"), getenv('TR_AUTH_TOKEN'));
 echo "++ Conference SIDs" . "\xA";
 $conferences = $twilio->conferences->read(
     array(

@@ -11,31 +11,28 @@ namespace Twilio\Rest\Preview;
 
 use Twilio\Domain;
 use Twilio\Exceptions\TwilioException;
+use Twilio\InstanceContext;
 use Twilio\Rest\Preview\Understand\AssistantList;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\Preview\Understand\AssistantList assistants
+ * @property AssistantList $assistants
  * @method \Twilio\Rest\Preview\Understand\AssistantContext assistants(string $sid)
  */
 class Understand extends Version {
-    protected $_assistants = null;
+    protected $_assistants;
 
     /**
      * Construct the Understand version of Preview
-     * 
-     * @param \Twilio\Domain $domain Domain that contains the version
-     * @return \Twilio\Rest\Preview\Understand Understand version of Preview
+     *
+     * @param Domain $domain Domain that contains the version
      */
     public function __construct(Domain $domain) {
         parent::__construct($domain);
         $this->version = 'understand';
     }
 
-    /**
-     * @return \Twilio\Rest\Preview\Understand\AssistantList 
-     */
-    protected function getAssistants() {
+    protected function getAssistants(): AssistantList {
         if (!$this->_assistants) {
             $this->_assistants = new AssistantList($this);
         }
@@ -44,14 +41,14 @@ class Understand extends Version {
 
     /**
      * Magic getter to lazy load root resources
-     * 
+     *
      * @param string $name Resource to return
      * @return \Twilio\ListResource The requested resource
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @throws TwilioException For unknown resource
      */
-    public function __get($name) {
-        $method = 'get' . ucfirst($name);
-        if (method_exists($this, $method)) {
+    public function __get(string $name) {
+        $method = 'get' . \ucfirst($name);
+        if (\method_exists($this, $method)) {
             return $this->$method();
         }
 
@@ -60,16 +57,16 @@ class Understand extends Version {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -77,10 +74,10 @@ class Understand extends Version {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Preview.Understand]';
     }
 }

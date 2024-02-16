@@ -14,19 +14,17 @@ use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Proxy\V1;
 
 /**
- * @property \Twilio\Rest\Proxy\V1 v1
- * @property \Twilio\Rest\Proxy\V1\ServiceList services
+ * @property \Twilio\Rest\Proxy\V1 $v1
+ * @property \Twilio\Rest\Proxy\V1\ServiceList $services
  * @method \Twilio\Rest\Proxy\V1\ServiceContext services(string $sid)
  */
 class Proxy extends Domain {
-    protected $_v1 = null;
+    protected $_v1;
 
     /**
      * Construct the Proxy Domain
-     * 
-     * @param \Twilio\Rest\Client $client Twilio\Rest\Client to communicate with
-     *                                    Twilio
-     * @return \Twilio\Rest\Proxy Domain for Proxy
+     *
+     * @param Client $client Client to communicate with Twilio
      */
     public function __construct(Client $client) {
         parent::__construct($client);
@@ -35,9 +33,9 @@ class Proxy extends Domain {
     }
 
     /**
-     * @return \Twilio\Rest\Proxy\V1 Version v1 of proxy
+     * @return V1 Version v1 of proxy
      */
-    protected function getV1() {
+    protected function getV1(): V1 {
         if (!$this->_v1) {
             $this->_v1 = new V1($this);
         }
@@ -46,14 +44,14 @@ class Proxy extends Domain {
 
     /**
      * Magic getter to lazy load version
-     * 
+     *
      * @param string $name Version to return
      * @return \Twilio\Version The requested version
-     * @throws \Twilio\Exceptions\TwilioException For unknown versions
+     * @throws TwilioException For unknown versions
      */
-    public function __get($name) {
-        $method = 'get' . ucfirst($name);
-        if (method_exists($this, $method)) {
+    public function __get(string $name) {
+        $method = 'get' . \ucfirst($name);
+        if (\method_exists($this, $method)) {
             return $this->$method();
         }
 
@@ -62,42 +60,38 @@ class Proxy extends Domain {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
      * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
-        $method = 'context' . ucfirst($name);
-        if (method_exists($this, $method)) {
-            return call_user_func_array(array($this, $method), $arguments);
+    public function __call(string $name, array $arguments) {
+        $method = 'context' . \ucfirst($name);
+        if (\method_exists($this, $method)) {
+            return \call_user_func_array([$this, $method], $arguments);
         }
 
         throw new TwilioException('Unknown context ' . $name);
     }
 
-    /**
-     * @return \Twilio\Rest\Proxy\V1\ServiceList 
-     */
-    protected function getServices() {
+    protected function getServices(): \Twilio\Rest\Proxy\V1\ServiceList {
         return $this->v1->services;
     }
 
     /**
-     * @param string $sid A string that uniquely identifies this Service.
-     * @return \Twilio\Rest\Proxy\V1\ServiceContext 
+     * @param string $sid The unique string that identifies the resource
      */
-    protected function contextServices($sid) {
+    protected function contextServices(string $sid): \Twilio\Rest\Proxy\V1\ServiceContext {
         return $this->v1->services($sid);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Proxy]';
     }
 }

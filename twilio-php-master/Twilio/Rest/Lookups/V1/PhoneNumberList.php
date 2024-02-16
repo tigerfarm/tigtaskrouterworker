@@ -15,33 +15,31 @@ use Twilio\Version;
 class PhoneNumberList extends ListResource {
     /**
      * Construct the PhoneNumberList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @return \Twilio\Rest\Lookups\V1\PhoneNumberList 
      */
     public function __construct(Version $version) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array();
+        $this->solution = [];
     }
 
     /**
      * Constructs a PhoneNumberContext
-     * 
-     * @param string $phoneNumber The phone_number
-     * @return \Twilio\Rest\Lookups\V1\PhoneNumberContext 
+     *
+     * @param string $phoneNumber The phone number to fetch in E.164 format
      */
-    public function getContext($phoneNumber) {
+    public function getContext(string $phoneNumber): PhoneNumberContext {
         return new PhoneNumberContext($this->version, $phoneNumber);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Lookups.V1.PhoneNumberList]';
     }
 }

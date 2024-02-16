@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Proxy\V1\Service\Session;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
@@ -19,36 +20,31 @@ use Twilio\Version;
 class InteractionContext extends InstanceContext {
     /**
      * Initialize the InteractionContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid Service Sid.
-     * @param string $sessionSid Session Sid.
-     * @param string $sid A string that uniquely identifies this Interaction.
-     * @return \Twilio\Rest\Proxy\V1\Service\Session\InteractionContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $serviceSid The SID of the parent Service of the resource to
+     *                           fetch
+     * @param string $sessionSid he SID of the parent Session of the resource to
+     *                           fetch
+     * @param string $sid The unique string that identifies the resource
      */
     public function __construct(Version $version, $serviceSid, $sessionSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'sessionSid' => $sessionSid, 'sid' => $sid, );
+        $this->solution = ['serviceSid' => $serviceSid, 'sessionSid' => $sessionSid, 'sid' => $sid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Sessions/' . rawurlencode($sessionSid) . '/Interactions/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/Sessions/' . \rawurlencode($sessionSid) . '/Interactions/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a InteractionInstance
-     * 
+     * Fetch the InteractionInstance
+     *
      * @return InteractionInstance Fetched InteractionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): InteractionInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new InteractionInstance(
             $this->version,
@@ -60,25 +56,25 @@ class InteractionContext extends InstanceContext {
     }
 
     /**
-     * Deletes the InteractionInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the InteractionInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(): bool {
+        return $this->version->delete('DELETE', $this->uri);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Proxy.V1.InteractionContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Proxy.V1.InteractionContext ' . \implode(' ', $context) . ']';
     }
 }

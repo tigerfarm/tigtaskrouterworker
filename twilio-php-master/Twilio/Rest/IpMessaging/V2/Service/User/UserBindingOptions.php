@@ -14,45 +14,40 @@ use Twilio\Values;
 
 abstract class UserBindingOptions {
     /**
-     * @param string $bindingType The binding_type
+     * @param string[] $bindingType The binding_type
      * @return ReadUserBindingOptions Options builder
      */
-    public static function read($bindingType = Values::NONE) {
+    public static function read(array $bindingType = Values::ARRAY_NONE): ReadUserBindingOptions {
         return new ReadUserBindingOptions($bindingType);
     }
 }
 
 class ReadUserBindingOptions extends Options {
     /**
-     * @param string $bindingType The binding_type
+     * @param string[] $bindingType The binding_type
      */
-    public function __construct($bindingType = Values::NONE) {
+    public function __construct(array $bindingType = Values::ARRAY_NONE) {
         $this->options['bindingType'] = $bindingType;
     }
 
     /**
      * The binding_type
-     * 
-     * @param string $bindingType The binding_type
+     *
+     * @param string[] $bindingType The binding_type
      * @return $this Fluent Builder
      */
-    public function setBindingType($bindingType) {
+    public function setBindingType(array $bindingType): self {
         $this->options['bindingType'] = $bindingType;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.IpMessaging.V2.ReadUserBindingOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.IpMessaging.V2.ReadUserBindingOptions ' . $options . ']';
     }
 }

@@ -17,35 +17,34 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
- * @property string accountSid
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property string fieldTypeSid
- * @property string language
- * @property string assistantSid
- * @property string sid
- * @property string value
- * @property string url
- * @property string synonymOf
+ *
+ * @property string $accountSid
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property string $fieldTypeSid
+ * @property string $language
+ * @property string $assistantSid
+ * @property string $sid
+ * @property string $value
+ * @property string $url
+ * @property string $synonymOf
  */
 class FieldValueInstance extends InstanceResource {
     /**
      * Initialize the FieldValueInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
      * @param string $assistantSid The unique ID of the Assistant.
      * @param string $fieldTypeSid The unique ID of the Field Type associated with
      *                             this Field Value.
      * @param string $sid The sid
-     * @return \Twilio\Rest\Preview\Understand\Assistant\FieldType\FieldValueInstance 
      */
-    public function __construct(Version $version, array $payload, $assistantSid, $fieldTypeSid, $sid = null) {
+    public function __construct(Version $version, array $payload, string $assistantSid, string $fieldTypeSid, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
             'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
@@ -56,23 +55,22 @@ class FieldValueInstance extends InstanceResource {
             'value' => Values::array_get($payload, 'value'),
             'url' => Values::array_get($payload, 'url'),
             'synonymOf' => Values::array_get($payload, 'synonym_of'),
-        );
+        ];
 
-        $this->solution = array(
+        $this->solution = [
             'assistantSid' => $assistantSid,
             'fieldTypeSid' => $fieldTypeSid,
             'sid' => $sid ?: $this->properties['sid'],
-        );
+        ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Preview\Understand\Assistant\FieldType\FieldValueContext Context for this
-     *                                                                               FieldValueInstance
+     *
+     * @return FieldValueContext Context for this FieldValueInstance
      */
-    protected function proxy() {
+    protected function proxy(): FieldValueContext {
         if (!$this->context) {
             $this->context = new FieldValueContext(
                 $this->version,
@@ -86,39 +84,39 @@ class FieldValueInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a FieldValueInstance
-     * 
+     * Fetch the FieldValueInstance
+     *
      * @return FieldValueInstance Fetched FieldValueInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): FieldValueInstance {
         return $this->proxy()->fetch();
     }
 
     /**
-     * Deletes the FieldValueInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the FieldValueInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -127,14 +125,14 @@ class FieldValueInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Understand.FieldValueInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Understand.FieldValueInstance ' . \implode(' ', $context) . ']';
     }
 }

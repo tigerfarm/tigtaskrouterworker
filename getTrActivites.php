@@ -2,11 +2,12 @@
 require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 use Twilio\Rest\Client;
 // -------------------------------------------------------
-$account_sid = getenv("ACCOUNT_SID");
-$auth_token = getenv('AUTH_TOKEN');
+$account_sid = getenv("TR_ACCOUNT_SID");
+$auth_token = getenv('TR_AUTH_TOKEN');
 $client = new Client($account_sid, $auth_token);
 // -------------------------------------------------------
 $workspace_sid = getenv("WORKSPACE_SID");
+// echo "+ $workspace_sid: " . $workspace_sid . "\xA";
 $workspace = $client->taskrouter->v1->workspaces($workspace_sid)
                                     ->fetch();
 // echo "+ Workspace friendlyName: " . $workspace->friendlyName . "\xA";

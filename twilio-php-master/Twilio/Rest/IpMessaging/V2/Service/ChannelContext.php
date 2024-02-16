@@ -11,6 +11,7 @@ namespace Twilio\Rest\IpMessaging\V2\Service;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
+use Twilio\ListResource;
 use Twilio\Options;
 use Twilio\Rest\IpMessaging\V2\Service\Channel\InviteList;
 use Twilio\Rest\IpMessaging\V2\Service\Channel\MemberList;
@@ -21,52 +22,45 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\IpMessaging\V2\Service\Channel\MemberList members
- * @property \Twilio\Rest\IpMessaging\V2\Service\Channel\MessageList messages
- * @property \Twilio\Rest\IpMessaging\V2\Service\Channel\InviteList invites
- * @property \Twilio\Rest\IpMessaging\V2\Service\Channel\WebhookList webhooks
+ * @property MemberList $members
+ * @property MessageList $messages
+ * @property InviteList $invites
+ * @property WebhookList $webhooks
  * @method \Twilio\Rest\IpMessaging\V2\Service\Channel\MemberContext members(string $sid)
  * @method \Twilio\Rest\IpMessaging\V2\Service\Channel\MessageContext messages(string $sid)
  * @method \Twilio\Rest\IpMessaging\V2\Service\Channel\InviteContext invites(string $sid)
  * @method \Twilio\Rest\IpMessaging\V2\Service\Channel\WebhookContext webhooks(string $sid)
  */
 class ChannelContext extends InstanceContext {
-    protected $_members = null;
-    protected $_messages = null;
-    protected $_invites = null;
-    protected $_webhooks = null;
+    protected $_members;
+    protected $_messages;
+    protected $_invites;
+    protected $_webhooks;
 
     /**
      * Initialize the ChannelContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param string $serviceSid The service_sid
      * @param string $sid The sid
-     * @return \Twilio\Rest\IpMessaging\V2\Service\ChannelContext 
      */
     public function __construct(Version $version, $serviceSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid, );
+        $this->solution = ['serviceSid' => $serviceSid, 'sid' => $sid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Channels/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/Channels/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a ChannelInstance
-     * 
+     * Fetch the ChannelInstance
+     *
      * @return ChannelInstance Fetched ChannelInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): ChannelInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new ChannelInstance(
             $this->version,
@@ -77,40 +71,41 @@ class ChannelContext extends InstanceContext {
     }
 
     /**
-     * Deletes the ChannelInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the ChannelInstance
+     *
+     * @param array|Options $options Optional Arguments
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
-        return $this->version->delete('delete', $this->uri);
+    public function delete(array $options = []): bool {
+        $options = new Values($options);
+
+        $headers = Values::of(['X-Twilio-Webhook-Enabled' => $options['xTwilioWebhookEnabled'], ]);
+
+        return $this->version->delete('DELETE', $this->uri, [], [], $headers);
     }
 
     /**
      * Update the ChannelInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return ChannelInstance Updated ChannelInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): ChannelInstance {
         $options = new Values($options);
 
-        $data = Values::of(array(
+        $data = Values::of([
             'FriendlyName' => $options['friendlyName'],
             'UniqueName' => $options['uniqueName'],
             'Attributes' => $options['attributes'],
             'DateCreated' => Serialize::iso8601DateTime($options['dateCreated']),
             'DateUpdated' => Serialize::iso8601DateTime($options['dateUpdated']),
             'CreatedBy' => $options['createdBy'],
-        ));
+        ]);
+        $headers = Values::of(['X-Twilio-Webhook-Enabled' => $options['xTwilioWebhookEnabled'], ]);
 
-        $payload = $this->version->update(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->update('POST', $this->uri, [], $data, $headers);
 
         return new ChannelInstance(
             $this->version,
@@ -122,10 +117,8 @@ class ChannelContext extends InstanceContext {
 
     /**
      * Access the members
-     * 
-     * @return \Twilio\Rest\IpMessaging\V2\Service\Channel\MemberList 
      */
-    protected function getMembers() {
+    protected function getMembers(): MemberList {
         if (!$this->_members) {
             $this->_members = new MemberList(
                 $this->version,
@@ -139,10 +132,8 @@ class ChannelContext extends InstanceContext {
 
     /**
      * Access the messages
-     * 
-     * @return \Twilio\Rest\IpMessaging\V2\Service\Channel\MessageList 
      */
-    protected function getMessages() {
+    protected function getMessages(): MessageList {
         if (!$this->_messages) {
             $this->_messages = new MessageList(
                 $this->version,
@@ -156,10 +147,8 @@ class ChannelContext extends InstanceContext {
 
     /**
      * Access the invites
-     * 
-     * @return \Twilio\Rest\IpMessaging\V2\Service\Channel\InviteList 
      */
-    protected function getInvites() {
+    protected function getInvites(): InviteList {
         if (!$this->_invites) {
             $this->_invites = new InviteList(
                 $this->version,
@@ -173,10 +162,8 @@ class ChannelContext extends InstanceContext {
 
     /**
      * Access the webhooks
-     * 
-     * @return \Twilio\Rest\IpMessaging\V2\Service\Channel\WebhookList 
      */
-    protected function getWebhooks() {
+    protected function getWebhooks(): WebhookList {
         if (!$this->_webhooks) {
             $this->_webhooks = new WebhookList(
                 $this->version,
@@ -190,14 +177,14 @@ class ChannelContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
-     * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * @return ListResource The requested subresource
+     * @throws TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get(string $name): ListResource {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -206,16 +193,16 @@ class ChannelContext extends InstanceContext {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -223,14 +210,14 @@ class ChannelContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.IpMessaging.V2.ChannelContext ' . implode(' ', $context) . ']';
+        return '[Twilio.IpMessaging.V2.ChannelContext ' . \implode(' ', $context) . ']';
     }
 }

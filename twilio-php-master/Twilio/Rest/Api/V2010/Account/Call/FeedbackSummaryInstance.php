@@ -16,37 +16,36 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property integer callCount
- * @property integer callFeedbackCount
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property \DateTime endDate
- * @property boolean includeSubaccounts
- * @property string issues
- * @property string qualityScoreAverage
- * @property string qualityScoreMedian
- * @property string qualityScoreStandardDeviation
- * @property string sid
- * @property \DateTime startDate
- * @property string status
+ * @property string $accountSid
+ * @property int $callCount
+ * @property int $callFeedbackCount
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property \DateTime $endDate
+ * @property bool $includeSubaccounts
+ * @property array[] $issues
+ * @property string $qualityScoreAverage
+ * @property string $qualityScoreMedian
+ * @property string $qualityScoreStandardDeviation
+ * @property string $sid
+ * @property \DateTime $startDate
+ * @property string $status
  */
 class FeedbackSummaryInstance extends InstanceResource {
     /**
      * Initialize the FeedbackSummaryInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $accountSid The unique id of the Account responsible for
-     *                           creating this Call
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Api\V2010\Account\Call\FeedbackSummaryInstance 
+     * @param string $accountSid The SID of the Account that created this resource
+     * @param string $sid A string that uniquely identifies this feedback summary
+     *                    resource
      */
-    public function __construct(Version $version, array $payload, $accountSid, $sid = null) {
+    public function __construct(Version $version, array $payload, string $accountSid, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'callCount' => Values::array_get($payload, 'call_count'),
             'callFeedbackCount' => Values::array_get($payload, 'call_feedback_count'),
@@ -61,20 +60,18 @@ class FeedbackSummaryInstance extends InstanceResource {
             'sid' => Values::array_get($payload, 'sid'),
             'startDate' => Deserialize::dateTime(Values::array_get($payload, 'start_date')),
             'status' => Values::array_get($payload, 'status'),
-        );
+        ];
 
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Call\FeedbackSummaryContext Context
-     *                                                                    for this
-     *                                                                    FeedbackSummaryInstance
+     *
+     * @return FeedbackSummaryContext Context for this FeedbackSummaryInstance
      */
-    protected function proxy() {
+    protected function proxy(): FeedbackSummaryContext {
         if (!$this->context) {
             $this->context = new FeedbackSummaryContext(
                 $this->version,
@@ -87,39 +84,39 @@ class FeedbackSummaryInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a FeedbackSummaryInstance
-     * 
+     * Fetch the FeedbackSummaryInstance
+     *
      * @return FeedbackSummaryInstance Fetched FeedbackSummaryInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): FeedbackSummaryInstance {
         return $this->proxy()->fetch();
     }
 
     /**
-     * Deletes the FeedbackSummaryInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the FeedbackSummaryInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -128,14 +125,14 @@ class FeedbackSummaryInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.FeedbackSummaryInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.FeedbackSummaryInstance ' . \implode(' ', $context) . ']';
     }
 }

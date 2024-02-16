@@ -9,7 +9,9 @@
 
 namespace Twilio\Rest\Messaging\V1\Service;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\ListResource;
+use Twilio\Stream;
 use Twilio\Values;
 use Twilio\Version;
 
@@ -19,37 +21,32 @@ use Twilio\Version;
 class PhoneNumberList extends ListResource {
     /**
      * Construct the PhoneNumberList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $serviceSid The 34 character unique sid of the Service.
-     * @return \Twilio\Rest\Messaging\V1\Service\PhoneNumberList 
+     * @param string $serviceSid The SID of the Service that the resource is
+     *                           associated with
      */
-    public function __construct(Version $version, $serviceSid) {
+    public function __construct(Version $version, string $serviceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, );
+        $this->solution = ['serviceSid' => $serviceSid, ];
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/PhoneNumbers';
+        $this->uri = '/Services/' . \rawurlencode($serviceSid) . '/PhoneNumbers';
     }
 
     /**
-     * Create a new PhoneNumberInstance
-     * 
-     * @param string $phoneNumberSid Phone Number SID for the Phone Number being
-     *                               added to the Service.
-     * @return PhoneNumberInstance Newly created PhoneNumberInstance
+     * Create the PhoneNumberInstance
+     *
+     * @param string $phoneNumberSid The SID of the Phone Number being added to the
+     *                               Service
+     * @return PhoneNumberInstance Created PhoneNumberInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function create($phoneNumberSid) {
-        $data = Values::of(array('PhoneNumberSid' => $phoneNumberSid, ));
+    public function create(string $phoneNumberSid): PhoneNumberInstance {
+        $data = Values::of(['PhoneNumberSid' => $phoneNumberSid, ]);
 
-        $payload = $this->version->create(
-            'POST',
-            $this->uri,
-            array(),
-            $data
-        );
+        $payload = $this->version->create('POST', $this->uri, [], $data);
 
         return new PhoneNumberInstance($this->version, $payload, $this->solution['serviceSid']);
     }
@@ -61,7 +58,7 @@ class PhoneNumberList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
+     *
      * @param int $limit Upper limit for the number of records to return. stream()
      *                   guarantees to never return more than limit.  Default is no
      *                   limit
@@ -70,9 +67,9 @@ class PhoneNumberList extends ListResource {
      *                        page_size is defined but a limit is defined, stream()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
-     * @return \Twilio\Stream stream of results
+     * @return Stream stream of results
      */
-    public function stream($limit = null, $pageSize = null) {
+    public function stream(int $limit = null, $pageSize = null): Stream {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($limits['pageSize']);
@@ -84,7 +81,7 @@ class PhoneNumberList extends ListResource {
      * Reads PhoneNumberInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
+     *
      * @param int $limit Upper limit for the number of records to return. read()
      *                   guarantees to never return more than limit.  Default is no
      *                   limit
@@ -95,31 +92,23 @@ class PhoneNumberList extends ListResource {
      *                        efficient page size, i.e. min(limit, 1000)
      * @return PhoneNumberInstance[] Array of results
      */
-    public function read($limit = null, $pageSize = null) {
-        return iterator_to_array($this->stream($limit, $pageSize), false);
+    public function read(int $limit = null, $pageSize = null): array {
+        return \iterator_to_array($this->stream($limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of PhoneNumberInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param mixed $pageSize Number of records to return, defaults to 50
      * @param string $pageToken PageToken provided by the API
      * @param mixed $pageNumber Page Number, this value is simply for client state
-     * @return \Twilio\Page Page of PhoneNumberInstance
+     * @return PhoneNumberPage Page of PhoneNumberInstance
      */
-    public function page($pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
-        $params = Values::of(array(
-            'PageToken' => $pageToken,
-            'Page' => $pageNumber,
-            'PageSize' => $pageSize,
-        ));
+    public function page($pageSize = Values::NONE, string $pageToken = Values::NONE, $pageNumber = Values::NONE): PhoneNumberPage {
+        $params = Values::of(['PageToken' => $pageToken, 'Page' => $pageNumber, 'PageSize' => $pageSize, ]);
 
-        $response = $this->version->page(
-            'GET',
-            $this->uri,
-            $params
-        );
+        $response = $this->version->page('GET', $this->uri, $params);
 
         return new PhoneNumberPage($this->version, $response, $this->solution);
     }
@@ -127,11 +116,11 @@ class PhoneNumberList extends ListResource {
     /**
      * Retrieve a specific page of PhoneNumberInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
-     * @return \Twilio\Page Page of PhoneNumberInstance
+     * @return PhoneNumberPage Page of PhoneNumberInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage(string $targetUrl): PhoneNumberPage {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -142,20 +131,19 @@ class PhoneNumberList extends ListResource {
 
     /**
      * Constructs a PhoneNumberContext
-     * 
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Messaging\V1\Service\PhoneNumberContext 
+     *
+     * @param string $sid The SID that identifies the resource to fetch
      */
-    public function getContext($sid) {
+    public function getContext(string $sid): PhoneNumberContext {
         return new PhoneNumberContext($this->version, $this->solution['serviceSid'], $sid);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Messaging.V1.PhoneNumberList]';
     }
 }

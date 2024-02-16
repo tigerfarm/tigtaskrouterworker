@@ -15,25 +15,25 @@ use Twilio\Version;
 class WorkflowCumulativeStatisticsList extends ListResource {
     /**
      * Construct the WorkflowCumulativeStatisticsList
-     * 
+     *
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
-     * @param string $workflowSid The workflow_sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Workflow\WorkflowCumulativeStatisticsList 
+     * @param string $workspaceSid The SID of the Workspace that contains the
+     *                             Workflow.
+     * @param string $workflowSid Returns the list of Tasks that are being
+     *                            controlled by the Workflow with the specified Sid
+     *                            value
      */
-    public function __construct(Version $version, $workspaceSid, $workflowSid) {
+    public function __construct(Version $version, string $workspaceSid, string $workflowSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('workspaceSid' => $workspaceSid, 'workflowSid' => $workflowSid, );
+        $this->solution = ['workspaceSid' => $workspaceSid, 'workflowSid' => $workflowSid, ];
     }
 
     /**
      * Constructs a WorkflowCumulativeStatisticsContext
-     * 
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Workflow\WorkflowCumulativeStatisticsContext 
      */
-    public function getContext() {
+    public function getContext(): WorkflowCumulativeStatisticsContext {
         return new WorkflowCumulativeStatisticsContext(
             $this->version,
             $this->solution['workspaceSid'],
@@ -43,10 +43,10 @@ class WorkflowCumulativeStatisticsList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Taskrouter.V1.WorkflowCumulativeStatisticsList]';
     }
 }

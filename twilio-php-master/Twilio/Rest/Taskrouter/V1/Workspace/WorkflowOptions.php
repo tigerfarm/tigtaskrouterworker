@@ -14,269 +14,259 @@ use Twilio\Values;
 
 abstract class WorkflowOptions {
     /**
-     * @param string $friendlyName A string representing a human readable name for
-     *                             this Workflow.
-     * @param string $assignmentCallbackUrl A valid URL for the application that
-     *                                      will process task assignment events.
-     * @param string $fallbackAssignmentCallbackUrl If the request to the
-     *                                              AssignmentCallbackUrl fails,
-     *                                              the assignment callback will be
-     *                                              made to this URL.
-     * @param string $configuration JSON document configuring the rules for this
-     *                              Workflow.
-     * @param integer $taskReservationTimeout An integer value controlling how long
-     *                                        in seconds TaskRouter will wait for a
-     *                                        confirmation response from your
-     *                                        application after assigning a Task to
-     *                                        a worker.
+     * @param string $friendlyName descriptive string that you create to describe
+     *                             the Workflow resource
+     * @param string $assignmentCallbackUrl The URL from your application that will
+     *                                      process task assignment events
+     * @param string $fallbackAssignmentCallbackUrl The URL that we should call
+     *                                              when a call to the
+     *                                              `assignment_callback_url` fails
+     * @param string $configuration A JSON string that contains the rules to apply
+     *                              to the Workflow
+     * @param int $taskReservationTimeout How long TaskRouter will wait for a
+     *                                    confirmation response from your
+     *                                    application after it assigns a Task to a
+     *                                    Worker
+     * @param string $reEvaluateTasks Whether or not to re-evaluate Tasks
      * @return UpdateWorkflowOptions Options builder
      */
-    public static function update($friendlyName = Values::NONE, $assignmentCallbackUrl = Values::NONE, $fallbackAssignmentCallbackUrl = Values::NONE, $configuration = Values::NONE, $taskReservationTimeout = Values::NONE) {
-        return new UpdateWorkflowOptions($friendlyName, $assignmentCallbackUrl, $fallbackAssignmentCallbackUrl, $configuration, $taskReservationTimeout);
+    public static function update(string $friendlyName = Values::NONE, string $assignmentCallbackUrl = Values::NONE, string $fallbackAssignmentCallbackUrl = Values::NONE, string $configuration = Values::NONE, int $taskReservationTimeout = Values::NONE, string $reEvaluateTasks = Values::NONE): UpdateWorkflowOptions {
+        return new UpdateWorkflowOptions($friendlyName, $assignmentCallbackUrl, $fallbackAssignmentCallbackUrl, $configuration, $taskReservationTimeout, $reEvaluateTasks);
     }
 
     /**
-     * @param string $friendlyName Human readable description of this Workflow
+     * @param string $friendlyName The friendly_name of the Workflow resources to
+     *                             read
      * @return ReadWorkflowOptions Options builder
      */
-    public static function read($friendlyName = Values::NONE) {
+    public static function read(string $friendlyName = Values::NONE): ReadWorkflowOptions {
         return new ReadWorkflowOptions($friendlyName);
     }
 
     /**
-     * @param string $assignmentCallbackUrl A valid URL for the application that
-     *                                      will process task assignment events.
-     * @param string $fallbackAssignmentCallbackUrl If the request to the
-     *                                              AssignmentCallbackUrl fails,
-     *                                              the assignment callback will be
-     *                                              made to this URL.
-     * @param integer $taskReservationTimeout An integer value controlling how long
-     *                                        in seconds TaskRouter will wait for a
-     *                                        confirmation response from your
-     *                                        application after assigning a Task to
-     *                                        a worker.
+     * @param string $assignmentCallbackUrl The URL from your application that will
+     *                                      process task assignment events
+     * @param string $fallbackAssignmentCallbackUrl The URL that we should call
+     *                                              when a call to the
+     *                                              `assignment_callback_url` fails
+     * @param int $taskReservationTimeout How long TaskRouter will wait for a
+     *                                    confirmation response from your
+     *                                    application after it assigns a Task to a
+     *                                    Worker
      * @return CreateWorkflowOptions Options builder
      */
-    public static function create($assignmentCallbackUrl = Values::NONE, $fallbackAssignmentCallbackUrl = Values::NONE, $taskReservationTimeout = Values::NONE) {
+    public static function create(string $assignmentCallbackUrl = Values::NONE, string $fallbackAssignmentCallbackUrl = Values::NONE, int $taskReservationTimeout = Values::NONE): CreateWorkflowOptions {
         return new CreateWorkflowOptions($assignmentCallbackUrl, $fallbackAssignmentCallbackUrl, $taskReservationTimeout);
     }
 }
 
 class UpdateWorkflowOptions extends Options {
     /**
-     * @param string $friendlyName A string representing a human readable name for
-     *                             this Workflow.
-     * @param string $assignmentCallbackUrl A valid URL for the application that
-     *                                      will process task assignment events.
-     * @param string $fallbackAssignmentCallbackUrl If the request to the
-     *                                              AssignmentCallbackUrl fails,
-     *                                              the assignment callback will be
-     *                                              made to this URL.
-     * @param string $configuration JSON document configuring the rules for this
-     *                              Workflow.
-     * @param integer $taskReservationTimeout An integer value controlling how long
-     *                                        in seconds TaskRouter will wait for a
-     *                                        confirmation response from your
-     *                                        application after assigning a Task to
-     *                                        a worker.
+     * @param string $friendlyName descriptive string that you create to describe
+     *                             the Workflow resource
+     * @param string $assignmentCallbackUrl The URL from your application that will
+     *                                      process task assignment events
+     * @param string $fallbackAssignmentCallbackUrl The URL that we should call
+     *                                              when a call to the
+     *                                              `assignment_callback_url` fails
+     * @param string $configuration A JSON string that contains the rules to apply
+     *                              to the Workflow
+     * @param int $taskReservationTimeout How long TaskRouter will wait for a
+     *                                    confirmation response from your
+     *                                    application after it assigns a Task to a
+     *                                    Worker
+     * @param string $reEvaluateTasks Whether or not to re-evaluate Tasks
      */
-    public function __construct($friendlyName = Values::NONE, $assignmentCallbackUrl = Values::NONE, $fallbackAssignmentCallbackUrl = Values::NONE, $configuration = Values::NONE, $taskReservationTimeout = Values::NONE) {
+    public function __construct(string $friendlyName = Values::NONE, string $assignmentCallbackUrl = Values::NONE, string $fallbackAssignmentCallbackUrl = Values::NONE, string $configuration = Values::NONE, int $taskReservationTimeout = Values::NONE, string $reEvaluateTasks = Values::NONE) {
         $this->options['friendlyName'] = $friendlyName;
         $this->options['assignmentCallbackUrl'] = $assignmentCallbackUrl;
         $this->options['fallbackAssignmentCallbackUrl'] = $fallbackAssignmentCallbackUrl;
         $this->options['configuration'] = $configuration;
         $this->options['taskReservationTimeout'] = $taskReservationTimeout;
+        $this->options['reEvaluateTasks'] = $reEvaluateTasks;
     }
 
     /**
-     * A string representing a human readable name for this Workflow. Examples include 'Customer Support' or 'Sales Team'.
-     * 
-     * @param string $friendlyName A string representing a human readable name for
-     *                             this Workflow.
+     * A descriptive string that you create to describe the Workflow resource. For example, `Inbound Call Workflow` or `2014 Outbound Campaign`.
+     *
+     * @param string $friendlyName descriptive string that you create to describe
+     *                             the Workflow resource
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName(string $friendlyName): self {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
-     * A valid URL for the application that will process task assignment events. See [Handling Task Assignment Callback](https://www.twilio.com/docs/api/taskrouter/handling-assignment-callbacks) for more details.
-     * 
-     * @param string $assignmentCallbackUrl A valid URL for the application that
-     *                                      will process task assignment events.
+     * The URL from your application that will process task assignment events. See [Handling Task Assignment Callback](https://www.twilio.com/docs/taskrouter/handle-assignment-callbacks) for more details.
+     *
+     * @param string $assignmentCallbackUrl The URL from your application that will
+     *                                      process task assignment events
      * @return $this Fluent Builder
      */
-    public function setAssignmentCallbackUrl($assignmentCallbackUrl) {
+    public function setAssignmentCallbackUrl(string $assignmentCallbackUrl): self {
         $this->options['assignmentCallbackUrl'] = $assignmentCallbackUrl;
         return $this;
     }
 
     /**
-     * If the request to the AssignmentCallbackUrl fails, the assignment callback will be made to this URL.
-     * 
-     * @param string $fallbackAssignmentCallbackUrl If the request to the
-     *                                              AssignmentCallbackUrl fails,
-     *                                              the assignment callback will be
-     *                                              made to this URL.
+     * The URL that we should call when a call to the `assignment_callback_url` fails.
+     *
+     * @param string $fallbackAssignmentCallbackUrl The URL that we should call
+     *                                              when a call to the
+     *                                              `assignment_callback_url` fails
      * @return $this Fluent Builder
      */
-    public function setFallbackAssignmentCallbackUrl($fallbackAssignmentCallbackUrl) {
+    public function setFallbackAssignmentCallbackUrl(string $fallbackAssignmentCallbackUrl): self {
         $this->options['fallbackAssignmentCallbackUrl'] = $fallbackAssignmentCallbackUrl;
         return $this;
     }
 
     /**
-     * JSON document configuring the rules for this Workflow. See [Configuring Workflows](https://www.twilio.com/docs/api/taskrouter/workflow-configuration) for more information.
-     * 
-     * @param string $configuration JSON document configuring the rules for this
-     *                              Workflow.
+     * A JSON string that contains the rules to apply to the Workflow. See [Configuring Workflows](https://www.twilio.com/docs/taskrouter/workflow-configuration) for more information.
+     *
+     * @param string $configuration A JSON string that contains the rules to apply
+     *                              to the Workflow
      * @return $this Fluent Builder
      */
-    public function setConfiguration($configuration) {
+    public function setConfiguration(string $configuration): self {
         $this->options['configuration'] = $configuration;
         return $this;
     }
 
     /**
-     * An integer value controlling how long in seconds TaskRouter will wait for a confirmation response from your application after assigning a Task to a worker. Defaults to 120 seconds. Maximum value is 86400 (24 hours)
-     * 
-     * @param integer $taskReservationTimeout An integer value controlling how long
-     *                                        in seconds TaskRouter will wait for a
-     *                                        confirmation response from your
-     *                                        application after assigning a Task to
-     *                                        a worker.
+     * How long TaskRouter will wait for a confirmation response from your application after it assigns a Task to a Worker. Can be up to `86,400` (24 hours) and the default is `120`.
+     *
+     * @param int $taskReservationTimeout How long TaskRouter will wait for a
+     *                                    confirmation response from your
+     *                                    application after it assigns a Task to a
+     *                                    Worker
      * @return $this Fluent Builder
      */
-    public function setTaskReservationTimeout($taskReservationTimeout) {
+    public function setTaskReservationTimeout(int $taskReservationTimeout): self {
         $this->options['taskReservationTimeout'] = $taskReservationTimeout;
+        return $this;
+    }
+
+    /**
+     * Whether or not to re-evaluate Tasks. The default is `false`, which means Tasks in the Workflow will not be processed through the assignment loop again.
+     *
+     * @param string $reEvaluateTasks Whether or not to re-evaluate Tasks
+     * @return $this Fluent Builder
+     */
+    public function setReEvaluateTasks(string $reEvaluateTasks): self {
+        $this->options['reEvaluateTasks'] = $reEvaluateTasks;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Taskrouter.V1.UpdateWorkflowOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Taskrouter.V1.UpdateWorkflowOptions ' . $options . ']';
     }
 }
 
 class ReadWorkflowOptions extends Options {
     /**
-     * @param string $friendlyName Human readable description of this Workflow
+     * @param string $friendlyName The friendly_name of the Workflow resources to
+     *                             read
      */
-    public function __construct($friendlyName = Values::NONE) {
+    public function __construct(string $friendlyName = Values::NONE) {
         $this->options['friendlyName'] = $friendlyName;
     }
 
     /**
-     * Human readable description of this Workflow (for example "Customer Support" or "2014 Election Campaign")
-     * 
-     * @param string $friendlyName Human readable description of this Workflow
+     * The `friendly_name` of the Workflow resources to read.
+     *
+     * @param string $friendlyName The friendly_name of the Workflow resources to
+     *                             read
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName(string $friendlyName): self {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Taskrouter.V1.ReadWorkflowOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Taskrouter.V1.ReadWorkflowOptions ' . $options . ']';
     }
 }
 
 class CreateWorkflowOptions extends Options {
     /**
-     * @param string $assignmentCallbackUrl A valid URL for the application that
-     *                                      will process task assignment events.
-     * @param string $fallbackAssignmentCallbackUrl If the request to the
-     *                                              AssignmentCallbackUrl fails,
-     *                                              the assignment callback will be
-     *                                              made to this URL.
-     * @param integer $taskReservationTimeout An integer value controlling how long
-     *                                        in seconds TaskRouter will wait for a
-     *                                        confirmation response from your
-     *                                        application after assigning a Task to
-     *                                        a worker.
+     * @param string $assignmentCallbackUrl The URL from your application that will
+     *                                      process task assignment events
+     * @param string $fallbackAssignmentCallbackUrl The URL that we should call
+     *                                              when a call to the
+     *                                              `assignment_callback_url` fails
+     * @param int $taskReservationTimeout How long TaskRouter will wait for a
+     *                                    confirmation response from your
+     *                                    application after it assigns a Task to a
+     *                                    Worker
      */
-    public function __construct($assignmentCallbackUrl = Values::NONE, $fallbackAssignmentCallbackUrl = Values::NONE, $taskReservationTimeout = Values::NONE) {
+    public function __construct(string $assignmentCallbackUrl = Values::NONE, string $fallbackAssignmentCallbackUrl = Values::NONE, int $taskReservationTimeout = Values::NONE) {
         $this->options['assignmentCallbackUrl'] = $assignmentCallbackUrl;
         $this->options['fallbackAssignmentCallbackUrl'] = $fallbackAssignmentCallbackUrl;
         $this->options['taskReservationTimeout'] = $taskReservationTimeout;
     }
 
     /**
-     * A valid URL for the application that will process task assignment events. See [Handling Task Assignment Callback](https://www.twilio.com/docs/api/taskrouter/handling-assignment-callbacks) for more details.
-     * 
-     * @param string $assignmentCallbackUrl A valid URL for the application that
-     *                                      will process task assignment events.
+     * The URL from your application that will process task assignment events. See [Handling Task Assignment Callback](https://www.twilio.com/docs/taskrouter/handle-assignment-callbacks) for more details.
+     *
+     * @param string $assignmentCallbackUrl The URL from your application that will
+     *                                      process task assignment events
      * @return $this Fluent Builder
      */
-    public function setAssignmentCallbackUrl($assignmentCallbackUrl) {
+    public function setAssignmentCallbackUrl(string $assignmentCallbackUrl): self {
         $this->options['assignmentCallbackUrl'] = $assignmentCallbackUrl;
         return $this;
     }
 
     /**
-     * If the request to the AssignmentCallbackUrl fails, the assignment callback will be made to this URL.
-     * 
-     * @param string $fallbackAssignmentCallbackUrl If the request to the
-     *                                              AssignmentCallbackUrl fails,
-     *                                              the assignment callback will be
-     *                                              made to this URL.
+     * The URL that we should call when a call to the `assignment_callback_url` fails.
+     *
+     * @param string $fallbackAssignmentCallbackUrl The URL that we should call
+     *                                              when a call to the
+     *                                              `assignment_callback_url` fails
      * @return $this Fluent Builder
      */
-    public function setFallbackAssignmentCallbackUrl($fallbackAssignmentCallbackUrl) {
+    public function setFallbackAssignmentCallbackUrl(string $fallbackAssignmentCallbackUrl): self {
         $this->options['fallbackAssignmentCallbackUrl'] = $fallbackAssignmentCallbackUrl;
         return $this;
     }
 
     /**
-     * An integer value controlling how long in seconds TaskRouter will wait for a confirmation response from your application after assigning a Task to a worker. See Task Assignment Callback for more information. Defaults to 120 seconds. Maximum value is 86400 (24 hours)
-     * 
-     * @param integer $taskReservationTimeout An integer value controlling how long
-     *                                        in seconds TaskRouter will wait for a
-     *                                        confirmation response from your
-     *                                        application after assigning a Task to
-     *                                        a worker.
+     * How long TaskRouter will wait for a confirmation response from your application after it assigns a Task to a Worker. Can be up to `86,400` (24 hours) and the default is `120`.
+     *
+     * @param int $taskReservationTimeout How long TaskRouter will wait for a
+     *                                    confirmation response from your
+     *                                    application after it assigns a Task to a
+     *                                    Worker
      * @return $this Fluent Builder
      */
-    public function setTaskReservationTimeout($taskReservationTimeout) {
+    public function setTaskReservationTimeout(int $taskReservationTimeout): self {
         $this->options['taskReservationTimeout'] = $taskReservationTimeout;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Taskrouter.V1.CreateWorkflowOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Taskrouter.V1.CreateWorkflowOptions ' . $options . ']';
     }
 }

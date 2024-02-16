@@ -12,113 +12,131 @@ namespace Twilio\Rest\Sync\V1\Service;
 use Twilio\Options;
 use Twilio\Values;
 
-/**
- * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- */
 abstract class SyncListOptions {
     /**
-     * @param string $uniqueName Human-readable name for this list
-     * @param integer $ttl Time-to-live of this List in seconds, defaults to no
-     *                     expiration.
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
+     * @param int $ttl Alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync List expires
+     *                           and is deleted
      * @return CreateSyncListOptions Options builder
      */
-    public static function create($uniqueName = Values::NONE, $ttl = Values::NONE) {
-        return new CreateSyncListOptions($uniqueName, $ttl);
+    public static function create(string $uniqueName = Values::NONE, int $ttl = Values::NONE, int $collectionTtl = Values::NONE): CreateSyncListOptions {
+        return new CreateSyncListOptions($uniqueName, $ttl, $collectionTtl);
     }
 
     /**
-     * @param integer $ttl Time-to-live of this List in seconds, defaults to no
-     *                     expiration.
+     * @param int $ttl An alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync List expires
+     *                           and is deleted
      * @return UpdateSyncListOptions Options builder
      */
-    public static function update($ttl = Values::NONE) {
-        return new UpdateSyncListOptions($ttl);
+    public static function update(int $ttl = Values::NONE, int $collectionTtl = Values::NONE): UpdateSyncListOptions {
+        return new UpdateSyncListOptions($ttl, $collectionTtl);
     }
 }
 
 class CreateSyncListOptions extends Options {
     /**
-     * @param string $uniqueName Human-readable name for this list
-     * @param integer $ttl Time-to-live of this List in seconds, defaults to no
-     *                     expiration.
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
+     * @param int $ttl Alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync List expires
+     *                           and is deleted
      */
-    public function __construct($uniqueName = Values::NONE, $ttl = Values::NONE) {
+    public function __construct(string $uniqueName = Values::NONE, int $ttl = Values::NONE, int $collectionTtl = Values::NONE) {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['ttl'] = $ttl;
+        $this->options['collectionTtl'] = $collectionTtl;
     }
 
     /**
-     * Human-readable name for this list
-     * 
-     * @param string $uniqueName Human-readable name for this list
+     * An application-defined string that uniquely identifies the resource. This value must be unique within its Service and it can be up to 320 characters long. The `unique_name` value can be used as an alternative to the `sid` in the URL path to address the resource.
+     *
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName(string $uniqueName): self {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
-     * Time-to-live of this List in seconds, defaults to no expiration. In the range [1, 31 536 000 (1 year)], or 0 for infinity.
-     * 
-     * @param integer $ttl Time-to-live of this List in seconds, defaults to no
-     *                     expiration.
+     * Alias for collection_ttl. If both are provided, this value is ignored.
+     *
+     * @param int $ttl Alias for collection_ttl
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
+        return $this;
+    }
+
+    /**
+     * How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Sync List expires (time-to-live) and is deleted.
+     *
+     * @param int $collectionTtl How long, in seconds, before the Sync List expires
+     *                           and is deleted
+     * @return $this Fluent Builder
+     */
+    public function setCollectionTtl(int $collectionTtl): self {
+        $this->options['collectionTtl'] = $collectionTtl;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Sync.V1.CreateSyncListOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Sync.V1.CreateSyncListOptions ' . $options . ']';
     }
 }
 
 class UpdateSyncListOptions extends Options {
     /**
-     * @param integer $ttl Time-to-live of this List in seconds, defaults to no
-     *                     expiration.
+     * @param int $ttl An alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync List expires
+     *                           and is deleted
      */
-    public function __construct($ttl = Values::NONE) {
+    public function __construct(int $ttl = Values::NONE, int $collectionTtl = Values::NONE) {
         $this->options['ttl'] = $ttl;
+        $this->options['collectionTtl'] = $collectionTtl;
     }
 
     /**
-     * Time-to-live of this List in seconds, defaults to no expiration. In the range [1, 31 536 000 (1 year)], or 0 for infinity.
-     * 
-     * @param integer $ttl Time-to-live of this List in seconds, defaults to no
-     *                     expiration.
+     * An alias for `collection_ttl`. If both are provided, this value is ignored.
+     *
+     * @param int $ttl An alias for collection_ttl
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
+     * How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Sync List expires (time-to-live) and is deleted.
+     *
+     * @param int $collectionTtl How long, in seconds, before the Sync List expires
+     *                           and is deleted
+     * @return $this Fluent Builder
+     */
+    public function setCollectionTtl(int $collectionTtl): self {
+        $this->options['collectionTtl'] = $collectionTtl;
+        return $this;
+    }
+
+    /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Sync.V1.UpdateSyncListOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Sync.V1.UpdateSyncListOptions ' . $options . ']';
     }
 }

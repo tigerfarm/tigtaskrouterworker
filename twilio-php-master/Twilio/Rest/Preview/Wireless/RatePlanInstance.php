@@ -18,36 +18,35 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
- * @property string sid
- * @property string uniqueName
- * @property string accountSid
- * @property string friendlyName
- * @property boolean dataEnabled
- * @property string dataMetering
- * @property integer dataLimit
- * @property boolean messagingEnabled
- * @property boolean voiceEnabled
- * @property boolean nationalRoamingEnabled
- * @property string internationalRoaming
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property string url
+ *
+ * @property string $sid
+ * @property string $uniqueName
+ * @property string $accountSid
+ * @property string $friendlyName
+ * @property bool $dataEnabled
+ * @property string $dataMetering
+ * @property int $dataLimit
+ * @property bool $messagingEnabled
+ * @property bool $voiceEnabled
+ * @property bool $nationalRoamingEnabled
+ * @property string[] $internationalRoaming
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property string $url
  */
 class RatePlanInstance extends InstanceResource {
     /**
      * Initialize the RatePlanInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
      * @param string $sid The sid
-     * @return \Twilio\Rest\Preview\Wireless\RatePlanInstance 
      */
-    public function __construct(Version $version, array $payload, $sid = null) {
+    public function __construct(Version $version, array $payload, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'sid' => Values::array_get($payload, 'sid'),
             'uniqueName' => Values::array_get($payload, 'unique_name'),
             'accountSid' => Values::array_get($payload, 'account_sid'),
@@ -62,19 +61,18 @@ class RatePlanInstance extends InstanceResource {
             'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
             'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
             'url' => Values::array_get($payload, 'url'),
-        );
+        ];
 
-        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Preview\Wireless\RatePlanContext Context for this
-     *                                                       RatePlanInstance
+     *
+     * @return RatePlanContext Context for this RatePlanInstance
      */
-    protected function proxy() {
+    protected function proxy(): RatePlanContext {
         if (!$this->context) {
             $this->context = new RatePlanContext($this->version, $this->solution['sid']);
         }
@@ -83,50 +81,50 @@ class RatePlanInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a RatePlanInstance
-     * 
+     * Fetch the RatePlanInstance
+     *
      * @return RatePlanInstance Fetched RatePlanInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): RatePlanInstance {
         return $this->proxy()->fetch();
     }
 
     /**
      * Update the RatePlanInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return RatePlanInstance Updated RatePlanInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): RatePlanInstance {
         return $this->proxy()->update($options);
     }
 
     /**
-     * Deletes the RatePlanInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the RatePlanInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -135,14 +133,14 @@ class RatePlanInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Wireless.RatePlanInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Wireless.RatePlanInstance ' . \implode(' ', $context) . ']';
     }
 }

@@ -13,51 +13,53 @@ use Twilio\Deserialize;
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceResource;
 use Twilio\Options;
+use Twilio\Rest\Wireless\V1\Sim\DataSessionList;
+use Twilio\Rest\Wireless\V1\Sim\UsageRecordList;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string sid
- * @property string uniqueName
- * @property string accountSid
- * @property string ratePlanSid
- * @property string friendlyName
- * @property string iccid
- * @property string eId
- * @property string status
- * @property string commandsCallbackUrl
- * @property string commandsCallbackMethod
- * @property string smsFallbackMethod
- * @property string smsFallbackUrl
- * @property string smsMethod
- * @property string smsUrl
- * @property string voiceFallbackMethod
- * @property string voiceFallbackUrl
- * @property string voiceMethod
- * @property string voiceUrl
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property string url
- * @property array links
- * @property string ipAddress
+ * @property string $sid
+ * @property string $uniqueName
+ * @property string $accountSid
+ * @property string $ratePlanSid
+ * @property string $friendlyName
+ * @property string $iccid
+ * @property string $eId
+ * @property string $status
+ * @property string $resetStatus
+ * @property string $commandsCallbackUrl
+ * @property string $commandsCallbackMethod
+ * @property string $smsFallbackMethod
+ * @property string $smsFallbackUrl
+ * @property string $smsMethod
+ * @property string $smsUrl
+ * @property string $voiceFallbackMethod
+ * @property string $voiceFallbackUrl
+ * @property string $voiceMethod
+ * @property string $voiceUrl
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property string $url
+ * @property array $links
+ * @property string $ipAddress
  */
 class SimInstance extends InstanceResource {
-    protected $_usageRecords = null;
-    protected $_dataSessions = null;
+    protected $_usageRecords;
+    protected $_dataSessions;
 
     /**
      * Initialize the SimInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Wireless\V1\SimInstance 
+     * @param string $sid The SID of the Sim resource to fetch
      */
-    public function __construct(Version $version, array $payload, $sid = null) {
+    public function __construct(Version $version, array $payload, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'sid' => Values::array_get($payload, 'sid'),
             'uniqueName' => Values::array_get($payload, 'unique_name'),
             'accountSid' => Values::array_get($payload, 'account_sid'),
@@ -66,6 +68,7 @@ class SimInstance extends InstanceResource {
             'iccid' => Values::array_get($payload, 'iccid'),
             'eId' => Values::array_get($payload, 'e_id'),
             'status' => Values::array_get($payload, 'status'),
+            'resetStatus' => Values::array_get($payload, 'reset_status'),
             'commandsCallbackUrl' => Values::array_get($payload, 'commands_callback_url'),
             'commandsCallbackMethod' => Values::array_get($payload, 'commands_callback_method'),
             'smsFallbackMethod' => Values::array_get($payload, 'sms_fallback_method'),
@@ -81,18 +84,18 @@ class SimInstance extends InstanceResource {
             'url' => Values::array_get($payload, 'url'),
             'links' => Values::array_get($payload, 'links'),
             'ipAddress' => Values::array_get($payload, 'ip_address'),
-        );
+        ];
 
-        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Wireless\V1\SimContext Context for this SimInstance
+     *
+     * @return SimContext Context for this SimInstance
      */
-    protected function proxy() {
+    protected function proxy(): SimContext {
         if (!$this->context) {
             $this->context = new SimContext($this->version, $this->solution['sid']);
         }
@@ -101,58 +104,64 @@ class SimInstance extends InstanceResource {
     }
 
     /**
-     * Fetch a SimInstance
-     * 
+     * Fetch the SimInstance
+     *
      * @return SimInstance Fetched SimInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): SimInstance {
         return $this->proxy()->fetch();
     }
 
     /**
      * Update the SimInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
      * @return SimInstance Updated SimInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($options = array()) {
+    public function update(array $options = []): SimInstance {
         return $this->proxy()->update($options);
     }
 
     /**
-     * Access the usageRecords
-     * 
-     * @return \Twilio\Rest\Wireless\V1\Sim\UsageRecordList 
+     * Delete the SimInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
-    protected function getUsageRecords() {
+    public function delete(): bool {
+        return $this->proxy()->delete();
+    }
+
+    /**
+     * Access the usageRecords
+     */
+    protected function getUsageRecords(): UsageRecordList {
         return $this->proxy()->usageRecords;
     }
 
     /**
      * Access the dataSessions
-     * 
-     * @return \Twilio\Rest\Wireless\V1\Sim\DataSessionList 
      */
-    protected function getDataSessions() {
+    protected function getDataSessions(): DataSessionList {
         return $this->proxy()->dataSessions;
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -161,14 +170,14 @@ class SimInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Wireless.V1.SimInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Wireless.V1.SimInstance ' . \implode(' ', $context) . ']';
     }
 }

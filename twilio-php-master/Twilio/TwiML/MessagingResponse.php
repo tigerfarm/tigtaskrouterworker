@@ -14,28 +14,28 @@ class MessagingResponse extends TwiML {
      * MessagingResponse constructor.
      */
     public function __construct() {
-        parent::__construct('Response');
+        parent::__construct('Response', null);
     }
 
     /**
      * Add Message child.
-     * 
+     *
      * @param string $body Message Body
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Messaging\Message Child element.
      */
-    public function message($body, $attributes = array()) {
+    public function message($body, $attributes = []): Messaging\Message {
         return $this->nest(new Messaging\Message($body, $attributes));
     }
 
     /**
      * Add Redirect child.
-     * 
-     * @param url $url Redirect URL
+     *
+     * @param string $url Redirect URL
      * @param array $attributes Optional attributes
-     * @return TwiML Child element.
+     * @return Messaging\Redirect Child element.
      */
-    public function redirect($url, $attributes = array()) {
+    public function redirect($url, $attributes = []): Messaging\Redirect {
         return $this->nest(new Messaging\Redirect($url, $attributes));
     }
 }

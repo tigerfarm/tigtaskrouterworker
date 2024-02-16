@@ -12,110 +12,131 @@ namespace Twilio\Rest\Sync\V1\Service;
 use Twilio\Options;
 use Twilio\Values;
 
-/**
- * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- */
 abstract class SyncMapOptions {
     /**
-     * @param string $uniqueName Human-readable name for this map
-     * @param integer $ttl Time-to-live of this Map in seconds, defaults to no
-     *                     expiration.
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
+     * @param int $ttl An alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync Map expires
+     *                           and is deleted
      * @return CreateSyncMapOptions Options builder
      */
-    public static function create($uniqueName = Values::NONE, $ttl = Values::NONE) {
-        return new CreateSyncMapOptions($uniqueName, $ttl);
+    public static function create(string $uniqueName = Values::NONE, int $ttl = Values::NONE, int $collectionTtl = Values::NONE): CreateSyncMapOptions {
+        return new CreateSyncMapOptions($uniqueName, $ttl, $collectionTtl);
     }
 
     /**
-     * @param integer $ttl New time-to-live of this Map in seconds.
+     * @param int $ttl An alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync Map expires
+     *                           and is deleted
      * @return UpdateSyncMapOptions Options builder
      */
-    public static function update($ttl = Values::NONE) {
-        return new UpdateSyncMapOptions($ttl);
+    public static function update(int $ttl = Values::NONE, int $collectionTtl = Values::NONE): UpdateSyncMapOptions {
+        return new UpdateSyncMapOptions($ttl, $collectionTtl);
     }
 }
 
 class CreateSyncMapOptions extends Options {
     /**
-     * @param string $uniqueName Human-readable name for this map
-     * @param integer $ttl Time-to-live of this Map in seconds, defaults to no
-     *                     expiration.
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
+     * @param int $ttl An alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync Map expires
+     *                           and is deleted
      */
-    public function __construct($uniqueName = Values::NONE, $ttl = Values::NONE) {
+    public function __construct(string $uniqueName = Values::NONE, int $ttl = Values::NONE, int $collectionTtl = Values::NONE) {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['ttl'] = $ttl;
+        $this->options['collectionTtl'] = $collectionTtl;
     }
 
     /**
-     * Human-readable name for this map
-     * 
-     * @param string $uniqueName Human-readable name for this map
+     * An application-defined string that uniquely identifies the resource. It can be used as an alternative to the `sid` in the URL path to address the resource.
+     *
+     * @param string $uniqueName An application-defined string that uniquely
+     *                           identifies the resource
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName(string $uniqueName): self {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
-     * Time-to-live of this Map in seconds, defaults to no expiration. In the range [1, 31 536 000 (1 year)], or 0 for infinity.
-     * 
-     * @param integer $ttl Time-to-live of this Map in seconds, defaults to no
-     *                     expiration.
+     * An alias for `collection_ttl`. If both parameters are provided, this value is ignored.
+     *
+     * @param int $ttl An alias for collection_ttl
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
+        return $this;
+    }
+
+    /**
+     * How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Sync Map expires (time-to-live) and is deleted.
+     *
+     * @param int $collectionTtl How long, in seconds, before the Sync Map expires
+     *                           and is deleted
+     * @return $this Fluent Builder
+     */
+    public function setCollectionTtl(int $collectionTtl): self {
+        $this->options['collectionTtl'] = $collectionTtl;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Sync.V1.CreateSyncMapOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Sync.V1.CreateSyncMapOptions ' . $options . ']';
     }
 }
 
 class UpdateSyncMapOptions extends Options {
     /**
-     * @param integer $ttl New time-to-live of this Map in seconds.
+     * @param int $ttl An alias for collection_ttl
+     * @param int $collectionTtl How long, in seconds, before the Sync Map expires
+     *                           and is deleted
      */
-    public function __construct($ttl = Values::NONE) {
+    public function __construct(int $ttl = Values::NONE, int $collectionTtl = Values::NONE) {
         $this->options['ttl'] = $ttl;
+        $this->options['collectionTtl'] = $collectionTtl;
     }
 
     /**
-     * New time-to-live of this Map in seconds. In the range [1, 31 536 000 (1 year)], or 0 for infinity.
-     * 
-     * @param integer $ttl New time-to-live of this Map in seconds.
+     * An alias for `collection_ttl`. If both parameters are provided, this value is ignored.
+     *
+     * @param int $ttl An alias for collection_ttl
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl(int $ttl): self {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
+     * How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Sync Map expires (time-to-live) and is deleted.
+     *
+     * @param int $collectionTtl How long, in seconds, before the Sync Map expires
+     *                           and is deleted
+     * @return $this Fluent Builder
+     */
+    public function setCollectionTtl(int $collectionTtl): self {
+        $this->options['collectionTtl'] = $collectionTtl;
+        return $this;
+    }
+
+    /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $options = array();
-        foreach ($this->options as $key => $value) {
-            if ($value != Values::NONE) {
-                $options[] = "$key=$value";
-            }
-        }
-        return '[Twilio.Sync.V1.UpdateSyncMapOptions ' . implode(' ', $options) . ']';
+    public function __toString(): string {
+        $options = \http_build_query(Values::of($this->options), '', ' ');
+        return '[Twilio.Sync.V1.UpdateSyncMapOptions ' . $options . ']';
     }
 }

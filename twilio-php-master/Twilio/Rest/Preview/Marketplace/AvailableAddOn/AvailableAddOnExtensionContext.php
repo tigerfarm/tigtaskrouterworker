@@ -9,6 +9,7 @@
 
 namespace Twilio\Rest\Preview\Marketplace\AvailableAddOn;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
@@ -19,36 +20,30 @@ use Twilio\Version;
 class AvailableAddOnExtensionContext extends InstanceContext {
     /**
      * Initialize the AvailableAddOnExtensionContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $availableAddOnSid The available_add_on_sid
-     * @param string $sid The unique Extension Sid
-     * @return \Twilio\Rest\Preview\Marketplace\AvailableAddOn\AvailableAddOnExtensionContext 
+     *
+     * @param Version $version Version that contains the resource
+     * @param string $availableAddOnSid The SID of the AvailableAddOn resource with
+     *                                  the extension to fetch
+     * @param string $sid The SID of the AvailableAddOn Extension resource to fetch
      */
     public function __construct(Version $version, $availableAddOnSid, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('availableAddOnSid' => $availableAddOnSid, 'sid' => $sid, );
+        $this->solution = ['availableAddOnSid' => $availableAddOnSid, 'sid' => $sid, ];
 
-        $this->uri = '/AvailableAddOns/' . rawurlencode($availableAddOnSid) . '/Extensions/' . rawurlencode($sid) . '';
+        $this->uri = '/AvailableAddOns/' . \rawurlencode($availableAddOnSid) . '/Extensions/' . \rawurlencode($sid) . '';
     }
 
     /**
-     * Fetch a AvailableAddOnExtensionInstance
-     * 
+     * Fetch the AvailableAddOnExtensionInstance
+     *
      * @return AvailableAddOnExtensionInstance Fetched
      *                                         AvailableAddOnExtensionInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
-        $params = Values::of(array());
-
-        $payload = $this->version->fetch(
-            'GET',
-            $this->uri,
-            $params
-        );
+    public function fetch(): AvailableAddOnExtensionInstance {
+        $payload = $this->version->fetch('GET', $this->uri);
 
         return new AvailableAddOnExtensionInstance(
             $this->version,
@@ -60,14 +55,14 @@ class AvailableAddOnExtensionContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Marketplace.AvailableAddOnExtensionContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Marketplace.AvailableAddOnExtensionContext ' . \implode(' ', $context) . ']';
     }
 }

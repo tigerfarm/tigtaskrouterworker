@@ -12,38 +12,41 @@ namespace Twilio\Rest\Proxy\V1\Service;
 use Twilio\Deserialize;
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceResource;
+use Twilio\Options;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
- * @property string sid
- * @property string accountSid
- * @property string serviceSid
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property string phoneNumber
- * @property string friendlyName
- * @property string isoCountry
- * @property string capabilities
- * @property string url
+ *
+ * @property string $sid
+ * @property string $accountSid
+ * @property string $serviceSid
+ * @property \DateTime $dateCreated
+ * @property \DateTime $dateUpdated
+ * @property string $phoneNumber
+ * @property string $friendlyName
+ * @property string $isoCountry
+ * @property string $capabilities
+ * @property string $url
+ * @property bool $isReserved
+ * @property int $inUse
  */
 class PhoneNumberInstance extends InstanceResource {
     /**
      * Initialize the PhoneNumberInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $serviceSid Service Sid.
-     * @param string $sid A string that uniquely identifies this Phone Number.
-     * @return \Twilio\Rest\Proxy\V1\Service\PhoneNumberInstance 
+     * @param string $serviceSid The SID of the PhoneNumber resource's parent
+     *                           Service resource
+     * @param string $sid The unique string that identifies the resource
      */
-    public function __construct(Version $version, array $payload, $serviceSid, $sid = null) {
+    public function __construct(Version $version, array $payload, string $serviceSid, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
+        $this->properties = [
             'sid' => Values::array_get($payload, 'sid'),
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'serviceSid' => Values::array_get($payload, 'service_sid'),
@@ -54,19 +57,20 @@ class PhoneNumberInstance extends InstanceResource {
             'isoCountry' => Values::array_get($payload, 'iso_country'),
             'capabilities' => Values::array_get($payload, 'capabilities'),
             'url' => Values::array_get($payload, 'url'),
-        );
+            'isReserved' => Values::array_get($payload, 'is_reserved'),
+            'inUse' => Values::array_get($payload, 'in_use'),
+        ];
 
-        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['serviceSid' => $serviceSid, 'sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Proxy\V1\Service\PhoneNumberContext Context for this
-     *                                                          PhoneNumberInstance
+     *
+     * @return PhoneNumberContext Context for this PhoneNumberInstance
      */
-    protected function proxy() {
+    protected function proxy(): PhoneNumberContext {
         if (!$this->context) {
             $this->context = new PhoneNumberContext(
                 $this->version,
@@ -79,39 +83,50 @@ class PhoneNumberInstance extends InstanceResource {
     }
 
     /**
-     * Deletes the PhoneNumberInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the PhoneNumberInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
-     * Fetch a PhoneNumberInstance
-     * 
+     * Fetch the PhoneNumberInstance
+     *
      * @return PhoneNumberInstance Fetched PhoneNumberInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): PhoneNumberInstance {
         return $this->proxy()->fetch();
     }
 
     /**
+     * Update the PhoneNumberInstance
+     *
+     * @param array|Options $options Optional Arguments
+     * @return PhoneNumberInstance Updated PhoneNumberInstance
+     * @throws TwilioException When an HTTP error occurs.
+     */
+    public function update(array $options = []): PhoneNumberInstance {
+        return $this->proxy()->update($options);
+    }
+
+    /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -120,14 +135,14 @@ class PhoneNumberInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Proxy.V1.PhoneNumberInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Proxy.V1.PhoneNumberInstance ' . \implode(' ', $context) . ']';
     }
 }

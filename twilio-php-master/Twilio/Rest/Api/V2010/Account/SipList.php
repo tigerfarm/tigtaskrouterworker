@@ -10,6 +10,7 @@
 namespace Twilio\Rest\Api\V2010\Account;
 
 use Twilio\Exceptions\TwilioException;
+use Twilio\InstanceContext;
 use Twilio\ListResource;
 use Twilio\Rest\Api\V2010\Account\Sip\CredentialListList;
 use Twilio\Rest\Api\V2010\Account\Sip\DomainList;
@@ -17,9 +18,9 @@ use Twilio\Rest\Api\V2010\Account\Sip\IpAccessControlListList;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\Api\V2010\Account\Sip\DomainList domains
- * @property \Twilio\Rest\Api\V2010\Account\Sip\IpAccessControlListList ipAccessControlLists
- * @property \Twilio\Rest\Api\V2010\Account\Sip\CredentialListList credentialLists
+ * @property DomainList $domains
+ * @property IpAccessControlListList $ipAccessControlLists
+ * @property CredentialListList $credentialLists
  * @method \Twilio\Rest\Api\V2010\Account\Sip\DomainContext domains(string $sid)
  * @method \Twilio\Rest\Api\V2010\Account\Sip\IpAccessControlListContext ipAccessControlLists(string $sid)
  * @method \Twilio\Rest\Api\V2010\Account\Sip\CredentialListContext credentialLists(string $sid)
@@ -31,23 +32,22 @@ class SipList extends ListResource {
 
     /**
      * Construct the SipList
-     * 
+     *
      * @param Version $version Version that contains the resource
      * @param string $accountSid A 34 character string that uniquely identifies
      *                           this resource.
-     * @return \Twilio\Rest\Api\V2010\Account\SipList 
      */
-    public function __construct(Version $version, $accountSid) {
+    public function __construct(Version $version, string $accountSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, );
+        $this->solution = ['accountSid' => $accountSid, ];
     }
 
     /**
      * Access the domains
      */
-    protected function getDomains() {
+    protected function getDomains(): DomainList {
         if (!$this->_domains) {
             $this->_domains = new DomainList($this->version, $this->solution['accountSid']);
         }
@@ -58,7 +58,7 @@ class SipList extends ListResource {
     /**
      * Access the ipAccessControlLists
      */
-    protected function getIpAccessControlLists() {
+    protected function getIpAccessControlLists(): IpAccessControlListList {
         if (!$this->_ipAccessControlLists) {
             $this->_ipAccessControlLists = new IpAccessControlListList(
                 $this->version,
@@ -72,7 +72,7 @@ class SipList extends ListResource {
     /**
      * Access the credentialLists
      */
-    protected function getCredentialLists() {
+    protected function getCredentialLists(): CredentialListList {
         if (!$this->_credentialLists) {
             $this->_credentialLists = new CredentialListList($this->version, $this->solution['accountSid']);
         }
@@ -82,14 +82,14 @@ class SipList extends ListResource {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
      * @return \Twilio\ListResource The requested subresource
-     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     * @throws TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get(string $name) {
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -98,16 +98,16 @@ class SipList extends ListResource {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
-     * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @return InstanceContext The requested resource context
+     * @throws TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call(string $name, array $arguments): InstanceContext {
         $property = $this->$name;
-        if (method_exists($property, 'getContext')) {
-            return call_user_func_array(array($property, 'getContext'), $arguments);
+        if (\method_exists($property, 'getContext')) {
+            return \call_user_func_array(array($property, 'getContext'), $arguments);
         }
 
         throw new TwilioException('Resource does not have a context');
@@ -115,10 +115,10 @@ class SipList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString(): string {
         return '[Twilio.Api.V2010.SipList]';
     }
 }

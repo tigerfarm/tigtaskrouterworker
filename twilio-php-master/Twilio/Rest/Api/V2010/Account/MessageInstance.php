@@ -12,82 +12,83 @@ namespace Twilio\Rest\Api\V2010\Account;
 use Twilio\Deserialize;
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceResource;
+use Twilio\Options;
+use Twilio\Rest\Api\V2010\Account\Message\FeedbackList;
+use Twilio\Rest\Api\V2010\Account\Message\MediaList;
 use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property string apiVersion
- * @property string body
- * @property \DateTime dateCreated
- * @property \DateTime dateUpdated
- * @property \DateTime dateSent
- * @property string direction
- * @property integer errorCode
- * @property string errorMessage
- * @property string from
- * @property string messagingServiceSid
- * @property string numMedia
- * @property string numSegments
- * @property string price
- * @property string priceUnit
- * @property string sid
- * @property string status
- * @property array subresourceUris
- * @property string to
- * @property string uri
+ * @property string $body
+ * @property string $numSegments
+ * @property string $direction
+ * @property string $from
+ * @property string $to
+ * @property \DateTime $dateUpdated
+ * @property string $price
+ * @property string $errorMessage
+ * @property string $uri
+ * @property string $accountSid
+ * @property string $numMedia
+ * @property string $status
+ * @property string $messagingServiceSid
+ * @property string $sid
+ * @property \DateTime $dateSent
+ * @property \DateTime $dateCreated
+ * @property int $errorCode
+ * @property string $priceUnit
+ * @property string $apiVersion
+ * @property array $subresourceUris
  */
 class MessageInstance extends InstanceResource {
-    protected $_media = null;
-    protected $_feedback = null;
+    protected $_media;
+    protected $_feedback;
 
     /**
      * Initialize the MessageInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
+     *
+     * @param Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $accountSid The unique sid that identifies this account
-     * @param string $sid Fetch by unique message Sid
-     * @return \Twilio\Rest\Api\V2010\Account\MessageInstance 
+     * @param string $accountSid The SID of the Account that created the resource
+     * @param string $sid The unique string that identifies the resource
      */
-    public function __construct(Version $version, array $payload, $accountSid, $sid = null) {
+    public function __construct(Version $version, array $payload, string $accountSid, string $sid = null) {
         parent::__construct($version);
 
         // Marshaled Properties
-        $this->properties = array(
-            'accountSid' => Values::array_get($payload, 'account_sid'),
-            'apiVersion' => Values::array_get($payload, 'api_version'),
+        $this->properties = [
             'body' => Values::array_get($payload, 'body'),
-            'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
-            'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
-            'dateSent' => Deserialize::dateTime(Values::array_get($payload, 'date_sent')),
-            'direction' => Values::array_get($payload, 'direction'),
-            'errorCode' => Values::array_get($payload, 'error_code'),
-            'errorMessage' => Values::array_get($payload, 'error_message'),
-            'from' => Values::array_get($payload, 'from'),
-            'messagingServiceSid' => Values::array_get($payload, 'messaging_service_sid'),
-            'numMedia' => Values::array_get($payload, 'num_media'),
             'numSegments' => Values::array_get($payload, 'num_segments'),
-            'price' => Values::array_get($payload, 'price'),
-            'priceUnit' => Values::array_get($payload, 'price_unit'),
-            'sid' => Values::array_get($payload, 'sid'),
-            'status' => Values::array_get($payload, 'status'),
-            'subresourceUris' => Values::array_get($payload, 'subresource_uris'),
+            'direction' => Values::array_get($payload, 'direction'),
+            'from' => Values::array_get($payload, 'from'),
             'to' => Values::array_get($payload, 'to'),
+            'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
+            'price' => Values::array_get($payload, 'price'),
+            'errorMessage' => Values::array_get($payload, 'error_message'),
             'uri' => Values::array_get($payload, 'uri'),
-        );
+            'accountSid' => Values::array_get($payload, 'account_sid'),
+            'numMedia' => Values::array_get($payload, 'num_media'),
+            'status' => Values::array_get($payload, 'status'),
+            'messagingServiceSid' => Values::array_get($payload, 'messaging_service_sid'),
+            'sid' => Values::array_get($payload, 'sid'),
+            'dateSent' => Deserialize::dateTime(Values::array_get($payload, 'date_sent')),
+            'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
+            'errorCode' => Values::array_get($payload, 'error_code'),
+            'priceUnit' => Values::array_get($payload, 'price_unit'),
+            'apiVersion' => Values::array_get($payload, 'api_version'),
+            'subresourceUris' => Values::array_get($payload, 'subresource_uris'),
+        ];
 
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = ['accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], ];
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\MessageContext Context for this
-     *                                                       MessageInstance
+     *
+     * @return MessageContext Context for this MessageInstance
      */
-    protected function proxy() {
+    protected function proxy(): MessageContext {
         if (!$this->context) {
             $this->context = new MessageContext(
                 $this->version,
@@ -100,69 +101,64 @@ class MessageInstance extends InstanceResource {
     }
 
     /**
-     * Deletes the MessageInstance
-     * 
-     * @return boolean True if delete succeeds, false otherwise
+     * Delete the MessageInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function delete() {
+    public function delete(): bool {
         return $this->proxy()->delete();
     }
 
     /**
-     * Fetch a MessageInstance
-     * 
+     * Fetch the MessageInstance
+     *
      * @return MessageInstance Fetched MessageInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function fetch() {
+    public function fetch(): MessageInstance {
         return $this->proxy()->fetch();
     }
 
     /**
      * Update the MessageInstance
-     * 
-     * @param string $body The text of the message you want to send, limited to
-     *                     1600 characters.
+     *
+     * @param array|Options $options Optional Arguments
      * @return MessageInstance Updated MessageInstance
      * @throws TwilioException When an HTTP error occurs.
      */
-    public function update($body) {
-        return $this->proxy()->update($body);
+    public function update(array $options = []): MessageInstance {
+        return $this->proxy()->update($options);
     }
 
     /**
      * Access the media
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Message\MediaList 
      */
-    protected function getMedia() {
+    protected function getMedia(): MediaList {
         return $this->proxy()->media;
     }
 
     /**
      * Access the feedback
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Message\FeedbackList 
      */
-    protected function getFeedback() {
+    protected function getFeedback(): FeedbackList {
         return $this->proxy()->feedback;
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
-        if (array_key_exists($name, $this->properties)) {
+    public function __get(string $name) {
+        if (\array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (\property_exists($this, '_' . $name)) {
+            $method = 'get' . \ucfirst($name);
             return $this->$method();
         }
 
@@ -171,14 +167,14 @@ class MessageInstance extends InstanceResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
-        $context = array();
+    public function __toString(): string {
+        $context = [];
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.MessageInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.MessageInstance ' . \implode(' ', $context) . ']';
     }
 }
