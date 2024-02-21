@@ -283,11 +283,12 @@ function trToken() {
             return;
         }
         $("div.trMessages").html("TaskRouter token received.");
+        // logger("TaskRouter token refreshed :" + theToken.trim() + ":");
+        
         worker = new Twilio.TaskRouter.Worker(theToken);
         registerTaskRouterCallbacks();
         $("div.msgClientid").html("TaskRouter Token id: " + clientId);
         trTokenValid = true;
-        // logger("TaskRouter token refreshed :" + theToken.trim() + ":");
         logger("TaskRouter token refreshed.");
         tokenClientId = clientId;
         $("div.msgTokenPassword").html("TaskRouter Token refreshed");
